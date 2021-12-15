@@ -75,20 +75,26 @@ fix_taxa$species <- str_to_sentence(fix_taxa$search_string) #convert to upper ca
 birddata <- left_join(birddata,fix_taxa, by =c("speciesname" = "species"))
 birddata$speciesname <-ifelse(!is.na(birddata$unique_name), birddata$unique_name, birddata$speciesname)
 
+# rerun again
+species <- sort(unique(as.character(birddata$speciesname))) #1561 species
+
+taxa.c2 <- tnrs_match_names(names = species)
+taxa.c2[taxa.c2$approximate_match==TRUE,] # all good now
+
 # exploring which species return more than one match, and the
 # reasons to make sure we retrieve the correct data.
-# taxa.c <- taxa
-taxa.c[taxa.c$number_matches != 1,]
-ott_id_tocheck <- taxa.c[taxa.c$number_matches != 1,"ott_id"]
+taxa <- taxa.c2
+taxa[taxa$number_matches != 1,]
+ott_id_tocheck <- taxa[taxa$number_matches != 1,"ott_id"]
 
 for(i in 1:length(ott_id_tocheck)){
-  print(inspect(taxa.c, ott_id = ott_id_tocheck[i]))
+  print(inspect(taxa, ott_id = ott_id_tocheck[i]))
 }
 
 # No multiple matches
 
 # check synonyms and change name accordingly
-fix_taxa <- taxa.c[taxa.c$is_synonym==TRUE,] 
+fix_taxa <- taxa[taxa$is_synonym==TRUE,] 
 
 fix_taxa <-fix_taxa[,c("search_string", "unique_name")]
 fix_taxa$species <- str_to_sentence(fix_taxa$search_string) #convert to upper case to join with original dataset
@@ -98,11 +104,11 @@ birddata$speciesname <-ifelse(!is.na(birddata$unique_name), birddata$unique_name
 
 species <- sort(unique(as.character(birddata$speciesname))) #1546 species
 
-# rerun 2
-taxa.c2 <- tnrs_match_names(names = species)
+# rerun 3
+taxa.c3 <- tnrs_match_names(names = species)
 
-taxa.c2[taxa.c2$approximate_match==TRUE,] # no species returned
-taxa.c2[taxa.c2$is_synonym==TRUE,] # no species returned
+taxa.c3[taxa.c3$approximate_match==TRUE,] # no species returned
+taxa.c3[taxa.c3$is_synonym==TRUE,] # no species returned
 
 
 ##############################################################
@@ -111,7 +117,7 @@ taxa.c2[taxa.c2$is_synonym==TRUE,] # no species returned
 
 # retrieving phylogenetic relationships among taxa in the form 
 # of a trimmed sub-tree
-tree <- tol_induced_subtree(ott_ids = taxa.c2[["ott_id"]], label_format = "name")
+tree <- tol_induced_subtree(ott_ids = taxa.c3[["ott_id"]], label_format = "name")
 plot(tree, cex=.5, label.offset =.1, no.margin = TRUE)
 
 ##############################################################
@@ -145,6 +151,20 @@ intersect(as.character(tree_random$tip.label), as.character(species))
 species[!species %in% as.character(tree_random$tip.label)] #listed in our database but not in the tree
 tree_random$tip.label[!as.character(tree_random$tip.label) %in% species] # listed in the tree but not in our database
 
+##I have a problem with a species labeled "mrcaott3599545ott4131616", and another labeled 
+# "mrcaott80776ott602508" in the tree
+
+## Also, "Anas cyanoptera"  "Loxia leucoptera" "Regulus regulus"  are in my data but not in the tree
+
+# try to see which species is that
+
+test<-tnrs_match_names(names = c("Anas cyanoptera", "Loxia leucoptera", "Regulus regulus" ))
+
+tree_test <- tol_induced_subtree(ott_ids = c("4131616",  "602508"), label_format = "name")
+
+# we fix them here
+tree_random$tip.label[tree_random$tip.label =="mrcaott3599545ott4131616"] <-"Regulus regulus"
+tree_random$tip.label[tree_random$tip.label =="mrcaott80776ott602508"] <-"Loxia leucoptera"
 
 tiff("Results/bird_phylogenetic_tree_pruned.tiff",
      height=20, width=10,
