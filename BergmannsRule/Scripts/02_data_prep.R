@@ -47,34 +47,9 @@ results <- readRDS('Results/BergmannsRule_results_correlations_20211114.rds')
 # subset results for reptiles
 reptiles <- subset(results, class == 'reptile')
 reptiles$Species_ph <- gsub(" ", "_", trimws(reptiles$speciesname))
-
-# vector of environmental variables
-env.vars <- c('tavg','tmin','tmax','prec','pet','npp','npp.sd')
-
-# for loop running a meta-analysis for each environmental variable
-for(i in 1:length(env.vars)){
-  print(i)
-  assign(paste0('rep.',env.vars[i]),
-         rma.mv(yi = z.cor.yi,
-                V = z.cor.vi,
-                data = subset(reptiles, env.var == env.vars[i]),
-                random = list(~1|family/speciesname)))
-}
-
-# save results for reptiles
-re.ma <- list(rep.tavg, rep.tmin, rep.tmax, rep.prec, 
-              rep.pet, rep.npp, rep.npp.sd)
-names(re.ma) <- c('tavg','tmin','tmax','prec','pet','npp','npp.sd')
+reptiles <- reptiles[reptiles$env.var == c('npp','npp.sd'),]
 
 write.csv(reptiles,"Data/reptiles.csv")
-
-# saveRDS(re.ma,
-#         'Results/BergmannsRule_results_MA_reptiles_20211115.rds')
-
-# remove objects
-#rm(list=ls(pattern="rep."))
-#rm(env.vars,i)
-
 
 # 3. Mammals -------------------------------------------------------------------
 
@@ -89,31 +64,9 @@ elton_mam <- read.csv("Data/EltonTraits_Mammals_taxid.csv", header = T, stringsA
 
 mammals <- left_join(mammals, elton_mam[,c("Scientific", "ForStrat.Value")], by = c("speciesname" = "Scientific"))
 mammals <-mammals[mammals$ForStrat.Value != "M",]
+mammals <- mammals[mammals$env.var == c('tavg','tmax','npp','npp.sd'),]
 
-# vector of environmental variables
-env.vars <- c('tavg','tmin','tmax','prec','pet','npp','npp.sd')
-
-# for loop running a meta-analysis for each environmental variable
-for(i in 1:length(env.vars)){
-  print(i)
-  assign(paste0('mam.',env.vars[i]),
-         rma.mv(yi = z.cor.yi,
-                V = z.cor.vi,
-                data = subset(mammals, env.var == env.vars[i]),
-                random = list(~1|order/family/speciesname)))
-}
-
-# save results
-ma.ma <- list(mam.tavg, mam.tmin, mam.tmax, mam.prec, 
-              mam.pet, mam.npp, mam.npp.sd)
-names(ma.ma) <- c('tavg','tmin','tmax','prec','pet','npp','npp.sd')
-
-#saveRDS(ma.ma,
-#        'Results/BergmannsRule_results_MA_mammals_2021214.rds')
-
-# remove objects
-#rm(list=ls(pattern="mam."))
-#rm(env.vars,i)
+write.csv(mammals,"Data/mammals.csv")
 
 
 # 4. Birds ---------------------------------------------------------------------
@@ -125,37 +78,14 @@ results <- readRDS('Results/BergmannsRule_results_correlations_20211114.rds')
 birds <- subset(results, class == 'bird')
 birds$Species_ph <- gsub(" ", "_", trimws(birds$speciesname))
 
-
 # read elton traits dataset and remove marine mammmals
 elton_bird <- read.csv("Data/BirdFuncDat.csv", header = T, stringsAsFactors = F)
 
 birds <- left_join(birds, elton_bird[,c("Scientific", "PelagicSpecialist")], by = c("speciesname" = "Scientific"))
 birds <-birds[c(birds$PelagicSpecialist == 0 | is.na(birds$PelagicSpecialist)),]
 birds <- birds[birds$family != "Pelecanidae", ]
-
-# vector of environmental variables
-env.vars <- c('tavg','tmin','tmax','prec','pet','npp','npp.sd')
-
-# for loop running a meta-analysis for each environmental variable
-for(i in 1:length(env.vars)){
-  print(i)
-  assign(paste0('bir.', env.vars[i]),
-         rma.mv(yi = z.cor.yi,
-                V = z.cor.vi,
-                data = subset(birds, env.var == env.vars[i]),
-                random = list(~1|order/family/speciesname)))
-}
-
-# save results
-bi.ma <- list(bir.tavg, bir.tmin, bir.tmax, bir.prec, 
-              bir.pet, bir.npp, bir.npp.sd)
-names(bi.ma) <- c('tavg','tmin','tmax','prec','pet','npp','npp.sd')
-
-saveRDS(bi.ma,
-        'Results/BergmannsRule_results_MA_birds_20211214.rds')
+birds <- birds[birds$env.var == c('tavg','tmax','npp','npp.sd'),]
 
 write.csv(birds,"Data/birds.csv")
 
-# remove objects
-#rm(list=ls(pattern="bird."))
-#rm(env.vars,i)
+# End of script ----

@@ -164,7 +164,7 @@ saveRDS(ma.ma,
 
 #Load data
 birds_ph <- read.csv("Data/birddata_ph.csv", stringsAsFactors = F)
-# birds_ph$Species_ph <- gsub(" ", "_", trimws(birds_ph$speciesname))
+birds_ph$Species_ph <- gsub(" ", "_", trimws(birds_ph$speciesname))
 
 # loading phylogenetic matrixes 
 load("Data/bird_phylo_cor.Rdata") #bird_phylo_cor
