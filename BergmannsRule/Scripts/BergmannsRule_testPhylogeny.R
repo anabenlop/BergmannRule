@@ -85,7 +85,7 @@ rep.lambda <- list(lam.tavg,lam.tmin,lam.tmax,lam.prec,lam.pet,lam.npp,lam.npp.s
 names(rep.lambda) <- c("tavg","tmin","tmax","prec","pet","npp","npp.sd")
 
 # save
-#saveRDS(rep.lambda,"Results/BergmannsRule_results_phylLambda_reptiles.rds")
+# saveRDS(rep.lambda,"Results/BergmannsRule_results_phylLambda_reptiles.rds")
 rm(rep.tree,reptiles,rep.mods,re,drops,res,lam.tavg,lam.tmin,
    lam.tmax,lam.prec,lam.pet,lam.npp,lam.npp.sd)
 
@@ -146,6 +146,8 @@ rm(mam.tree,mammals,mam.mods,drops,res,lam.tavg,lam.tmin,lam.tmax,lam.prec,
 bird.mods <- readRDS("Results/BergmannsRule_results_MA_birds_20211214.rds")
 birds <- readRDS("Results/BergmannsRule_results_correlationsBirds_20211115.rds")
 birds <- subset(birds,class=='bird')
+birds$Species_ph <- gsub(" ", "_", trimws(birds$speciesname))
+
 
 # read elton traits dataset and remove marine mammmals
 elton_bird <- read.csv("Data/BirdFuncDat.csv", header = T, stringsAsFactors = F)
@@ -162,7 +164,7 @@ bird.tree <- as.phylo(bird.tree.orig[[1]]) # use first tree
 
 #exclude species in the tree that are not in your dataset
 drops<-bird.tree$tip.label[!bird.tree$tip.label %in% birds$Species_ph]
-bird.tree<-drop.tip(bird.tree, drops)
+bird.tree<-drop.tip(bird.tree, drops) #From 1561 down to 1437 species
 
 # env variables
 env.vars <- unique(birds$env.var)
@@ -197,7 +199,7 @@ rm(lam.tavg,lam.tmin,lam.tmax,lam.prec,lam.pet,lam.npp,lam.npp.sd,bird.lambda,dr
 saveRDS(bird.lambda,"Results/BergmannsRule_results_phylLambda_birds.rds")  
 
 # save mam.tree to run phylogenetic meta-analysis
-write.tree(bird.tree, file = "Data/bird.tree.tre")
+write.tree(bird.tree, file = "Data/bird.tree_hackett1.tre")
 
 # save mammal data
 write.csv(birds, file = "Data/birds.csv", row.names = F)

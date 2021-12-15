@@ -75,7 +75,47 @@ saveRDS(amph.ma,
         'Results/BergmannsRule_results_MA_amphibians_phylo_nonphylo.rds')
 
 # check results
-# ma.ma_ph_nonph <- readRDS("Results/BergmannsRule_results_MA_amphibians_phylo_nonphylo.rds")
+# amph.ma_ph_nonph <- readRDS("Results/BergmannsRule_results_MA_amphibians_phylo_nonphylo.rds")
+
+# 2. Reptiles ---------------------------------------------------------------------
+
+#Load data
+reptiles_ph <- read.csv("Data/reptdata_ph.csv", stringsAsFactors = F)
+reptiles_ph$Species_ph <- gsub(" ", "_", trimws(reptiles_ph$speciesname))
+
+# loading phylogenetic matrixes 
+load("Data/rept_phylo_cor.Rdata") #rept_phylo_cor
+
+# vector of environmental variables
+env.vars <- c('tavg','tmin','tmax','prec','pet','npp','npp.sd')
+
+# define phylo vcov matrix and random effects
+phylocor<-list(speciesname  = rept_phylo_cor)
+RE = list( ~1|speciesname, ~1|Species_ph)
+
+# for loop running a meta-analysis for each environmental variable
+tic("Run phylo meta-analysis in a loop")
+for(i in 1:length(env.vars)){
+  print(i)
+  assign(paste0('rept.',env.vars[i]),
+         rma.mv(yi = z.cor.yi,
+                V = z.cor.vi,
+                data = subset(reptiles_ph, env.var == env.vars[i]),
+                random = RE, R = phylocor))
+}
+
+toc()
+
+# save results
+rept.ma <- list(rept.tavg, rept.tmin, rept.tmax, rept.prec, 
+                rept.pet, rept.npp, rept.npp.sd)
+names(rept.ma) <- c('tavg','tmin','tmax','prec','pet','npp','npp.sd')
+
+saveRDS(rept.ma,
+        'Results/BergmannsRule_results_MA_reptiles_phylo_nonphylo.rds')
+
+# check results
+# rept.ma_ph_nonph <- readRDS("Results/BergmannsRule_results_MA_reptiles_phylo_nonphylo.rds")
 
 
 

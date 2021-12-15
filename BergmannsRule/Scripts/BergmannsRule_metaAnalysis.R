@@ -24,6 +24,7 @@ results <- readRDS('Results/BergmannsRule_results_correlations_20211114.rds')
 
 # subset results for amphibians
 amphibians <- subset(results, class == 'amphibian')
+amphibians$Species_ph <- gsub(" ", "_", trimws(amphibians$speciesname))
 
 # vector of environmental variables
 env.vars <- c('tavg','tmin','tmax','prec','pet','npp','npp.sd')
@@ -46,6 +47,8 @@ names(am.ma) <- c('tavg','tmin','tmax','prec','pet','npp','npp.sd')
 saveRDS(am.ma,
         'Results/BergmannsRule_results_MA_amphibians_20211215.rds')
 
+write.csv(amphibians,"Data/amphibians.csv")
+
 # remove objects
 #rm(list=ls(pattern="am"))
 #rm(env.vars,i)
@@ -58,6 +61,7 @@ results <- readRDS('Results/BergmannsRule_results_correlations_20211114.rds')
 
 # subset results for reptiles
 reptiles <- subset(results, class == 'reptile')
+reptiles$Species_ph <- gsub(" ", "_", trimws(reptiles$speciesname))
 
 # vector of environmental variables
 env.vars <- c('tavg','tmin','tmax','prec','pet','npp','npp.sd')
@@ -77,8 +81,10 @@ re.ma <- list(rep.tavg, rep.tmin, rep.tmax, rep.prec,
               rep.pet, rep.npp, rep.npp.sd)
 names(re.ma) <- c('tavg','tmin','tmax','prec','pet','npp','npp.sd')
 
-#saveRDS(re.ma,
-#        'Results/BergmannsRule_results_MA_reptiles_20211115.rds')
+write.csv(reptiles,"Data/reptiles.csv")
+
+# saveRDS(re.ma,
+#         'Results/BergmannsRule_results_MA_reptiles_20211115.rds')
 
 # remove objects
 #rm(list=ls(pattern="rep."))
@@ -132,6 +138,8 @@ results <- readRDS('Results/BergmannsRule_results_correlations_20211114.rds')
 
 # subset results for birds
 birds <- subset(results, class == 'bird')
+birds$Species_ph <- gsub(" ", "_", trimws(birds$speciesname))
+
 
 # read elton traits dataset and remove marine mammmals
 elton_bird <- read.csv("Data/BirdFuncDat.csv", header = T, stringsAsFactors = F)
@@ -160,6 +168,8 @@ names(bi.ma) <- c('tavg','tmin','tmax','prec','pet','npp','npp.sd')
 
 saveRDS(bi.ma,
        'Results/BergmannsRule_results_MA_birds_20211214.rds')
+
+write.csv(birds,"Data/birds.csv")
 
 # remove objects
 #rm(list=ls(pattern="bird."))
