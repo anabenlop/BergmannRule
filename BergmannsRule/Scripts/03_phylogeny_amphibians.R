@@ -11,7 +11,7 @@
 # Description of script and instructions
 ##############################################################
 
-# This script is used to build the phylogeny for mammals and estimate the 
+# This script is used to build the phylogeny for amphibians and estimate the 
 # phylogenetic relatedness among the species included in:
 
 # Henry, E., Santini, L., Huijbregts, M. A. J., Benítez-López, A. Uncovering the environmental drivers 
@@ -37,23 +37,10 @@ rm(list=ls())
 ##############################################################
 
 # load database and elton traits data to remove marine species
-mamdata<-read.csv("Data/mammals.csv", header = TRUE, stringsAsFactors = FALSE) # 596
-# elton <- read.csv("Data/EltonTraits_Mammals_taxid.csv", header = TRUE, stringsAsFactors = F)
-# 
-# mamdata_trait <- left_join(mamdata, elton[,c("Scientific", "ForStrat.Value")], 
-#                            by =c("speciesname" = "Scientific")) # 16 marine mammal species
-
-# remove unknown species(genus level)
-mamdata <- mamdata[mamdata$speciesname != "Carollia carollia", ]
-mamdata <- mamdata[mamdata$speciesname != "Glossophaga glossophaga", ]
-mamdata <- mamdata[mamdata$speciesname != "Oryzomys oryzomys", ]
-mamdata <- mamdata[mamdata$speciesname != "Reithrodontomys reithrodontomys", ]
-mamdata <- mamdata[mamdata$speciesname != "Sturnira sturnira", ]
-mamdata <- mamdata[mamdata$speciesname != "Lophostoma aequatorialis", ]
-mamdata <- mamdata[mamdata$speciesname != "Peromyscus peromyscus", ]
+amphdata<-read.csv("Data/amphibians.csv", header = TRUE, stringsAsFactors = FALSE) # 596
 
 # generating list of species
-species <- sort(unique(as.character(mamdata$speciesname))) #589 species
+species <- sort(unique(as.character(amphdata$speciesname))) #36 species
 
 ##############################################################
 # Formatting species data
@@ -72,8 +59,8 @@ taxa[taxa$approximate_match==TRUE,] # no species returned
 # fixing those typos (example in case they were unresolved matches)
 #species[species=="Crocidura attenuatta"] <- "Crocidura attenuata"
 
-#mamdata$Binomial<-as.character(mamdata$Binomial)
-#mamdata[mamdata$Binomial=="Crocidura attenuatta","Binomial"] <- "Crocidura attenuata"
+#amphdata$Binomial<-as.character(amphdata$Binomial)
+#amphdata[amphdata$Binomial=="Crocidura attenuatta","Binomial"] <- "Crocidura attenuata"
 
 # rerun
 # taxa.c <- tnrs_match_names(names = species)
@@ -86,22 +73,22 @@ taxa.c <- taxa
 taxa.c[taxa.c$number_matches != 1,]
 ott_id_tocheck <- taxa.c[taxa.c$number_matches != 1,"ott_id"]
 
-for(i in 1:length(ott_id_tocheck)){
-  print(inspect(taxa.c, ott_id = ott_id_tocheck[i]))
-}
+# for(i in 1:length(ott_id_tocheck)){
+#   print(inspect(taxa.c, ott_id = ott_id_tocheck[i]))
+# }
 
-# Seems ok, they are synonyms
+# No multiple matches
 
 # check synonyms and change name accordingly
-fix_taxa <- taxa.c[taxa.c$is_synonym==TRUE,] # 9 species returned
+fix_taxa <- taxa.c[taxa.c$is_synonym==TRUE,] # 8 species returned
 
 fix_taxa <-fix_taxa[,c("search_string", "unique_name")]
 fix_taxa$species <- str_to_sentence(fix_taxa$search_string) #convert to upper case to join with original dataset
 
-mamdata <- left_join(mamdata,fix_taxa, by =c("speciesname" = "species"))
-mamdata$speciesname <-ifelse(!is.na(mamdata$unique_name), mamdata$unique_name, mamdata$speciesname)
+amphdata <- left_join(amphdata,fix_taxa, by =c("speciesname" = "species"))
+amphdata$speciesname <-ifelse(!is.na(amphdata$unique_name), amphdata$unique_name, amphdata$speciesname)
 
-species <- sort(unique(as.character(mamdata$speciesname))) #589 species
+species <- sort(unique(as.character(amphdata$speciesname))) #36 species
 
 # rerun 2
 taxa.c2 <- tnrs_match_names(names = species)
@@ -150,25 +137,8 @@ intersect(as.character(tree_random$tip.label), as.character(species))
 species[!species %in% as.character(tree_random$tip.label)] #listed in our database but not in the tree
 tree_random$tip.label[!as.character(tree_random$tip.label) %in% species] # listed in the tree but not in our database
 
-##I have a problem with a species labeled "mrcaott319315ott366155", and another labeled 
-# "mrcaott62482ott62486" in the tree
 
-## Also, "Artibeus jamaicensis"     "Artibeus planirostris"    "Geomys bursarius" 
-# "Miniopterus schreibersii" "Myotis lucifugus" "Sturnira luisi" are in my data but not in the tree
-
-# try to see which species is that
-
-test<-tnrs_match_names(names = c("Artibeus jamaicensis","Artibeus planirostris","Geomys bursarius",
-                                 "Miniopterus schreibersii", "Myotis lucifugus", "Sturnira luisi"))
-
-tree_test <- tol_induced_subtree(ott_ids = c("366155",  "62486"), label_format = "name")
-
-# Miniopterus schreibersii is mrcaott319315ott366155 and Artibeus planirostris is 62486
-# we fix them here
-tree_random$tip.label[tree_random$tip.label =="mrcaott319315ott366155"] <-"Miniopterus schreibersii"
-tree_random$tip.label[tree_random$tip.label =="mrcaott62482ott62486"] <-"Artibeus planirostris"
-
-tiff("Results/mam_phylogenetic_tree_pruned.tiff",
+tiff("Results/amph_phylogenetic_tree_pruned.tiff",
      height=20, width=10,
      units='cm', compression="lzw", res=800)
 
@@ -177,7 +147,7 @@ plot(tree_random, cex=.5, label.offset =.1, no.margin = TRUE)
 dev.off()
 
 # we can now save the tree
-save(tree_random, file = "Data/mam_tree_random.Rdata")
+save(tree_random, file = "Data/amph_tree_random.Rdata")
 
 
 ##############################################################
@@ -189,18 +159,18 @@ save(tree_random, file = "Data/mam_tree_random.Rdata")
 
 # before we need to make sure that tree labels and database
 # use the same nomenclature
-setdiff(mamdata$speciesname, as.character(tree_random$tip.label)) # "Artibeus jamaicensis" "Geomys bursarius"     "Myotis lucifugus"     "Sturnira luisi" still missing
-setdiff(as.character(tree_random$tip.label),mamdata$speciesname)
+setdiff(amphdata$speciesname, as.character(tree_random$tip.label)) # 0 species
+setdiff(as.character(tree_random$tip.label),amphdata$speciesname)
 
 # exclude species in the tree that are not in dataset
-drops <- tree_random$tip.label[!tree_random$tip.label %in% mamdata$speciesname]
-mam.tree_random.fixed <- drop.tip(tree_random, drops)
+drops <- tree_random$tip.label[!tree_random$tip.label %in% amphdata$speciesname]
+amph.tree_random.fixed <- drop.tip(tree_random, drops)
 
 # save the new tree
-write.tree(mam.tree_random.fixed, file = "Data/mam.tree_random.fixed.tre")
+write.tree(amph.tree_random.fixed, file = "Data/amph.tree_random.fixed.tre")
 
 # compute branch lengths of tree
-phylo_branch <- compute.brlen(mam.tree_random.fixed, method = "Grafen", power = 1)
+phylo_branch <- compute.brlen(amph.tree_random.fixed, method = "Grafen", power = 1)
 
 # check if tree is ultrametric
 is.ultrametric(phylo_branch) # TRUE
@@ -211,26 +181,26 @@ is.ultrametric(phylo_branch) # TRUE
 ##############################################################
 
 # matrix to be included in the models
-mam_phylo_cor <- vcv(phylo_branch, cor = T)
+amph_phylo_cor <- vcv(phylo_branch, cor = T)
 
 # remove rows not in correlation matrix
-mamdata_ph <- mamdata[which(mamdata$speciesname %in% rownames(mam_phylo_cor)),] # 4095
+amphdata_ph <- amphdata[which(amphdata$speciesname %in% rownames(amph_phylo_cor)),] # 4095
 
 ##create Species ID to distinguish later between variation explained by non-phylogenetic and phylogenetic effects
-SpID<-data.frame(speciesname = unique(mamdata_ph$speciesname), SPID = paste0("SP",1:length(unique(mamdata_ph$speciesname))))
+SpID<-data.frame(speciesname = unique(amphdata_ph$speciesname), SPID = paste0("SP",1:length(unique(amphdata_ph$speciesname))))
 SpID$speciesname<-as.character(SpID$speciesname)
-mamdata_ph<-inner_join(mamdata_ph,SpID, by = "speciesname")
+amphdata_ph<-inner_join(amphdata_ph,SpID, by = "speciesname")
 
 # finally, save matrix for future analyses
-save(mam_phylo_cor, file = "Data/mam_phylo_cor.Rdata")
+save(amph_phylo_cor, file = "Data/amph_phylo_cor.Rdata")
 
 
 # exporting fixed dataset for analyses
-write.csv(mamdata_ph, 
-          "Data/mamdata_ph.csv", row.names = FALSE)
+write.csv(amphdata_ph, 
+          "Data/amphdata_ph.csv", row.names = FALSE)
 
 # saving session information with all packages versions for reproducibility purposes
-# sink("Data/Final data/mam_phylogeny_R_session.txt")
+# sink("Data/Final data/amph_phylogeny_R_session.txt")
 # sessionInfo()
 # sink()
 

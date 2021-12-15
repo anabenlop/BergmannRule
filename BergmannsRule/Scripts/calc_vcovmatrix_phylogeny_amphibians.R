@@ -47,6 +47,12 @@ amphibians$Species_ph <- gsub(" ", "_", trimws(amphibians$speciesname))
 # generating list of species
 species <- sort(unique(as.character(amphibians$speciesname))) # 36 species
 
+# check that tree labels and database
+# use the same nomenclature
+setdiff(amphibians$Species_ph, as.character(amph.tree$tip.label)) # "Artibeus jamaicensis" "Geomys bursarius"     "Myotis lucifugus"     "Sturnira luisi" still missing
+setdiff(as.character(amph.tree$tip.label),amphibians$Species_ph)
+
+
 #exclude species in the tree that are not in your dataset
 drops<-amph.tree$tip.label[!amph.tree$tip.label %in% amphibians$Species_ph]
 amph.tree<-drop.tip(amph.tree, drops)

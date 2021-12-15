@@ -37,6 +37,46 @@ rm(list=ls())
 ##############################################################
 # Importing datasets                                      ####
 ##############################################################
+# 1. Amphibians ---------------------------------------------------------------------
+
+#Load data
+amphibians_ph <- read.csv("Data/amphdata_ph.csv", stringsAsFactors = F)
+amphibians_ph$Species_ph <- gsub(" ", "_", trimws(amphibians_ph$speciesname))
+
+# loading phylogenetic matrixes 
+load("Data/amph_phylo_cor.Rdata") #amph_phylo_cor
+
+# vector of environmental variables
+env.vars <- c('tavg','tmin','tmax','prec','pet','npp','npp.sd')
+
+# define phylo vcov matrix and random effects
+phylocor<-list(speciesname  = amph_phylo_cor)
+RE = list( ~1|speciesname, ~1|Species_ph)
+
+# for loop running a meta-analysis for each environmental variable
+tic("Run phylo meta-analysis in a loop")
+for(i in 1:length(env.vars)){
+  print(i)
+  assign(paste0('amph.',env.vars[i]),
+         rma.mv(yi = z.cor.yi,
+                V = z.cor.vi,
+                data = subset(amphibians_ph, env.var == env.vars[i]),
+                random = RE, R = phylocor))
+}
+
+toc()
+
+# save results
+amph.ma <- list(amph.tavg, amph.tmin, amph.tmax, amph.prec, 
+              amph.pet, amph.npp, amph.npp.sd)
+names(amph.ma) <- c('tavg','tmin','tmax','prec','pet','npp','npp.sd')
+
+saveRDS(amph.ma,
+        'Results/BergmannsRule_results_MA_amphibians_phylo_nonphylo.rds')
+
+# check results
+# ma.ma_ph_nonph <- readRDS("Results/BergmannsRule_results_MA_amphibians_phylo_nonphylo.rds")
+
 
 
 # 3. Mammals ---------------------------------------------------------------------

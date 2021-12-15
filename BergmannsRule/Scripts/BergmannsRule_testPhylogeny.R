@@ -18,7 +18,7 @@ amphibians <- subset(amphibians,class=='amphibian')
 amphibians$Species_ph <- gsub(" ", "_", trimws(amphibians$speciesname))
 
 # models
-amph.mods <- readRDS("Results/BergmannsRule_results_MA_amphibians_20211115.rds")
+amph.mods <- readRDS("Results/BergmannsRule_results_MA_amphibians_20211215.rds")
 env.vars <- unique(amphibians$env.var)
 
 for(i in 1:length(env.vars)){
