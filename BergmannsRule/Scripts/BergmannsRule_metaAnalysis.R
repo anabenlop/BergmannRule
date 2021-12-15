@@ -14,6 +14,9 @@ library(metafor)
 
 # setwd('D:/BergmannsRule_upload/BergmannsRule_toSend')
 
+# clean environment
+rm(list=ls())
+
 # 1. Amphibians ----------------------------------------------------------------
 
 # read in correlation results
@@ -32,7 +35,7 @@ for(i in 1:length(env.vars)){
          rma.mv(yi = z.cor.yi,
                 V = z.cor.vi,
                 data = subset(amphibians, env.var == env.vars[i]),
-                random = list(~1|order/family/speciesname)))
+                random = list(~1|family/speciesname)))
 }
 
 # save results for amphibians
@@ -40,8 +43,8 @@ am.ma <- list(am.tavg, am.tmin, am.tmax, am.prec,
               am.pet, am.npp, am.npp.sd)
 names(am.ma) <- c('tavg','tmin','tmax','prec','pet','npp','npp.sd')
 
-#saveRDS(am.ma,
-#        'Results/BergmannsRule_results_MA_amphibians_20211115.rds')
+saveRDS(am.ma,
+        'Results/BergmannsRule_results_MA_amphibians_20211215.rds')
 
 # remove objects
 #rm(list=ls(pattern="am"))

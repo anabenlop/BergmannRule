@@ -24,6 +24,7 @@
 
 #load libraries
 library(dplyr)
+library(phytools)
 #library(ape)
 #library(treebase)
 # library(rotl)
@@ -37,13 +38,18 @@ rm(list=ls())
 ##############################################################
 
 # Load data
-amphibians <- read.csv("Data/amphibians.csv", stringsAsFactors = F)
+# data
+amph.tree <- read.tree("Data/amph_shl_dates.tre")
+amphibians <- readRDS("Results/BergmannsRule_results_correlations_20211114.rds")
+amphibians <- subset(amphibians,class=='amphibian')
+amphibians$Species_ph <- gsub(" ", "_", trimws(amphibians$speciesname))
 
 # generating list of species
-# species <- sort(unique(as.character(amphibians$speciesname))) # 596 species
+species <- sort(unique(as.character(amphibians$speciesname))) # 36 species
 
-# load pruned tree
-amph.tree <- read.tree("Data/amph.tree.tre")
+#exclude species in the tree that are not in your dataset
+drops<-amph.tree$tip.label[!amph.tree$tip.label %in% amphibians$Species_ph]
+amph.tree<-drop.tip(amph.tree, drops)
 
 # compute branch lengths of tree 
 # phylo_branch <- compute.brlen(amph.tree, method = "Grafen", power = 1)
@@ -60,6 +66,7 @@ amph_phylo_cor <- vcv(amph.tree, cor = T)
 
 # remove rows not in correlation matrix
 amphibians_ph <- amphibians[which(amphibians$Species_ph %in% rownames(amph_phylo_cor)),] # we lose 30 species!
+species_ph <- sort(unique(as.character(amphibians_ph$Species_ph))) # 24 species
 
 
 ##create Species ID to distinguish later between variation explained by non-phylogenetic and phylogenetic effects
