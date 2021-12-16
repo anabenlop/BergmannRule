@@ -23,6 +23,7 @@
 ##############################################################
 
 #load libraries
+library(dplyr)
 
 # clean environment
 rm(list=ls())
@@ -35,7 +36,9 @@ results <- readRDS('Results/BergmannsRule_results_correlations_20211114.rds')
 # subset results for amphibians
 amphibians <- subset(results, class == 'amphibian')
 amphibians$Species_ph <- gsub(" ", "_", trimws(amphibians$speciesname))
-amphibians <- amphibians[amphibians$env.var == c('prec','npp','npp.sd'),]
+amphibians <- amphibians[amphibians$env.var == 'prec' |
+                           amphibians$env.var == 'npp'|
+                            amphibians$env.var =='npp.sd',]
 
 write.csv(amphibians,"Data/amphibians.csv")
 
@@ -47,7 +50,7 @@ results <- readRDS('Results/BergmannsRule_results_correlations_20211114.rds')
 # subset results for reptiles
 reptiles <- subset(results, class == 'reptile')
 reptiles$Species_ph <- gsub(" ", "_", trimws(reptiles$speciesname))
-reptiles <- reptiles[reptiles$env.var == c('npp','npp.sd'),]
+reptiles <- reptiles[reptiles$env.var == 'npp' | reptiles$env.var == 'npp.sd',]
 
 write.csv(reptiles,"Data/reptiles.csv")
 
@@ -64,7 +67,10 @@ elton_mam <- read.csv("Data/EltonTraits_Mammals_taxid.csv", header = T, stringsA
 
 mammals <- left_join(mammals, elton_mam[,c("Scientific", "ForStrat.Value")], by = c("speciesname" = "Scientific"))
 mammals <-mammals[mammals$ForStrat.Value != "M",]
-mammals <- mammals[mammals$env.var == c('tavg','tmax','npp','npp.sd'),]
+mammals <- mammals[mammals$env.var == 'tavg' | 
+                     mammals$env.var =='tmax' | 
+                     mammals$env.var == 'npp'| 
+                     mammals$env.var =='npp.sd',]
 
 write.csv(mammals,"Data/mammals.csv")
 
@@ -84,7 +90,10 @@ elton_bird <- read.csv("Data/BirdFuncDat.csv", header = T, stringsAsFactors = F)
 birds <- left_join(birds, elton_bird[,c("Scientific", "PelagicSpecialist")], by = c("speciesname" = "Scientific"))
 birds <-birds[c(birds$PelagicSpecialist == 0 | is.na(birds$PelagicSpecialist)),]
 birds <- birds[birds$family != "Pelecanidae", ]
-birds <- birds[birds$env.var == c('tavg','tmax','npp','npp.sd'),]
+birds <- birds[birds$env.var == 'tavg' | 
+                 birds$env.var =='tmax' | 
+                 birds$env.var == 'npp'| 
+                 birds$env.var =='npp.sd',]
 
 write.csv(birds,"Data/birds.csv")
 

@@ -22,7 +22,7 @@ library(raster)  # intersect()
 ### birds ###
 
 # get data
-bird.mods <- readRDS("Results/BergmannsRule_results_MA_birds_20211115.rds")
+bird.mods <- readRDS("Results/BergmannsRule_results_MA_birds_phylo_nonphylo.rds")
 names(bird.mods)
 
 # create table of values for plot

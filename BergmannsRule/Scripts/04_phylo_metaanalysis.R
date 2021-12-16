@@ -118,7 +118,7 @@ saveRDS(rept.ma,
 # 3. Mammals ---------------------------------------------------------------------
 
 #Load data
-mammals_ph <- read.csv("Data/mammals_ph.csv", stringsAsFactors = F)
+mammals_ph <- read.csv("Data/mamdata_ph.csv", stringsAsFactors = F)
 mammals_ph$Species_ph <- gsub(" ", "_", trimws(mammals_ph$speciesname))
 
 # loading phylogenetic matrixes 
@@ -128,7 +128,7 @@ load("Data/mam_phylo_cor.Rdata") #mam_phylo_cor
 env.vars <- c('tavg','tmax','npp','npp.sd')
 
 # define phylo vcov matrix and random effects
-phylocor<-list(Species_ph  = mam_phylo_cor)
+phylocor<-list(speciesname  = mam_phylo_cor)
 RE = list( ~1|speciesname, ~1|Species_ph)
 
 # for loop running a meta-analysis for each environmental variable
