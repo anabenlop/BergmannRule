@@ -27,19 +27,18 @@ names(bird.mods)
 
 # create table of values for plot
 model <- data.frame(beta = unlist(lapply(bird.mods,"[","beta")),
-                    env.var = c("MT","MinT","MaxT","MP","PET","NPP","NPPsd"),
+                    env.var = c("MT","MaxT","NPP","NPPsd"),
                     ci.lb = unlist(lapply(bird.mods,"[","ci.lb")),
                     ci.ub = unlist(lapply(bird.mods,"[","ci.ub")),
                     n = unlist(sapply(bird.mods,"[","k")))
 model$beta <- transf.ztor(model$beta)
 model$ci.lb <- transf.ztor(model$ci.lb)
 model$ci.ub <- transf.ztor(model$ci.ub)
-model$hyp <- c("Heat conservation","Heat conservation","Heat dissipation","NA",
-               "Heat dissipation","Resource availability",
+model$hyp <- c("Heat conservation","Heat dissipation","Resource availability",
                "Starvation resistance")
 
 # remove redundant variables
-model <- subset(model, env.var!="MP" & env.var!="MinT" & env.var!="PET")
+# model <- subset(model, env.var!="MP" & env.var!="MinT" & env.var!="PET")
 
 # reorder env.vars
 model$env.var <- factor(model$env.var, levels = c("NPPsd","NPP","MaxT","MT"))  

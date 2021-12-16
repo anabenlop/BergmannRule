@@ -35,12 +35,12 @@ results <- readRDS('Results/BergmannsRule_results_correlations_20211114.rds')
 
 # subset results for amphibians
 amphibians <- subset(results, class == 'amphibian')
-amphibians$Species_ph <- gsub(" ", "_", trimws(amphibians$speciesname))
+# amphibians$Species_ph <- gsub(" ", "_", trimws(amphibians$speciesname))
 amphibians <- amphibians[amphibians$env.var == 'prec' |
                            amphibians$env.var == 'npp'|
                             amphibians$env.var =='npp.sd',]
 
-write.csv(amphibians,"Data/amphibians.csv")
+write.csv(amphibians,"Data/amphibians.csv", row.names = F)
 
 # 2. Reptiles ------------------------------------------------------------------
 
@@ -49,10 +49,10 @@ results <- readRDS('Results/BergmannsRule_results_correlations_20211114.rds')
 
 # subset results for reptiles
 reptiles <- subset(results, class == 'reptile')
-reptiles$Species_ph <- gsub(" ", "_", trimws(reptiles$speciesname))
+# reptiles$Species_ph <- gsub(" ", "_", trimws(reptiles$speciesname))
 reptiles <- reptiles[reptiles$env.var == 'npp' | reptiles$env.var == 'npp.sd',]
 
-write.csv(reptiles,"Data/reptiles.csv")
+write.csv(reptiles,"Data/reptiles.csv", row.names = F)
 
 # 3. Mammals -------------------------------------------------------------------
 
@@ -72,7 +72,9 @@ mammals <- mammals[mammals$env.var == 'tavg' |
                      mammals$env.var == 'npp'| 
                      mammals$env.var =='npp.sd',]
 
-write.csv(mammals,"Data/mammals.csv")
+mammals <-mammals[complete.cases(mammals$corr.coeff),]
+
+write.csv(mammals,"Data/mammals.csv", row.names = F)
 
 
 # 4. Birds ---------------------------------------------------------------------
@@ -82,7 +84,7 @@ results <- readRDS('Results/BergmannsRule_results_correlations_20211114.rds')
 
 # subset results for birds
 birds <- subset(results, class == 'bird')
-birds$Species_ph <- gsub(" ", "_", trimws(birds$speciesname))
+#birds$Species_ph <- gsub(" ", "_", trimws(birds$speciesname))
 
 # read elton traits dataset and remove marine mammmals
 elton_bird <- read.csv("Data/BirdFuncDat.csv", header = T, stringsAsFactors = F)
@@ -95,6 +97,8 @@ birds <- birds[birds$env.var == 'tavg' |
                  birds$env.var == 'npp'| 
                  birds$env.var =='npp.sd',]
 
-write.csv(birds,"Data/birds.csv")
+birds <-birds[complete.cases(birds$corr.coeff),]
+
+write.csv(birds,"Data/birds.csv", row.names = F)
 
 # End of script ----

@@ -87,6 +87,7 @@ fix_taxa$species <- str_to_sentence(fix_taxa$search_string) #convert to upper ca
 
 amphdata <- left_join(amphdata,fix_taxa, by =c("speciesname" = "species"))
 amphdata$speciesname <-ifelse(!is.na(amphdata$unique_name), amphdata$unique_name, amphdata$speciesname)
+amphdata <- amphdata[,-c(10:11)] # remove join columns
 
 species <- sort(unique(as.character(amphdata$speciesname))) #36 species
 
@@ -184,7 +185,7 @@ is.ultrametric(phylo_branch) # TRUE
 amph_phylo_cor <- vcv(phylo_branch, cor = T)
 
 # remove rows not in correlation matrix
-amphdata_ph <- amphdata[which(amphdata$speciesname %in% rownames(amph_phylo_cor)),] # 4095
+amphdata_ph <- amphdata[which(amphdata$speciesname %in% rownames(amph_phylo_cor)),] # we do not lose any species
 
 ##create Species ID to distinguish later between variation explained by non-phylogenetic and phylogenetic effects
 SpID<-data.frame(speciesname = unique(amphdata_ph$speciesname), SPID = paste0("SP",1:length(unique(amphdata_ph$speciesname))))
@@ -198,10 +199,5 @@ save(amph_phylo_cor, file = "Data/amph_phylo_cor.Rdata")
 # exporting fixed dataset for analyses
 write.csv(amphdata_ph, 
           "Data/amphdata_ph.csv", row.names = FALSE)
-
-# saving session information with all packages versions for reproducibility purposes
-# sink("Data/Final data/amph_phylogeny_R_session.txt")
-# sessionInfo()
-# sink()
 
 # End of script ####

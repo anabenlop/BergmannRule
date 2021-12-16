@@ -59,8 +59,8 @@ taxa[taxa$approximate_match==TRUE,] # no species returned
 # fixing those typos (example in case they were unresolved matches)
 #species[species=="XX"] <- "XX"
 
-#reptdata$Binomial<-as.character(reptdata$Binomial)
-#reptdata[reptdata$Binomial=="XX","Binomial"] <- "XX"
+#reptdata$speciesname<-as.character(reptdata$speciesname)
+#reptdata[reptdata$speciesname=="XX","speciesname"] <- "XX"
 
 # rerun
 # taxa.c <- tnrs_match_names(names = species)
@@ -87,6 +87,7 @@ fix_taxa$species <- str_to_sentence(fix_taxa$search_string) #convert to upper ca
 
 reptdata <- left_join(reptdata,fix_taxa, by =c("speciesname" = "species"))
 reptdata$speciesname <-ifelse(!is.na(reptdata$unique_name), reptdata$unique_name, reptdata$speciesname)
+reptdata <- reptdata[,-c(10:11)] # remove join columns
 
 species <- sort(unique(as.character(reptdata$speciesname))) #81 species
 
@@ -184,7 +185,7 @@ is.ultrametric(phylo_branch) # TRUE
 rept_phylo_cor <- vcv(phylo_branch, cor = T)
 
 # remove rows not in correlation matrix
-reptdata_ph <- reptdata[which(reptdata$speciesname %in% rownames(rept_phylo_cor)),] 
+reptdata_ph <- reptdata[which(reptdata$speciesname %in% rownames(rept_phylo_cor)),] # we do not lose any species
 
 ##create Species ID to distinguish later between variation explained by non-phylogenetic and phylogenetic effects
 SpID<-data.frame(speciesname = unique(reptdata_ph$speciesname), SPID = paste0("SP",1:length(unique(reptdata_ph$speciesname))))
@@ -194,14 +195,8 @@ reptdata_ph<-inner_join(reptdata_ph,SpID, by = "speciesname")
 # finally, save matrix for future analyses
 save(rept_phylo_cor, file = "Data/rept_phylo_cor.Rdata")
 
-
 # exporting fixed dataset for analyses
 write.csv(reptdata_ph, 
           "Data/reptdata_ph.csv", row.names = FALSE)
-
-# saving session information with all packages versions for reproducibility purposes
-# sink("Data/Final data/rept_phylogeny_R_session.txt")
-# sessionInfo()
-# sink()
 
 # End of script ####

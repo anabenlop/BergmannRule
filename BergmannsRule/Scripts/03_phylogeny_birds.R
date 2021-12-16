@@ -58,7 +58,6 @@ species[species=="Rhopospina fruticeti"] <- "Phrygilus fruticeti"
 birddata[birddata$speciesname=="Alcippe schaefferi","speciesname"] <- "Alcippe davidi"
 birddata[birddata$speciesname=="Rhopospina fruticeti","speciesname"] <- "Phrygilus fruticeti"
 
-
 # rerun
 taxa.c <- tnrs_match_names(names = species)
 
@@ -74,6 +73,8 @@ fix_taxa$species <- str_to_sentence(fix_taxa$search_string) #convert to upper ca
 
 birddata <- left_join(birddata,fix_taxa, by =c("speciesname" = "species"))
 birddata$speciesname <-ifelse(!is.na(birddata$unique_name), birddata$unique_name, birddata$speciesname)
+
+birddata <- birddata[,-c(13:14)] # remove join columns
 
 # rerun again
 species <- sort(unique(as.character(birddata$speciesname))) #1561 species
@@ -101,6 +102,7 @@ fix_taxa$species <- str_to_sentence(fix_taxa$search_string) #convert to upper ca
 
 birddata <- left_join(birddata,fix_taxa, by =c("speciesname" = "species"))
 birddata$speciesname <-ifelse(!is.na(birddata$unique_name), birddata$unique_name, birddata$speciesname)
+birddata <- birddata[,-c(13:14)] # remove join columns
 
 species <- sort(unique(as.character(birddata$speciesname))) #1546 species
 
@@ -213,11 +215,13 @@ bird_phylo_cor <- vcv(phylo_branch, cor = T)
 
 # remove rows not in correlation matrix
 birddata_ph <- birddata[which(birddata$speciesname %in% rownames(bird_phylo_cor)),] 
+birddata_ph$Species_ph <- 
 
 ##create Species ID to distinguish later between variation explained by non-phylogenetic and phylogenetic effects
 SpID<-data.frame(speciesname = unique(birddata_ph$speciesname), SPID = paste0("SP",1:length(unique(birddata_ph$speciesname))))
 SpID$speciesname<-as.character(SpID$speciesname)
 birddata_ph<-inner_join(birddata_ph,SpID, by = "speciesname")
+# birddata_ph$Species_ph <- gsub(" ", "_", trimws(birddata_ph$speciesname))
 
 # finally, save matrix for future analyses
 save(bird_phylo_cor, file = "Data/bird_phylo_cor.Rdata")
@@ -226,10 +230,5 @@ save(bird_phylo_cor, file = "Data/bird_phylo_cor.Rdata")
 # exporting fixed dataset for analyses
 write.csv(birddata_ph, 
           "Data/birddata_ph.csv", row.names = FALSE)
-
-# saving session information with all packages versions for reproducibility purposes
-# sink("Data/Final data/bird_phylogeny_R_session.txt")
-# sessionInfo()
-# sink()
 
 # End of script ####

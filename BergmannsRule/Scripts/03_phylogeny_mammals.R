@@ -38,10 +38,6 @@ library(stringr)
 
 # load database and elton traits data to remove marine species
 mamdata<-read.csv("Data/mammals.csv", header = TRUE, stringsAsFactors = FALSE) # 596
-# elton <- read.csv("Data/EltonTraits_Mammals_taxid.csv", header = TRUE, stringsAsFactors = F)
-# 
-# mamdata_trait <- left_join(mamdata, elton[,c("Scientific", "ForStrat.Value")], 
-#                            by =c("speciesname" = "Scientific")) # 16 marine mammal species
 
 # remove unknown species(genus level)
 mamdata <- mamdata[mamdata$speciesname != "Carollia carollia", ]
@@ -53,7 +49,7 @@ mamdata <- mamdata[mamdata$speciesname != "Lophostoma aequatorialis", ]
 mamdata <- mamdata[mamdata$speciesname != "Peromyscus peromyscus", ]
 
 # generating list of species
-species <- sort(unique(as.character(mamdata$speciesname))) #589 species
+species <- sort(unique(as.character(mamdata$speciesname))) #556 species
 
 ##############################################################
 # Formatting species data
@@ -72,8 +68,8 @@ taxa[taxa$approximate_match==TRUE,] # no species returned
 # fixing those typos (example in case they were unresolved matches)
 #species[species=="Crocidura attenuatta"] <- "Crocidura attenuata"
 
-#mamdata$Binomial<-as.character(mamdata$Binomial)
-#mamdata[mamdata$Binomial=="Crocidura attenuatta","Binomial"] <- "Crocidura attenuata"
+#mamdata$speciesname<-as.character(mamdata$speciesname)
+#mamdata[mamdata$speciesname=="Crocidura attenuatta","speciesname"] <- "Crocidura attenuata"
 
 # rerun
 # taxa.c <- tnrs_match_names(names = species)
@@ -90,8 +86,6 @@ for(i in 1:length(ott_id_tocheck)){
   print(inspect(taxa.c, ott_id = ott_id_tocheck[i]))
 }
 
-# Seems ok, they are synonyms
-
 # check synonyms and change name accordingly
 fix_taxa <- taxa.c[taxa.c$is_synonym==TRUE,] # 9 species returned
 
@@ -100,6 +94,7 @@ fix_taxa$species <- str_to_sentence(fix_taxa$search_string) #convert to upper ca
 
 mamdata <- left_join(mamdata,fix_taxa, by =c("speciesname" = "species"))
 mamdata$speciesname <-ifelse(!is.na(mamdata$unique_name), mamdata$unique_name, mamdata$speciesname)
+mamdata <- mamdata[,-c(10:11)] # remove join columns
 
 species <- sort(unique(as.character(mamdata$speciesname))) #589 species
 
