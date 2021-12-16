@@ -47,7 +47,7 @@ amphibians_ph$Species_ph <- gsub(" ", "_", trimws(amphibians_ph$speciesname))
 load("Data/amph_phylo_cor.Rdata") #amph_phylo_cor
 
 # vector of environmental variables
-env.vars <- c('tavg','tmin','tmax','prec','pet','npp','npp.sd')
+env.vars <- c('prec','npp','npp.sd')
 
 # define phylo vcov matrix and random effects
 phylocor<-list(speciesname  = amph_phylo_cor)
@@ -67,9 +67,8 @@ for(i in 1:length(env.vars)){
 toc()
 
 # save results
-amph.ma <- list(amph.tavg, amph.tmin, amph.tmax, amph.prec, 
-              amph.pet, amph.npp, amph.npp.sd)
-names(amph.ma) <- c('tavg','tmin','tmax','prec','pet','npp','npp.sd')
+amph.ma <- list(amph.prec, amph.npp, amph.npp.sd)
+names(amph.ma) <- c('prec','npp','npp.sd')
 
 saveRDS(amph.ma,
         'Results/BergmannsRule_results_MA_amphibians_phylo_nonphylo.rds')
@@ -87,7 +86,7 @@ reptiles_ph$Species_ph <- gsub(" ", "_", trimws(reptiles_ph$speciesname))
 load("Data/rept_phylo_cor.Rdata") #rept_phylo_cor
 
 # vector of environmental variables
-env.vars <- c('tavg','tmin','tmax','prec','pet','npp','npp.sd')
+env.vars <- c('npp','npp.sd')
 
 # define phylo vcov matrix and random effects
 phylocor<-list(speciesname  = rept_phylo_cor)
@@ -107,17 +106,14 @@ for(i in 1:length(env.vars)){
 toc()
 
 # save results
-rept.ma <- list(rept.tavg, rept.tmin, rept.tmax, rept.prec, 
-                rept.pet, rept.npp, rept.npp.sd)
-names(rept.ma) <- c('tavg','tmin','tmax','prec','pet','npp','npp.sd')
+rept.ma <- list(rept.npp, rept.npp.sd)
+names(rept.ma) <- c('npp','npp.sd')
 
 saveRDS(rept.ma,
         'Results/BergmannsRule_results_MA_reptiles_phylo_nonphylo.rds')
 
 # check results
 # rept.ma_ph_nonph <- readRDS("Results/BergmannsRule_results_MA_reptiles_phylo_nonphylo.rds")
-
-
 
 # 3. Mammals ---------------------------------------------------------------------
 
@@ -129,7 +125,7 @@ mammals_ph$Species_ph <- gsub(" ", "_", trimws(mammals_ph$speciesname))
 load("Data/mam_phylo_cor.Rdata") #mam_phylo_cor
 
 # vector of environmental variables
-env.vars <- c('tavg','tmin','tmax','prec','pet','npp','npp.sd')
+env.vars <- c('tavg','tmax','npp','npp.sd')
 
 # define phylo vcov matrix and random effects
 phylocor<-list(Species_ph  = mam_phylo_cor)
@@ -149,9 +145,8 @@ for(i in 1:length(env.vars)){
 toc()
 
 # save results
-ma.ma <- list(mam.tavg, mam.tmin, mam.tmax, mam.prec, 
-              mam.pet, mam.npp, mam.npp.sd)
-names(ma.ma) <- c('tavg','tmin','tmax','prec','pet','npp','npp.sd')
+ma.ma <- list(mam.tavg, mam.tmax, mam.npp, mam.npp.sd)
+names(ma.ma) <- c('tavg','tmax','npp','npp.sd')
 
 saveRDS(ma.ma,
         'Results/BergmannsRule_results_MA_mammals_phylo_nonphylo.rds')
@@ -170,7 +165,7 @@ birds_ph$Species_ph <- gsub(" ", "_", trimws(birds_ph$speciesname))
 load("Data/bird_phylo_cor.Rdata") #bird_phylo_cor
 
 # vector of environmental variables
-env.vars <- c('tavg','tmin','tmax','prec','pet','npp','npp.sd')
+env.vars <- c('tavg','tmax','npp','npp.sd')
 
 # define phylo vcov matrix and random effects
 phylocor<-list(speciesname  = bird_phylo_cor)
@@ -190,9 +185,8 @@ for(i in 1:length(env.vars)){
 toc()
 
 # save results
-bi.ma <- list(bird.tavg, bird.tmin, bird.tmax, bird.prec, 
-              bird.pet, bird.npp, bird.npp.sd)
-names(bi.ma) <- c('tavg','tmin','tmax','prec','pet','npp','npp.sd')
+bi.ma <- list(bird.tavg, bird.tmax, bird.npp, bird.npp.sd)
+names(bi.ma) <- c('tavg','tmax','npp','npp.sd')
 
 saveRDS(bi.ma,
         'Results/BergmannsRule_results_MA_birds_phylo_nonphylo.rds')
