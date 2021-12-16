@@ -90,8 +90,10 @@ for(i in 1:length(ott_id_tocheck)){
   print(inspect(taxa, ott_id = ott_id_tocheck[i]))
 }
 
+# it's ok, they are synonyms
+
 # check synonyms and change name accordingly
-fix_taxa <- taxa[taxa$is_synonym==TRUE,] 
+fix_taxa <- taxa[taxa$is_synonym == TRUE,] 
 
 fix_taxa <-fix_taxa[,c("search_string", "unique_name")]
 fix_taxa$species <- str_to_sentence(fix_taxa$search_string) #convert to upper case to join with original dataset
@@ -100,7 +102,20 @@ birddata <- left_join(birddata,fix_taxa, by =c("speciesname" = "species"))
 birddata$speciesname <-ifelse(!is.na(birddata$unique_name), birddata$unique_name, birddata$speciesname)
 birddata <- birddata[,-c(11:12)] # remove join columns
 
-species <- sort(unique(as.character(birddata$speciesname))) #1546 species
+species <- sort(unique(as.character(birddata$speciesname))) #1546 species, we lose some species which were recorded as separate species, now they are duplicates
+
+# ask Erin to recalculate correlations for these but with correct species names
+birddata$dupli <- paste0(birddata$speciesname,birddata$env.var)
+dupl<-(birddata[duplicated(birddata$dupli),])
+
+dupl_check <- left_join(dupl, fix_taxa, by = c("speciesname" = "unique_name"))
+dupl_check<- dupl_check[,c("speciesname", "species", "class", "order", "family", "freq", "env.var",
+                           "corr.coeff", "z.cor.yi", "z.cor.vi")]
+
+colnames(dupl_check)[1] <- "dupl_sp_name"
+colnames(dupl_check)[2] <- "orig_sp_name"
+
+write.csv(dupl_check, "Data/duplicates.csv", row.names = F)
 
 # rerun 3
 taxa.c3 <- tnrs_match_names(names = species)

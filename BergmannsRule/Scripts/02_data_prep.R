@@ -84,7 +84,11 @@ results <- readRDS('Results/BergmannsRule_results_correlations_20211114.rds')
 
 # subset results for birds
 birds <- subset(results, class == 'bird')
-#birds$Species_ph <- gsub(" ", "_", trimws(birds$speciesname))
+
+# remove duplicated species, this will need to be added back in the revision 
+# birds <- birds[birds$speciesname != "Ceyx picta", ]
+# birds <- birds[birds$speciesname != "Halcyon sanctus", ]
+
 
 # read elton traits dataset and remove marine mammmals
 elton_bird <- read.csv("Data/BirdFuncDat.csv", header = T, stringsAsFactors = F)

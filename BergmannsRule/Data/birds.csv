@@ -287,7 +287,6 @@
 "Ceuthmochares aereus","bird","Cuculiformes","Cuculidae",5,"tavg",0.1,0.100335347731076,0.5,0
 "Ceyx lepidus","bird","Coraciiformes","Alcedinidae",22,"tavg",0.0854900968915326,0.0856992847164388,0.0526315789473684,0
 "Ceyx melanurus","bird","Coraciiformes","Alcedinidae",7,"tavg",0.13392710850479,0.134736564334593,0.25,0
-"Ceyx picta","bird","Coraciiformes","Alcedinidae",9,"tavg",-0.168384733796639,-0.170003795540001,0.166666666666667,NA
 "Chaetorhynchus papuensis","bird","Passeriformes","Rhipiduridae",9,"tavg",0.0273077077663963,0.0273144986902381,0.166666666666667,0
 "Chaetura pelagica","bird","Caprimulgiformes","Apodidae",24,"tavg",0.0496719197689332,0.0497128321881004,0.0476190476190476,0
 "Chaetura spinicaudus","bird","Caprimulgiformes","Apodidae",7,"tavg",0.363425140259997,0.380826637765959,0.25,0
@@ -613,7 +612,6 @@
 "Halcyon albiventris","bird","Coraciiformes","Alcedinidae",9,"tavg",-0.594420033787543,-0.684473637912453,0.166666666666667,0
 "Halcyon leucocephala","bird","Coraciiformes","Alcedinidae",5,"tavg",-0.715578050496506,-0.898523242629653,0.5,0
 "Halcyon malimbica","bird","Coraciiformes","Alcedinidae",8,"tavg",0.241353885528878,0.2462112449089,0.2,0
-"Halcyon sanctus","bird","Coraciiformes","Alcedinidae",6,"tavg",-0.714649230179504,-0.896622306691361,0.333333333333333,NA
 "Halcyon senegalensis","bird","Coraciiformes","Alcedinidae",6,"tavg",-0.899028133681059,-1.46712779947972,0.333333333333333,0
 "Halcyon smyrnensis","bird","Coraciiformes","Alcedinidae",6,"tavg",0.485714285714286,0.530435980342631,0.333333333333333,0
 "Haplospiza rustica","bird","Passeriformes","Thraupidae",6,"tavg",-0.404758695009172,-0.429326970878066,0.333333333333333,0
@@ -1848,7 +1846,6 @@
 "Ceuthmochares aereus","bird","Cuculiformes","Cuculidae",5,"tmax",0.1,0.100335347731076,0.5,0
 "Ceyx lepidus","bird","Coraciiformes","Alcedinidae",22,"tmax",-0.169482914274841,-0.171134237415385,0.0526315789473684,0
 "Ceyx melanurus","bird","Coraciiformes","Alcedinidae",7,"tmax",-0.00463812595011254,-0.00463815920932527,0.25,0
-"Ceyx picta","bird","Coraciiformes","Alcedinidae",9,"tmax",-0.275762638965361,-0.283090120796335,0.166666666666667,NA
 "Chaetorhynchus papuensis","bird","Passeriformes","Rhipiduridae",9,"tmax",0.155253476465055,0.156519224406204,0.166666666666667,0
 "Chaetura pelagica","bird","Caprimulgiformes","Apodidae",24,"tmax",-0.0382777561598011,-0.038296467297089,0.0476190476190476,0
 "Chaetura spinicaudus","bird","Caprimulgiformes","Apodidae",7,"tmax",0.258743157280735,0.264760913150821,0.25,0
@@ -2174,7 +2171,6 @@
 "Halcyon albiventris","bird","Coraciiformes","Alcedinidae",9,"tmax",-0.409190641315974,-0.434638707041644,0.166666666666667,0
 "Halcyon leucocephala","bird","Coraciiformes","Alcedinidae",5,"tmax",-0.839648388990753,-1.2199803832418,0.5,0
 "Halcyon malimbica","bird","Coraciiformes","Alcedinidae",8,"tmax",0.0115790603215283,0.0115795778492681,0.2,0
-"Halcyon sanctus","bird","Coraciiformes","Alcedinidae",6,"tmax",-0.714649230179504,-0.896622306691361,0.333333333333333,NA
 "Halcyon senegalensis","bird","Coraciiformes","Alcedinidae",6,"tmax",-0.450172385932641,-0.484916457534641,0.333333333333333,0
 "Halcyon smyrnensis","bird","Coraciiformes","Alcedinidae",6,"tmax",0.6,0.693147180559945,0.333333333333333,0
 "Haplospiza rustica","bird","Passeriformes","Thraupidae",6,"tmax",-0.201959619411893,-0.204774660810647,0.333333333333333,0
@@ -3409,7 +3405,6 @@
 "Ceuthmochares aereus","bird","Cuculiformes","Cuculidae",5,"npp",0,0,0.5,0
 "Ceyx lepidus","bird","Coraciiformes","Alcedinidae",22,"npp",0.0561035733349352,0.056162548827962,0.0526315789473684,0
 "Ceyx melanurus","bird","Coraciiformes","Alcedinidae",7,"npp",0.125173853430767,0.125833831050428,0.25,0
-"Ceyx picta","bird","Coraciiformes","Alcedinidae",9,"npp",0.537578071381278,0.600743018404283,0.166666666666667,NA
 "Chaetorhynchus papuensis","bird","Passeriformes","Rhipiduridae",9,"npp",-0.157554393936605,-0.158877839925927,0.166666666666667,0
 "Chaetura pelagica","bird","Caprimulgiformes","Apodidae",24,"npp",-0.0198580887254814,-0.01986069964725,0.0476190476190476,0
 "Chaetura spinicaudus","bird","Caprimulgiformes","Apodidae",7,"npp",-0.259487892812579,-0.265559249731014,0.25,0
@@ -3735,7 +3730,6 @@
 "Halcyon albiventris","bird","Coraciiformes","Alcedinidae",9,"npp",-0.150327350551164,-0.151475338246411,0.166666666666667,0
 "Halcyon leucocephala","bird","Coraciiformes","Alcedinidae",5,"npp",0.00820758381351385,0.00820776812070409,0.5,0
 "Halcyon malimbica","bird","Coraciiformes","Alcedinidae",8,"npp",-0.102155709191581,-0.102513309453639,0.2,0
-"Halcyon sanctus","bird","Coraciiformes","Alcedinidae",6,"npp",0.304351559938983,0.314308444732428,0.333333333333333,NA
 "Halcyon senegalensis","bird","Coraciiformes","Alcedinidae",6,"npp",-0.064135847645418,-0.0642240042695765,0.333333333333333,0
 "Halcyon smyrnensis","bird","Coraciiformes","Alcedinidae",6,"npp",-0.257142857142857,-0.26304654794839,0.333333333333333,0
 "Haplospiza rustica","bird","Passeriformes","Thraupidae",6,"npp",-0.450120032702448,-0.484850800015652,0.333333333333333,0
@@ -4970,7 +4964,6 @@
 "Ceuthmochares aereus","bird","Cuculiformes","Cuculidae",5,"npp.sd",0.2,0.202732554054082,0.5,0
 "Ceyx lepidus","bird","Coraciiformes","Alcedinidae",22,"npp.sd",-0.228439010861017,-0.232541912083044,0.0526315789473684,0
 "Ceyx melanurus","bird","Coraciiformes","Alcedinidae",7,"npp.sd",0.0842283265106686,0.0844283621395319,0.25,0
-"Ceyx picta","bird","Coraciiformes","Alcedinidae",9,"npp.sd",0.250621030680857,0.256075354428636,0.166666666666667,NA
 "Chaetorhynchus papuensis","bird","Passeriformes","Rhipiduridae",9,"npp.sd",-0.382139110694396,-0.402562162161,0.166666666666667,0
 "Chaetura pelagica","bird","Caprimulgiformes","Apodidae",24,"npp.sd",0.0722134839279899,0.0723394041370403,0.0476190476190476,0
 "Chaetura spinicaudus","bird","Caprimulgiformes","Apodidae",7,"npp.sd",0.370583577018753,0.38909940969274,0.25,0
@@ -5296,7 +5289,6 @@
 "Halcyon albiventris","bird","Coraciiformes","Alcedinidae",9,"npp.sd",0.561299906553299,0.634729002757632,0.166666666666667,0
 "Halcyon leucocephala","bird","Coraciiformes","Alcedinidae",5,"npp.sd",-0.152139859933427,-0.153330273528049,0.5,0
 "Halcyon malimbica","bird","Coraciiformes","Alcedinidae",8,"npp.sd",0.227949365147313,0.232025368601124,0.2,0
-"Halcyon sanctus","bird","Coraciiformes","Alcedinidae",6,"npp.sd",0.576364354317471,0.657001336703181,0.333333333333333,NA
 "Halcyon senegalensis","bird","Coraciiformes","Alcedinidae",6,"npp.sd",0.391557408233019,0.413638136177146,0.333333333333333,0
 "Halcyon smyrnensis","bird","Coraciiformes","Alcedinidae",6,"npp.sd",0.485714285714286,0.530435980342632,0.333333333333333,0
 "Haplospiza rustica","bird","Passeriformes","Thraupidae",6,"npp.sd",-0.0351911081095448,-0.0352056459681163,0.333333333333333,0

@@ -41,7 +41,7 @@ rm(list=ls())
 
 #Load data
 amphibians_ph <- read.csv("Data/amphdata_ph.csv", stringsAsFactors = F)
-amphibians_ph$Species_ph <- gsub(" ", "_", trimws(amphibians_ph$speciesname))
+# amphibians_ph$Species_ph <- gsub(" ", "_", trimws(amphibians_ph$speciesname))
 
 # loading phylogenetic matrixes 
 load("Data/amph_phylo_cor.Rdata") #amph_phylo_cor
@@ -51,7 +51,7 @@ env.vars <- c('prec','npp','npp.sd')
 
 # define phylo vcov matrix and random effects
 phylocor<-list(speciesname  = amph_phylo_cor)
-RE = list( ~1|speciesname, ~1|Species_ph)
+RE = list( ~1|speciesname, ~1|SPID)
 
 # for loop running a meta-analysis for each environmental variable
 tic("Run phylo meta-analysis in a loop")
@@ -80,7 +80,7 @@ saveRDS(amph.ma,
 
 #Load data
 reptiles_ph <- read.csv("Data/reptdata_ph.csv", stringsAsFactors = F)
-reptiles_ph$Species_ph <- gsub(" ", "_", trimws(reptiles_ph$speciesname))
+# reptiles_ph$Species_ph <- gsub(" ", "_", trimws(reptiles_ph$speciesname))
 
 # loading phylogenetic matrixes 
 load("Data/rept_phylo_cor.Rdata") #rept_phylo_cor
@@ -90,7 +90,7 @@ env.vars <- c('npp','npp.sd')
 
 # define phylo vcov matrix and random effects
 phylocor<-list(speciesname  = rept_phylo_cor)
-RE = list( ~1|speciesname, ~1|Species_ph)
+RE = list( ~1|speciesname, ~1|SPID)
 
 # for loop running a meta-analysis for each environmental variable
 tic("Run phylo meta-analysis in a loop")
@@ -119,7 +119,7 @@ saveRDS(rept.ma,
 
 #Load data
 mammals_ph <- read.csv("Data/mamdata_ph.csv", stringsAsFactors = F)
-mammals_ph$Species_ph <- gsub(" ", "_", trimws(mammals_ph$speciesname))
+# mammals_ph$Species_ph <- gsub(" ", "_", trimws(mammals_ph$speciesname))
 
 # loading phylogenetic matrixes 
 load("Data/mam_phylo_cor.Rdata") #mam_phylo_cor
@@ -129,7 +129,7 @@ env.vars <- c('tavg','tmax','npp','npp.sd')
 
 # define phylo vcov matrix and random effects
 phylocor<-list(speciesname  = mam_phylo_cor)
-RE = list( ~1|speciesname, ~1|Species_ph)
+RE = list( ~1|speciesname, ~1|SPID)
 
 # for loop running a meta-analysis for each environmental variable
 tic("Run phylo meta-analysis in a loop")
@@ -159,7 +159,7 @@ saveRDS(ma.ma,
 
 #Load data
 birds_ph <- read.csv("Data/birddata_ph.csv", stringsAsFactors = F)
-birds_ph$Species_ph <- gsub(" ", "_", trimws(birds_ph$speciesname))
+# birds_ph$Species_ph <- gsub(" ", "_", trimws(birds_ph$speciesname))
 
 # loading phylogenetic matrixes 
 load("Data/bird_phylo_cor.Rdata") #bird_phylo_cor
@@ -169,7 +169,7 @@ env.vars <- c('tavg','tmax','npp','npp.sd')
 
 # define phylo vcov matrix and random effects
 phylocor<-list(speciesname  = bird_phylo_cor)
-RE = list( ~1|speciesname, ~1|Species_ph)
+RE = list( ~1|speciesname, ~1|SPID)
 
 # for loop running a meta-analysis for each environmental variable
 tic("Run phylo meta-analysis in a loop")
