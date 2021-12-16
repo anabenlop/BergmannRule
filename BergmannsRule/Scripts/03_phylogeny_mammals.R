@@ -94,9 +94,9 @@ fix_taxa$species <- str_to_sentence(fix_taxa$search_string) #convert to upper ca
 
 mamdata <- left_join(mamdata,fix_taxa, by =c("speciesname" = "species"))
 mamdata$speciesname <-ifelse(!is.na(mamdata$unique_name), mamdata$unique_name, mamdata$speciesname)
-mamdata <- mamdata[,-c(10:11)] # remove join columns
+mamdata <- mamdata[,-c(10:12)] # remove join columns
 
-species <- sort(unique(as.character(mamdata$speciesname))) #589 species
+species <- sort(unique(as.character(mamdata$speciesname))) #556 species
 
 # rerun 2
 taxa.c2 <- tnrs_match_names(names = species)
@@ -122,7 +122,6 @@ plot(tree, cex=.5, label.offset =.1, no.margin = TRUE)
 # If polytomies exist, the output will be `FALSE`, and vice versa.
 
 is.binary(tree) # there are some polytomies
-
 
 # to take care of these polytomies, we are going to use a 
 # randomization approach
@@ -174,7 +173,6 @@ dev.off()
 # we can now save the tree
 save(tree_random, file = "Data/mam_tree_random.Rdata")
 
-
 ##############################################################
 # Computing branch lengths
 ##############################################################
@@ -209,7 +207,7 @@ is.ultrametric(phylo_branch) # TRUE
 mam_phylo_cor <- vcv(phylo_branch, cor = T)
 
 # remove rows not in correlation matrix
-mamdata_ph <- mamdata[which(mamdata$speciesname %in% rownames(mam_phylo_cor)),] # 4095
+mamdata_ph <- mamdata[which(mamdata$speciesname %in% rownames(mam_phylo_cor)),] # 554
 
 ##create Species ID to distinguish later between variation explained by non-phylogenetic and phylogenetic effects
 SpID<-data.frame(speciesname = unique(mamdata_ph$speciesname), SPID = paste0("SP",1:length(unique(mamdata_ph$speciesname))))
@@ -223,10 +221,5 @@ save(mam_phylo_cor, file = "Data/mam_phylo_cor.Rdata")
 # exporting fixed dataset for analyses
 write.csv(mamdata_ph, 
            "Data/mamdata_ph.csv", row.names = FALSE)
-
-# saving session information with all packages versions for reproducibility purposes
-# sink("Data/Final data/mam_phylogeny_R_session.txt")
-# sessionInfo()
-# sink()
 
 # End of script ####

@@ -60,7 +60,6 @@ birddata[birddata$speciesname=="Rhopospina fruticeti","speciesname"] <- "Phrygil
 
 # rerun
 taxa.c <- tnrs_match_names(names = species)
-
 taxa.c[taxa.c$approximate_match==TRUE,] 
 
 # according to the `approximate_match` column, there might be 
@@ -73,11 +72,10 @@ fix_taxa$species <- str_to_sentence(fix_taxa$search_string) #convert to upper ca
 
 birddata <- left_join(birddata,fix_taxa, by =c("speciesname" = "species"))
 birddata$speciesname <-ifelse(!is.na(birddata$unique_name), birddata$unique_name, birddata$speciesname)
-
-birddata <- birddata[,-c(13:14)] # remove join columns
+birddata <- birddata[,-c(10:12)] # remove join columns
 
 # rerun again
-species <- sort(unique(as.character(birddata$speciesname))) #1561 species
+species <- sort(unique(as.character(birddata$speciesname))) #1559 species
 
 taxa.c2 <- tnrs_match_names(names = species)
 taxa.c2[taxa.c2$approximate_match==TRUE,] # all good now
@@ -92,8 +90,6 @@ for(i in 1:length(ott_id_tocheck)){
   print(inspect(taxa, ott_id = ott_id_tocheck[i]))
 }
 
-# No multiple matches
-
 # check synonyms and change name accordingly
 fix_taxa <- taxa[taxa$is_synonym==TRUE,] 
 
@@ -102,7 +98,7 @@ fix_taxa$species <- str_to_sentence(fix_taxa$search_string) #convert to upper ca
 
 birddata <- left_join(birddata,fix_taxa, by =c("speciesname" = "species"))
 birddata$speciesname <-ifelse(!is.na(birddata$unique_name), birddata$unique_name, birddata$speciesname)
-birddata <- birddata[,-c(13:14)] # remove join columns
+birddata <- birddata[,-c(11:12)] # remove join columns
 
 species <- sort(unique(as.character(birddata$speciesname))) #1546 species
 
@@ -131,13 +127,11 @@ plot(tree, cex=.5, label.offset =.1, no.margin = TRUE)
 
 is.binary(tree) # there are some polytomies
 
-
 # to take care of these polytomies, we are going to use a 
 # randomization approach
 set.seed(111) #making it replicable, at least for this version of R (i.e. v.4.0.2)
 tree_random <- multi2di(tree,random=TRUE)
 is.binary(tree_random)
-
 
 ##############################################################
 # Final checks
@@ -162,11 +156,13 @@ tree_random$tip.label[!as.character(tree_random$tip.label) %in% species] # liste
 
 test<-tnrs_match_names(names = c("Anas cyanoptera", "Loxia leucoptera", "Regulus regulus" ))
 
-tree_test <- tol_induced_subtree(ott_ids = c("4131616",  "602508"), label_format = "name")
+tree_test <- tol_induced_subtree(ott_ids = c("4131616",  "602508", "82411"), label_format = "name")
+tree_test <- tol_induced_subtree(ott_ids = c("4131616",  "602508", "206533"), label_format = "name")
 
 # we fix them here
 tree_random$tip.label[tree_random$tip.label =="mrcaott3599545ott4131616"] <-"Regulus regulus"
 tree_random$tip.label[tree_random$tip.label =="mrcaott80776ott602508"] <-"Loxia leucoptera"
+tree_random$tip.label[tree_random$tip.label =="mrcaott82415ott206533"] <-"Anas cyanoptera"
 
 tiff("Results/bird_phylogenetic_tree_pruned.tiff",
      height=20, width=10,
@@ -179,7 +175,6 @@ dev.off()
 # we can now save the tree
 save(tree_random, file = "Data/bird_tree_random.Rdata")
 
-
 ##############################################################
 # Computing branch lengths
 ##############################################################
@@ -189,12 +184,16 @@ save(tree_random, file = "Data/bird_tree_random.Rdata")
 
 # before we need to make sure that tree labels and database
 # use the same nomenclature
-setdiff(birddata$speciesname, as.character(tree_random$tip.label)) # 0 species
+setdiff(birddata$speciesname, as.character(tree_random$tip.label)) # Anas cyanoptera
 setdiff(as.character(tree_random$tip.label),birddata$speciesname)
 
 # exclude species in the tree that are not in dataset
 drops <- tree_random$tip.label[!tree_random$tip.label %in% birddata$speciesname]
 bird.tree_random.fixed <- drop.tip(tree_random, drops)
+
+# exclude species in the dataset that are not in the tree
+drop_sp <- birddata$speciesname[!birddata$speciesname %in% tree_random$tip.label]
+birddata <- birddata[birddata$speciesname != drop_sp,] # 1545 sp
 
 # save the new tree
 write.tree(bird.tree_random.fixed, file = "Data/bird.tree_random.fixed.tre")
@@ -215,13 +214,11 @@ bird_phylo_cor <- vcv(phylo_branch, cor = T)
 
 # remove rows not in correlation matrix
 birddata_ph <- birddata[which(birddata$speciesname %in% rownames(bird_phylo_cor)),] 
-birddata_ph$Species_ph <- 
 
 ##create Species ID to distinguish later between variation explained by non-phylogenetic and phylogenetic effects
 SpID<-data.frame(speciesname = unique(birddata_ph$speciesname), SPID = paste0("SP",1:length(unique(birddata_ph$speciesname))))
 SpID$speciesname<-as.character(SpID$speciesname)
 birddata_ph<-inner_join(birddata_ph,SpID, by = "speciesname")
-# birddata_ph$Species_ph <- gsub(" ", "_", trimws(birddata_ph$speciesname))
 
 # finally, save matrix for future analyses
 save(bird_phylo_cor, file = "Data/bird_phylo_cor.Rdata")
