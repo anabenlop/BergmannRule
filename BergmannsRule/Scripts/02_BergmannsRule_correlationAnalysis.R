@@ -1,5 +1,12 @@
+##############################################################
+# Authors: 
+# Erin Henry, Ana Benitez-Lopez (@anabenlop)
+# Email: erinhenry55@gmail.com, abenitez81@gmail.com
+
 ## Correlation Analysis for Bergmann's Rule project ##
-## Modified on 3 November 2021 ##
+## Created in October 2020 ##
+# Adapted on 24 December 2021
+
 
 # This script calculates correlation coefficients for each species.
 # For each species, we tested the correlation of 
@@ -17,8 +24,10 @@ library(plyr)
 library(metafor)
 library(wCorr)
 
-setwd("D:/BergmannsRule_upload")
+# setwd("D:/BergmannsRule_upload")
 
+# Clean environment
+rm(list = ls())
 
 # 1. Read in prepared data -----------------------------------------------------
 
@@ -27,6 +36,20 @@ dat <- readRDS('Data/BergmannsRule_data_forCorrelations_20211114.rds')
 head(dat)
 str(dat)
 
+# Fix some species names that are synonyms
+dat[dat$speciesname == "Speotyto cunicularia", "speciesname"] <- "Athene cunicularia"
+dat[dat$speciesname == "Parus bicolor", "speciesname"] <- "Baeolophus bicolor"
+dat[dat$speciesname == "Myiothlypis rivularis", "speciesname"] <- "Basileuterus rivularis"
+dat[dat$speciesname == "Nyctea scandiaca", "speciesname"] <- "Bubo scandiacus"
+dat[dat$speciesname == "Pycnonotus virens", "speciesname"] <- "Eurillas virens"
+dat[dat$speciesname == "Dendragapus canadensis", "speciesname"] <- "Falcipennis canadensis"
+dat[dat$speciesname == "Pipra coronata", "speciesname"] <- "Lepidothrix coronata"
+dat[dat$speciesname == "Ceryle alcyon", "speciesname"] <- "Megaceryle alcyon"
+dat[dat$speciesname == "Otus asio", "speciesname"] <- "Megascops asio"
+dat[dat$speciesname == "Parkesia motacilla", "speciesname"] <- "Seiurus motacilla"
+dat[dat$speciesname == "Ammodramus sandwichensis", "speciesname"] <- "Passerculus sandwichensis"
+dat[dat$speciesname == "Columba fasciata", "speciesname"] <- "Patagioenas fasciata"
+dat[dat$speciesname == "Hirundo pyrrhonota", "speciesname"] <- "Petrochelidon pyrrhonota"
 
 # 2. Perform correlations for all species --------------------------------------
 
@@ -167,8 +190,11 @@ corr.results$z.cor.vi = z.cor$vi # sampling variance
 
 # 4. Save results --------------------------------------------------------------
 
-#saveRDS(corr.results,
-#        'Results/BergmannsRule_results_correlations_20211114.rds')
+# saveRDS(corr.results,
+#         'Results/BergmannsRule_results_correlations_20211224.rds')
+# 
+# write.csv(corr.results,
+#           'Results/BergmannsRule_results_correlations_202111224.csv')
 
-#write.csv(corr.results,
-#          'Results/BergmannsRule_results_correlations_20211114.csv')
+
+# End of script -----
