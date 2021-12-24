@@ -50,6 +50,8 @@ dat[dat$speciesname == "Parkesia motacilla", "speciesname"] <- "Seiurus motacill
 dat[dat$speciesname == "Ammodramus sandwichensis", "speciesname"] <- "Passerculus sandwichensis"
 dat[dat$speciesname == "Columba fasciata", "speciesname"] <- "Patagioenas fasciata"
 dat[dat$speciesname == "Hirundo pyrrhonota", "speciesname"] <- "Petrochelidon pyrrhonota"
+dat[dat$speciesname == "Ceyx picta", "speciesname"] <- "Ispidina picta"
+dat[dat$speciesname == "Halcyon sanctus", "speciesname"] <- "Todiramphus sanctus"
 
 # 2. Perform correlations for all species --------------------------------------
 
@@ -190,11 +192,11 @@ corr.results$z.cor.vi = z.cor$vi # sampling variance
 
 # 4. Save results --------------------------------------------------------------
 
-# saveRDS(corr.results,
-#         'Results/BergmannsRule_results_correlations_20211224.rds')
-# 
-# write.csv(corr.results,
-#           'Results/BergmannsRule_results_correlations_202111224.csv')
+saveRDS(corr.results,
+        'Results/BergmannsRule_results_correlations_20211224.rds')
+
+write.csv(corr.results,
+          'Results/BergmannsRule_results_correlations_202111224.csv')
 
 
 # End of script -----

@@ -75,7 +75,7 @@ birddata$speciesname <-ifelse(!is.na(birddata$unique_name), birddata$unique_name
 birddata <- birddata[,-c(10:12)] # remove join columns
 
 # rerun again
-species <- sort(unique(as.character(birddata$speciesname))) #1559 species
+species <- sort(unique(as.character(birddata$speciesname))) #1546 species
 
 taxa.c2 <- tnrs_match_names(names = species)
 taxa.c2[taxa.c2$approximate_match==TRUE,] # all good now
@@ -104,25 +104,11 @@ birddata <- birddata[,-c(11:12)] # remove join columns
 
 species <- sort(unique(as.character(birddata$speciesname))) #1546 species, we lose some species which were recorded as separate species, now they are duplicates
 
-# ask Erin to recalculate correlations for these but with correct species names
-birddata$dupli <- paste0(birddata$speciesname,birddata$env.var)
-dupl<-(birddata[duplicated(birddata$dupli),])
-
-dupl_check <- left_join(dupl, fix_taxa, by = c("speciesname" = "unique_name"))
-dupl_check<- dupl_check[,c("speciesname", "species", "class", "order", "family", "freq", "env.var",
-                           "corr.coeff", "z.cor.yi", "z.cor.vi")]
-
-colnames(dupl_check)[1] <- "dupl_sp_name"
-colnames(dupl_check)[2] <- "orig_sp_name"
-
-write.csv(dupl_check, "Data/duplicates.csv", row.names = F)
-
 # rerun 3
 taxa.c3 <- tnrs_match_names(names = species)
 
 taxa.c3[taxa.c3$approximate_match==TRUE,] # no species returned
 taxa.c3[taxa.c3$is_synonym==TRUE,] # no species returned
-
 
 ##############################################################
 # Retrieving phylogenetic relationships

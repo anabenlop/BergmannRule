@@ -31,7 +31,7 @@ rm(list=ls())
 # 1. Amphibians ----------------------------------------------------------------
 
 # read in correlation results
-results <- readRDS('Results/BergmannsRule_results_correlations_20211114.rds')
+results <- readRDS('Results/BergmannsRule_results_correlations_20211224.rds')
 
 # subset results for amphibians
 amphibians <- subset(results, class == 'amphibian')
@@ -45,7 +45,7 @@ write.csv(amphibians,"Data/amphibians.csv", row.names = F)
 # 2. Reptiles ------------------------------------------------------------------
 
 # read in correlation results
-results <- readRDS('Results/BergmannsRule_results_correlations_20211114.rds')
+results <- readRDS('Results/BergmannsRule_results_correlations_20211224.rds')
 
 # subset results for reptiles
 reptiles <- subset(results, class == 'reptile')
@@ -57,7 +57,7 @@ write.csv(reptiles,"Data/reptiles.csv", row.names = F)
 # 3. Mammals -------------------------------------------------------------------
 
 # read in correlation results
-results <- readRDS('Results/BergmannsRule_results_correlations_20211114.rds')
+results <- readRDS('Results/BergmannsRule_results_correlations_20211224.rds')
 
 # subset results for mammals
 mammals <- subset(results, class == 'mammal')
@@ -80,15 +80,10 @@ write.csv(mammals,"Data/mammals.csv", row.names = F)
 # 4. Birds ---------------------------------------------------------------------
 
 # read in correlation results
-results <- readRDS('Results/BergmannsRule_results_correlations_20211114.rds')
+results <- readRDS('Results/BergmannsRule_results_correlations_20211224.rds')
 
 # subset results for birds
 birds <- subset(results, class == 'bird')
-
-# remove duplicated species, this will need to be added back in the revision 
-# birds <- birds[birds$speciesname != "Ceyx picta", ]
-# birds <- birds[birds$speciesname != "Halcyon sanctus", ]
-
 
 # read elton traits dataset and remove marine mammmals
 elton_bird <- read.csv("Data/BirdFuncDat.csv", header = T, stringsAsFactors = F)
