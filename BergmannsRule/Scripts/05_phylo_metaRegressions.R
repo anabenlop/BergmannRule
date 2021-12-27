@@ -19,17 +19,13 @@ ecto <- read.csv("Data/herpdata_ph.csv", stringsAsFactors = F)
 # loading phylogenetic matrixes 
 load("Data/herp_phylo_cor.Rdata") # need to create a ectotherm phylogenetic correlationmatrix
 
-# subset data for ectotherms
-# ecto <- subset(dat, class=="amphibian" | class=="reptile")
-
 # new column: thermoregulator (reptiles and anura) or thermoconformer (caudata)
 ecto$therm <- ifelse(ecto$order=="Caudata",
                      "Thermoconf", # if TRUE
                      "Thermoreg") # if FALSE
 
 # check
-head(ecto)
-head(ecto[which(ecto$order=="Caudata"),])
+table(ecto$order, ecto$therm)
 
 # define phylo vcov matrix and random effects
 phylocor<-list(speciesname  = herp_phylo_cor)
@@ -40,16 +36,13 @@ RE = list( ~1|speciesname, ~1|SPID)
 mod.hb <- rma.mv(yi = z.cor.yi,
                  V = z.cor.vi,
                  data = ecto, 
-                 subset = env.var == 'tavg',
                  mods = ~ therm - 1,
                  random = RE, R = phylocor)
 
 summary(mod.hb)
 
-
 # save results
 saveRDS(mod.hb,"Results/BergmannsRule_results_MR_heatBalance.rds")
-
 
 # 2a. Add  migration info for birds --------------------------------------------
 
@@ -59,26 +52,34 @@ migration <- read.csv("Data/bird_range_types.csv")
 # species id data
 ids <- read.csv("Data/birds_id.csv")
 
-# correlation data (for birds with synonyms matched with phylogenetic tree)
-birds <- readRDS("Results/BergmannsRule_results_correlationsBirds_20211115.rds")
+#Load data
+birds_ph <- read.csv("Data/birddata_ph.csv", stringsAsFactors = F)
 
-## match ids to species names
+# loading phylogenetic matrixes 
+load("Data/bird_phylo_cor.Rdata") #bird_phylo_cor
+
+# match ids in migration dataset to species names in ids
+mig_b <- left_join(migration, ids, by = "tax_id")
+
+# match mig_b with correlations dataset
+
+birds_join <- left_join(birds_ph, mig_b, by = c("speciesname" = "Species"))
 
 # change underscores to spaces for species names in ID data frame
-ids$Species <- gsub("_", " ",ids$Species)
+# ids$Species <- gsub("_", " ",ids$Species)
 
 # new column for species ID
-birds$id <- NA
+# birds$id <- NA
 
 # for loop: if species is in ID list, then add respective ID;  
-for(i in 1:nrow(birds)) {
-  if(birds[i,"speciesname"] %in% ids$Species) { 
-    birds[i,"id"] <- ids$tax_id[which(ids$Species==birds$speciesname[i])]
-    
-  } else { # else id = NA
-    birds[i,"id"] <- NA
-  }
-}
+# for(i in 1:nrow(birds)) {
+#   if(birds[i,"speciesname"] %in% ids$Species) { 
+#     birds[i,"id"] <- ids$tax_id[which(ids$Species==birds$speciesname[i])]
+#     
+#   } else { # else id = NA
+#     birds[i,"id"] <- NA
+#   }
+# }
 
 # match ids for NAs with ids from Species_ph
 for(i in 1:nrow(birds)){
