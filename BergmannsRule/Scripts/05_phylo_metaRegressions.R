@@ -59,11 +59,12 @@ birds_ph <- read.csv("Data/birddata_ph.csv", stringsAsFactors = F)
 load("Data/bird_phylo_cor.Rdata") #bird_phylo_cor
 
 # match ids in migration dataset to species names in ids
-mig_b <- left_join(migration, ids, by = "tax_id")
+mig_b <- left_join(ids, migration, by = "tax_id")
 
 # match mig_b with correlations dataset
-
 birds_join <- left_join(birds_ph, mig_b, by = c("speciesname" = "Species"))
+
+
 
 # change underscores to spaces for species names in ID data frame
 # ids$Species <- gsub("_", " ",ids$Species)
