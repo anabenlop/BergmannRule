@@ -100,4 +100,16 @@ birds <-birds[complete.cases(birds$corr.coeff),]
 
 write.csv(birds,"Data/birds.csv", row.names = F)
 
+#5. Herps ----------------------------------------------------------------------
+  
+# read in correlation results
+results <- readRDS('Results/BergmannsRule_results_correlations_20211224.rds')
+
+# subset results for herps
+herps <- subset(results, class == 'amphibian' | class == 'reptile')
+herps <- herps[herps$env.var == 'tavg',] # we only test the heat balance hyp for thermoconformers vs thermoregulators
+                
+write.csv(herps,"Data/herps.csv", row.names = F)
+
+
 # End of script ----
