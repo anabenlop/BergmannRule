@@ -25,7 +25,7 @@ rm(list = ls())
 
 # Packages and working directory -----------------------------------------------
 library(dplyr)
-library(metafor)
+library(taxize)
 
 # 2a. Add  migration info for birds --------------------------------------------
 #Load data
@@ -41,8 +41,12 @@ length(unique(mig_b[is.na(mig_b$Migratory_status),]$speciesname)) #111 species w
 length(unique(mig_b[is.na(mig_b$Migratory_status_3),]$speciesname))#111 species without mig status 3 assigned
 
 missing <- unique(mig_b[is.na(mig_b$Migratory_status_3),]$speciesname)
+# missing <- data.frame(speciesname = missing)
 
-# save species without migratory status 
+# use taxize to find synonyms of species with missing migratory status
+syn <- synonyms(missing, db = "itis")
+
+# save species without migratory status and add synonym manually
 write.csv(missing, "Data/missing_mig.csv", row.names = F)
 
 # fix species without mig status
