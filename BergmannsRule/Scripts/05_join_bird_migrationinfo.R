@@ -45,6 +45,13 @@ missing <- unique(mig_b[is.na(mig_b$Migratory_status_3),]$speciesname)
 
 # use taxize to find synonyms of species with missing migratory status
 syn <- synonyms(missing, db = "itis")
+syn_df <- synonyms_df(syn) # 62 retrieved
+
+# join syn with migratory dataset and keep those that match
+syn_mig <- left_join(syn_df, mig_status[,c("speciesname","Migratory_status", "Migratory_status_3")], by = c("syn_name" = "speciesname"))
+syn_mig2 <- left_join(syn_mig, mig_status[,c("speciesname","Migratory_status", "Migratory_status_3")], by = c("acc_name" = "speciesname"))
+syn_mig2$Migratory_status_3 <- ifelse(is.na(syn_mig2$Migratory_status_3.x), syn_mig2$Migratory_status_3.y,syn_mig2$Migratory_status_3.x)
+
 
 # save species without migratory status and add synonym manually
 write.csv(missing, "Data/missing_mig.csv", row.names = F)
