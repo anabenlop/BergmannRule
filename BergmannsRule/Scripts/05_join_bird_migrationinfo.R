@@ -6,6 +6,7 @@
 # Email: abenitez81@gmail.com
 
 # Script first created on the 30th of December 2021
+# Modified on the 17th of January 2022
 
 ##############################################################
 # Description of script and instructions                  ####
@@ -48,9 +49,14 @@ syn <- synonyms(missing, db = "itis")
 syn_df <- synonyms_df(syn) # 62 retrieved
 
 # join syn with migratory dataset and keep those that match
-syn_mig <- left_join(syn_df, mig_status[,c("speciesname","Migratory_status", "Migratory_status_3")], by = c("syn_name" = "speciesname"))
+syn_mig <- left_join(syn_df[,c(".id", "syn_name", "acc_name")], mig_status[,c("speciesname","Migratory_status", "Migratory_status_3")], by = c("syn_name" = "speciesname"))
 syn_mig2 <- left_join(syn_mig, mig_status[,c("speciesname","Migratory_status", "Migratory_status_3")], by = c("acc_name" = "speciesname"))
 syn_mig2$Migratory_status_3 <- ifelse(is.na(syn_mig2$Migratory_status_3.x), syn_mig2$Migratory_status_3.y,syn_mig2$Migratory_status_3.x)
+syn_mig2$Migratory_status <- ifelse(is.na(syn_mig2$Migratory_status.x), syn_mig2$Migratory_status.y,syn_mig2$Migratory_status.x)
+
+# repeat for another dataset
+syn2 <- synonyms(missing, db = "nbn")
+syn_df2 <- synonyms_df(syn2) # 62 retrieved
 
 
 # save species without migratory status and add synonym manually
