@@ -1,20 +1,22 @@
 ##############################################################
 # Authors: 
-# Erin Henry
-# Email: erinhenry55@gmail.com
+# Erin Henry, Ana Benítez
+# Email: erinhenry55@gmail.com, abenitez81@gmail.com
 
 # Script to create Tables in Supp. Mat, Appendix, and explore data for  the Bergmann's rule paper
 # Made 18 October 2020
 # Adapted on 16 December 2021
 
+# clean environment
+rm(list = ls())
 
 # Table S3.2: Meta-analysis results --------------------------------------------
 
 # get meta analysis data
-b.mods <- readRDS("Results/BergmannsRule_results_MA_birds_20211115.rds")
-m.mods <- readRDS("Results/BergmannsRule_results_MA_mammals_20211115.rds")
-r.mods <- readRDS("Results/BergmannsRule_results_MA_reptiles_20211115.rds")
-a.mods <- readRDS("Results/BergmannsRule_results_MA_amphibians_20211115.rds")
+b.mods <- readRDS("Results/BergmannsRule_results_MA_birds_phylo_nonphylo.rds")
+m.mods <- readRDS("Results/BergmannsRule_results_MA_mammals_phylo_nonphylo.rds")
+r.mods <- readRDS("Results/BergmannsRule_results_MA_reptiles_phylo_nonphylo.rds")
+a.mods <- readRDS("Results/BergmannsRule_results_MA_amphibians_phylo_nonphylo.rds")
 
 # view results
 x <- a.mods$prec # fill in model
@@ -27,11 +29,11 @@ round(x$QE, digits=1) # QE
 x$QEp # p val for QE
 
 ### percentages
-dat <- readRDS('Results/BergmannsRule_results_correlations_20211114.rds')
-am <- subset(dat,class=='amphibian')
-re <- subset(dat,class=='reptile')
-bi <- subset(dat,class=='bird')
-ma <- subset(dat,class=='mammal')
+# dat <- readRDS('Results/BergmannsRule_results_correlations_20211114.rds')
+am <- read.csv("Data/amphdata_ph.csv", stringsAsFactors = F)
+re <- read.csv("Data/reptdata_ph.csv", stringsAsFactors = F)
+bi <- read.csv("Data/birddata_ph.csv", stringsAsFactors = F)
+ma <- read.csv("Data/mamdata_ph.csv", stringsAsFactors = F)
 
 x <- subset(am,env.var=='prec') # set data
 
@@ -44,7 +46,7 @@ round(nrow(subset(x, z.cor.yi < 0)) / nrow(x) * 100,digits=2) #% neg
 b.mods <- readRDS("Results/BergmannsRule_results_MR_mig.rds")
 
 # view results
-x <- b.mods$tavg # fill in model
+x <- b.mods$npp.sd # fill in model
 
 round(transf.ztor(x$beta), digits=3) # estimate
 round(transf.ztor(x$ci.lb), digits=3) # ci lower
@@ -73,15 +75,33 @@ x <- plyr::count(dat,vars='citation')
 # Results section --------------------------------------------------------------
 
 # get data used for correlations
-cor.dat <- readRDS('Results/BergmannsRule_results_correlations_20211114.rds')
-cor.dat <- subset(cor.dat,env.var=='tavg')
+am <- read.csv("Data/amphdata_ph.csv", stringsAsFactors = F)
+re <- read.csv("Data/reptdata_ph.csv", stringsAsFactors = F)
+bi <- read.csv("Data/birddata_ph.csv", stringsAsFactors = F)
+ma <- read.csv("Data/mamdata_ph.csv", stringsAsFactors = F)
 
 # species numbers
-nrow(cor.dat)
-nrow(subset(cor.dat,class=='amphibian'))
-nrow(subset(cor.dat,class=='reptile'))
-nrow(subset(cor.dat,class=='bird'))
-nrow(subset(cor.dat,class=='mammal'))
+length(unique(am$speciesname))
+length(unique(re$speciesname))
+length(unique(bi$speciesname))
+length(unique(ma$speciesname))
+
+totsp <- length(unique(am$speciesname)) + 
+          length(unique(re$speciesname)) +
+          length(unique(bi$speciesname)) +
+          length(unique(ma$speciesname))
+totsp
+
+# check sample size
+sum(subset(am, env.var == 'prec')$freq) # total cells, 340
+sum(subset(re, env.var == 'npp')$freq) # total cells, 978
+sum(subset(bi, env.var == 'tavg')$freq) # total cells, 25482
+sum(subset(ma, env.var == 'tavg')$freq) # total cells, 25226
+
+sum(subset(am, env.var == 'prec')$freq) + # total cells, 340
+sum(subset(re, env.var == 'npp')$freq) + # total cells, 978
+sum(subset(bi, env.var == 'tavg')$freq) +# total cells, 25482
+sum(subset(ma, env.var == 'tavg')$freq) # total cells, 25226
 
 
 # Other data for paper ---------------------------------------------------------
@@ -110,7 +130,7 @@ range(ma$y) # ~133
 boxplot(am$y, re$y, bi$y, ma$y)
 
 # Check sample size
-results <- readRDS('Results/BergmannsRule_results_correlations_20211102.rds')
+results <- readRDS('Results/BergmannsRule_results_correlations_20211114.rds')
 nrow(subset(results, env.var == 'tavg')) # total species
 nrow(subset(results, env.var == 'tavg' & class == 'amphibian'))
 nrow(subset(results, env.var == 'tavg' & class == 'reptile'))
