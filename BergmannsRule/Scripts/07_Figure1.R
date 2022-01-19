@@ -17,12 +17,12 @@ library(raster)  # intersect()
 library(rworldmap)
 library(rworldxtra)
 
-setwd("D:/BergmannsRule_upload")
+# setwd("D:/BergmannsRule_upload")
 
 # Figure 1: Map of Occurrences -------------------------------------------------
 
 # get data before divided into cells
-old.dat <- readRDS("Data/BergmannsRule_data_final_20211031.rds")
+# old.dat <- readRDS("Data/BergmannsRule_data_final_20211031.rds")
 
 # get data divided into cells
 data <- readRDS("Data/BergmannsRule_data_forCorrelations_20211114.rds")
@@ -132,3 +132,5 @@ ggarrange(amphmap,repmap,birdmap,mammap,labels="auto") #,font.label = list(size=
 # save
 ggsave(filename='Figures/Figure_1.png', 
        width=180, height=120, units = 'mm', dpi=600)
+
+# End of script ---
