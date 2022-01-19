@@ -7,6 +7,14 @@
 # Made 18 October 2020
 # Adapted on 16 December 2021
 
+# load libraries
+library(metafor)
+library(ggplot2)
+library(ggpubr)
+
+# clean environment
+rm(list= ls())
+
 # Figure 3: Meta-regressions (Heat Balance and Migration) ----------------------
 
 ### Migration meta-regression panel
@@ -14,25 +22,25 @@
 mig.mods <- readRDS("Results/Bergmannsrule_results_MR_mig.rds")
 
 # Get sample sizes for figure legend
-birds <- readRDS("Results/BergmannsRule_results_correlationsBirdsMR_20211115.rds")
-nrow(subset(birds,migration=="Resident"))/7 # N resident species
-nrow(subset(birds,migration=="Migratory"))/7 # N migratory species
+birds <- read.csv("Data/birds_ph_mig.csv", stringsAsFactors = F)
+nrow(subset(birds,migratory=="resident"))/4 # N resident species (divided by 4 env var) --> 957
+nrow(subset(birds,migratory=="migratory"))/4 # N migratory species  (divided by 4 env var) --> 579
 
 names(mig.mods)
 
 # dataframe of models
 model <- data.frame(beta = unlist(lapply(mig.mods,"[","beta")),
-                    env.var = rep(c("MT","MinT","MaxT","MP","PET","NPP","NPPsd"),each=2),
+                    env.var = rep(c("MT","MaxT","NPP","NPPsd"),each=2),
                     ci.lb = unlist(lapply(mig.mods,"[","ci.lb")),
                     ci.ub = unlist(lapply(mig.mods,"[","ci.ub")),
                     n = unlist(sapply(mig.mods,"[","k")),
-                    migration = rep(c("Migratory","Resident"),times=7),
-                    ID = 1:14)
+                    migration = rep(c("Migratory","Resident"),times=4),
+                    ID = 1:8)
 model$beta <- transf.ztor(model$beta)
 model$ci.lb <- transf.ztor(model$ci.lb)
 model$ci.ub <- transf.ztor(model$ci.ub)
 
-model <- subset(model,env.var!="MP" & env.var!="MinT" & env.var!="PET")
+# model <- subset(model,env.var!="MP" & env.var!="MinT" & env.var!="PET")
 model$env.var <- factor(model$env.var,levels=c("MT","MaxT","NPP","NPPsd"))
 
 # make plot
@@ -43,7 +51,7 @@ p <- ggplot(model,aes(x=beta,y=migration),show.legend=T) +
   geom_errorbarh(data=model,show.legend=F,size=.75, 
                  mapping=aes(x=beta,y=migration,color=env.var,xmin=ci.lb,
                              xmax=ci.ub,height=0)) +
-  theme_classic2() +
+  theme_classic() +
   labs(x="Spearman's r",y=NULL) +
   scale_color_manual(name="Variable",
                      values=c("#4477AA","#EE6677","#228833","#AA3377")) +
@@ -61,16 +69,23 @@ p <- p + facet_wrap(~env.var,nrow=4) +
 
 p
 
-
-
 ### Heat balance meta-regression (Panel b)
 hb.mod <- readRDS("Results/BergmannsRule_results_MR_heatBalance.rds")
 
+#Load data
+ecto <- read.csv("Data/herpdata_ph.csv", stringsAsFactors = F)
+
+# new column: thermoregulator (reptiles and anura) or thermoconformer (caudata)
+ecto$therm <- ifelse(ecto$order=="Caudata",
+                     "Thermoconf", # if TRUE
+                     "Thermoreg") # if FALSE
+
+# check
+table(ecto$order, ecto$therm)
+
 # Get sample sizes for figure legend
-hb <- readRDS("Results/BergmannsRule_results_correlations_20211114.rds")
-nrow(subset(hb,class=="reptile" |order=="Anura"))/7 # N thermoregulators
-nrow(subset(hb,order=="Caudata"))/7 # N thermoconformers
-rm(hb)
+nrow(subset(ecto,therm =="Thermoreg")) # N thermoregulators --> 108
+nrow(subset(ecto,therm=="Thermoconf")) # N thermoconformers --> 9
 
 # dataframe of models
 model <- data.frame(beta = hb.mod$beta,
@@ -82,8 +97,8 @@ model$beta <- transf.ztor(model$beta)
 model$ci.lb <- transf.ztor(model$ci.lb)
 model$ci.ub <- transf.ztor(model$ci.ub)
 
-model <- subset(model,env.var!="MP" & env.var!="MinT" & env.var!="PET")
-model$therm <- factor(model$therm,levels=c("TR","TC"))
+# model <- subset(model,env.var!="MP" & env.var!="MinT" & env.var!="PET")
+# model$therm <- factor(model$therm,levels=c("TR","TC"))
 
 # make plot
 p2 <- ggplot(model,aes(x=beta,y=therm),show.legend=F) +
@@ -93,7 +108,7 @@ p2 <- ggplot(model,aes(x=beta,y=therm),show.legend=F) +
   geom_errorbarh(data=model,show.legend=F,size=.75, 
                  mapping=aes(x=beta,y=therm,color=env.var,xmin=ci.lb,
                              xmax=ci.ub,height=0)) +
-  theme_classic2() +
+  theme_classic() +
   labs(x="Spearman's r",y=NULL) +
   scale_color_manual(name="Variable",
                      values=c("#4477AA")) +

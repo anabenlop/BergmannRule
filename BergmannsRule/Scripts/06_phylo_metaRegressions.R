@@ -5,9 +5,7 @@
 
 # Packages and working directory -----------------------------------------------
 library(dplyr)
-#library(taxize)
 library(metafor)
-#library(beepr)
 
 # setwd('D:/BergmannsRule_upload')
 
@@ -47,94 +45,131 @@ saveRDS(mod.hb,"Results/BergmannsRule_results_MR_heatBalance.rds")
 
 # 2. Migration Meta-Regression ------------------------------------------------
 
-# correlation data
-birds <- readRDS("Results/BergmannsRule_results_correlationsBirdsMR_20211115.rds")
+# load bird data with migratory info
+birds <- read.csv("Data/birds_ph_mig.csv", stringsAsFactors = F)
 
 # loading phylogenetic matrixes 
 load("Data/bird_phylo_cor.Rdata") #bird_phylo_cor
 
+# define phylo vcov matrix and random effects
+phylocor<-list(speciesname  = bird_phylo_cor)
+RE = list( ~1|speciesname, ~1|SPID)
 
 # Tavg model
 bird.tavg <- rma.mv(yi = z.cor.yi,
                 V = z.cor.vi,
-                data = subset(birds,env.var=="tavg"),
-                mods = ~ migration - 1,
-                random = list(~1|order/family/speciesname))
+                data = birds,
+                subset = env.var=="tavg",
+                mods = ~ migratory-1,
+                random = RE, R = phylocor)
+summary(bird.tavg)
+
+# save results
 saveRDS(bird.tavg,"Results/BergmannsRule_results_MR_mig_tavg.rds")
 rm(bird.tavg)
 
-# Tmin model
-bird.tmin <- rma.mv(yi = z.cor.yi,
+# Tavg model - no nomadic species
+bird.tavg_n <- rma.mv(yi = z.cor.yi,
                     V = z.cor.vi,
-                    data = subset(birds, env.var=='tmin'),
-                    mods = ~ migration - 1,
-                    random = list(~1|order/family/speciesname))
-saveRDS(bird.tmin,'Results/BergmannsRule_results_MR_mig_tmin.rds')
-rm(bird.tmin)
+                    data = birds,
+                    subset = env.var=="tavg" & migratory != "nomadic",
+                    mods = ~ migratory-1,
+                    random = RE, R = phylocor)
+summary(bird.tavg_n)
+
+# save results
+saveRDS(bird.tavg_n,"Results/BergmannsRule_results_MR_mig_tavg_n.rds")
+rm(bird.tavg_n)
 
 # Tmax model
 bird.tmax <- rma.mv(yi = z.cor.yi,
                     V = z.cor.vi,
-                    data = subset(birds, env.var=='tmax'),
-                    mods = ~ migration - 1,
-                    random = list(~1|order/family/speciesname))
+                    data = birds,
+                    subset = env.var=="tmax",
+                    mods = ~ migratory - 1,
+                    random = RE,  R = phylocor)
+summary(bird.tmax)
+
+# save results
 saveRDS(bird.tmax,'Results/BergmannsRule_results_MR_mig_tmax.rds')
 rm(bird.tmax)
 
-# Precipitation model
-bird.prec <- rma.mv(yi = z.cor.yi,
+# Tmax model - no nomadic species
+bird.tmax_n <- rma.mv(yi = z.cor.yi,
                     V = z.cor.vi,
-                    data = subset(birds, env.var=='prec'),
-                    mods = ~ migration - 1,
-                    random = list(~1|order/family/speciesname))
-saveRDS(bird.prec,'Results/BergmannsRule_results_MR_mig_prec.rds')
-rm(bird.prec)
+                    data = birds,
+                    subset = env.var=="tmax" & migratory != "nomadic",
+                    mods = ~ migratory - 1,
+                    random = RE,  R = phylocor)
+summary(bird.tmax_n)
 
-# PET model
-bird.pet <- rma.mv(yi = z.cor.yi,
-                    V = z.cor.vi,
-                    data = subset(birds, env.var=='pet'),
-                    mods = ~ migration - 1,
-                    random = list(~1|order/family/speciesname))
-saveRDS(bird.pet,'Results/BergmannsRule_results_MR_mig_pet.rds')
-rm(bird.pet)
+# save results
+saveRDS(bird.tmax_n,'Results/BergmannsRule_results_MR_mig_tmax_n.rds')
+rm(bird.tmax_n)
 
 # NPP model
 bird.npp <- rma.mv(yi = z.cor.yi,
                     V = z.cor.vi,
-                    data = subset(birds, env.var=='npp'),
-                    mods = ~ migration - 1,
-                    random = list(~1|order/family/speciesname))
+                    data = birds,
+                    subset = env.var=='npp',
+                    mods = ~ migratory - 1,
+                    random = RE,  R = phylocor)
+summary(bird.npp)
+
 saveRDS(bird.npp,'Results/BergmannsRule_results_MR_mig_npp.rds')
 rm(bird.npp)
+
+# NPP model - no nomadic
+bird.npp_n <- rma.mv(yi = z.cor.yi,
+                   V = z.cor.vi,
+                   data = birds,
+                   subset = env.var=='npp' & migratory != "nomadic",
+                   mods = ~ migratory - 1,
+                   random = RE,  R = phylocor)
+summary(bird.npp_n)
+
+saveRDS(bird.npp_n,'Results/BergmannsRule_results_MR_mig_npp_n.rds')
+rm(bird.npp_n)
 
 # NPP sd model
 bird.npp.sd <- rma.mv(yi = z.cor.yi,
                     V = z.cor.vi,
-                    data = subset(birds, env.var=='npp.sd'),
-                    mods = ~ migration - 1,
-                    random = list(~1|order/family/speciesname))
+                    data = birds, 
+                    subset = env.var=='npp.sd',
+                    mods = ~ migratory - 1,
+                    random = RE,  R = phylocor)
+summary(bird.npp.sd)
+
 saveRDS(bird.npp.sd,'Results/BergmannsRule_results_MR_mig_nppsd.rds')
 rm(bird.npp.sd)
 
+# NPP sd model -  no nomadic
+bird.npp.sd_n <- rma.mv(yi = z.cor.yi,
+                      V = z.cor.vi,
+                      data = birds, 
+                      subset = env.var=='npp.sd' & migratory != "nomadic",
+                      mods = ~ migratory - 1,
+                      random = RE,  R = phylocor)
+summary(bird.npp.sd_n)
 
+saveRDS(bird.npp.sd_n,'Results/BergmannsRule_results_MR_mig_nppsd_n.rds')
+rm(bird.npp.sd_n)
 
+# load fitted models
 bird.tavg <- readRDS('Results/BergmannsRule_results_MR_mig_tavg.rds')
-bird.tmin <- readRDS('Results/BergmannsRule_results_MR_mig_tmin.rds')
+bird.tavg_n <- readRDS('Results/BergmannsRule_results_MR_mig_tavg_n.rds')
 bird.tmax <- readRDS('Results/BergmannsRule_results_MR_mig_tmax.rds')
-bird.prec <- readRDS('Results/BergmannsRule_results_MR_mig_prec.rds')
-bird.pet <- readRDS('Results/BergmannsRule_results_MR_mig_pet.rds')
+bird.tmax_n <- readRDS('Results/BergmannsRule_results_MR_mig_tmax_n.rds')
 bird.npp <- readRDS('Results/BergmannsRule_results_MR_mig_npp.rds')
+bird.npp_n <- readRDS('Results/BergmannsRule_results_MR_mig_npp_n.rds')
 bird.npp.sd <- readRDS('Results/BergmannsRule_results_MR_mig_nppsd.rds')
+bird.npp.sd_n <- readRDS('Results/BergmannsRule_results_MR_mig_nppsd_n.rds')
 
 # save results in list
-bi.mr <- list(bird.tavg,bird.tmin,bird.tmax,bird.prec,bird.pet,bird.npp,bird.npp.sd)
-names(bi.mr) <- c("tavg","tmin","tmax","prec","pet","npp","npp.sd")
+bi.mr <- list(bird.tavg_n,bird.tmax_n,bird.npp_n,bird.npp.sd_n)
+names(bi.mr) <- c("tavg","tmax","npp","npp.sd")
 
 saveRDS(bi.mr,'Results/BergmannsRule_results_MR_mig.rds')
 
-# remove objects
-rm(list=ls(pattern="bird."))
-rm(env.vars,i)
-
+# End of script
 

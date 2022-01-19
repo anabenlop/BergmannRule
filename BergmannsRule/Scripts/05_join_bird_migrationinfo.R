@@ -45,50 +45,119 @@ missing <- unique(mig_b[is.na(mig_b$Migratory_status_3),]$speciesname)
 # missing <- data.frame(speciesname = missing)
 
 # use taxize to find synonyms of species with missing migratory status
-syn <- synonyms(missing, db = "itis")
-syn_df <- synonyms_df(syn) # 62 retrieved
+# syn <- synonyms(missing, db = "itis")
+# syn_df <- synonyms_df(syn) # 62 retrieved
+# 
+# # save species for which we found a syn in itis
+# write.csv(syn_df, "Data/syn_itis.csv", row.names = F)
+
+# load here synonyms dataset to avoid searching again
+syn_df <- read.csv("Data/syn_itis.csv", stringsAsFactors = F)
 
 # join syn with migratory dataset and keep those that match
-syn_mig <- left_join(syn_df[,c(".id", "syn_name", "acc_name")], mig_status[,c("speciesname","Migratory_status", "Migratory_status_3")], by = c("syn_name" = "speciesname"))
-syn_mig2 <- left_join(syn_mig, mig_status[,c("speciesname","Migratory_status", "Migratory_status_3")], by = c("acc_name" = "speciesname"))
-syn_mig2$Migratory_status_3 <- ifelse(is.na(syn_mig2$Migratory_status_3.x), syn_mig2$Migratory_status_3.y,syn_mig2$Migratory_status_3.x)
-syn_mig2$Migratory_status <- ifelse(is.na(syn_mig2$Migratory_status.x), syn_mig2$Migratory_status.y,syn_mig2$Migratory_status.x)
+temp <- left_join(syn_df[,c(".id", "syn_name", "acc_name")], mig_status[,c("speciesname","Migratory_status", "Migratory_status_3")], by = c("syn_name" = "speciesname"))
+temp2 <- left_join(temp, mig_status[,c("speciesname","Migratory_status", "Migratory_status_3")], by = c("acc_name" = "speciesname"))
+temp2$Migratory_status_3 <- ifelse(is.na(temp2$Migratory_status_3.x), temp2$Migratory_status_3.y,temp2$Migratory_status_3.x)
+temp2$Migratory_status <- ifelse(is.na(temp2$Migratory_status.x), temp2$Migratory_status.y,temp2$Migratory_status.x)
+temp2 <- temp2[!is.na(temp2$Migratory_status),]
 
-# repeat for another dataset
-syn2 <- synonyms(missing, db = "nbn")
-syn_df2 <- synonyms_df(syn2) # 62 retrieved
+# remove species with unknown mig status (extinct)
+temp2 <- temp2[temp2$Migratory_status != "unknown",]
+temp2$mig <- ifelse(temp2$Migratory_status == "resident", "resident", "migratory")
+syn_mig <- temp2[,c(".id", "syn_name", "acc_name","mig")]
 
+syn_mig <- syn_mig %>% 
+            group_by(.id) %>% 
+            summarize(mig = first(mig))
 
-# save species without migratory status and add synonym manually
-write.csv(missing, "Data/missing_mig.csv", row.names = F)
+# save species with mig info based on itis and Eyres et al. 2017
+write.csv(syn_mig, "Data/syn_mig.csv", row.names = F)
 
-# fix species without mig status
-birddata_temp[birddata_temp$Binomial == "Acanthis flammea", c("Migratory_status", "Migratory_status_3")] <- c("resident","full resident") #based on christinae, which includes latouchii
-birddata_temp[birddata_temp$Binomial == "Aethopyga latouchii", c("Migratory_status", "Migratory_status_3")] <- c("resident","full resident") #based on christinae, which includes latouchii
-birddata_temp[birddata_temp$Binomial == "Alcedo azurea", c("Migratory_status", "Migratory_status_3")] <- c("resident","full resident") # recorded as Ceyx azureus 
-birddata_temp[birddata_temp$Binomial == "Alcippe cinereiceps", c("Migratory_status", "Migratory_status_3")] <- c("resident","full resident") # All members in genus Alcippe are resident
-birddata_temp[birddata_temp$Binomial == "Psittacara leucophthalmus", c("Migratory_status", "Migratory_status_3")] <- c("resident","full resident") # recorded as Aratinga leucophtalma
-birddata_temp[birddata_temp$Binomial == "Eupsittula astec", c("Migratory_status", "Migratory_status_3")] <- c("resident","full resident") # Includes Aratinga nana/astec
-birddata_temp[birddata_temp$Binomial == "Zanda funerea", c("Migratory_status", "Migratory_status_3")] <- c("resident","partial resident") # Recorded as Calyptorhynchus funereus
-birddata_temp[birddata_temp$Binomial == "Synoicus ypsilophorus", c("Migratory_status", "Migratory_status_3")] <- c("resident","partial resident") # Recorded as Coturnix ypsilophora
-birddata_temp[birddata_temp$Binomial == "Dryobates scalaris", c("Migratory_status", "Migratory_status_3")] <- c("resident","full resident") # Recorded as Picoides scalaris
-birddata_temp[birddata_temp$Binomial == "Dyaphorophyia castanea", c("Migratory_status", "Migratory_status_3")] <- c("resident","full resident") # Recorded as Platysteira castanea
-birddata_temp[birddata_temp$Binomial == "Dyaphorophyia chalybea", c("Migratory_status", "Migratory_status_3")] <- c("resident","full resident") # Recorded as Platysteira chalybea
-birddata_temp[birddata_temp$Binomial == "Garrulax elliotii", c("Migratory_status", "Migratory_status_3")] <- c("resident","full resident") # Recorded as Trochalopteron elliotii
-birddata_temp[birddata_temp$Binomial == "Haemorhous mexicanus", c("Migratory_status", "Migratory_status_3")] <- c("directional migratory", "partial directional migrant") # Recorded as Carpodacus mexicanus
-birddata_temp[birddata_temp$Binomial == "Hemicircus sordidus", c("Migratory_status", "Migratory_status_3")] <- c("resident","full resident") # Recorded as	Hemicircus concretus/sordidus
-birddata_temp[birddata_temp$Binomial == "Nesoptilotis leucotis", c("Migratory_status", "Migratory_status_3")] <- c("resident","full resident") # Recorded as Lichenostomus leucotis
-birddata_temp[birddata_temp$Binomial == "Macronous kelleyi", c("Migratory_status", "Migratory_status_3")] <- c("resident","full resident") # Recorded as Macronus kelleyi
-birddata_temp[birddata_temp$Binomial == "Macronous ptilosus", c("Migratory_status", "Migratory_status_3")] <- c("resident","full resident") # Recorded as Macronus ptilosus
-birddata_temp[birddata_temp$Binomial == "Meiglyptes grammithorax", c("Migratory_status", "Migratory_status_3")] <- c("resident","full resident") # Recorded as Meiglyptes tristis
-birddata_temp[birddata_temp$Binomial == "Pardaliparus venustulus", c("Migratory_status", "Migratory_status_3")] <- c("dispersive migratory", "partial dispersive migrant") # Recorded as Periparus venustulus
-birddata_temp[birddata_temp$Binomial == "Zoothera interpres", c("Migratory_status", "Migratory_status_3")] <- c("resident","partial resident") # Recorded as Geockila interpres
-birddata_temp[birddata_temp$Binomial == "Turdus libonyanus", c("Migratory_status", "Migratory_status_3")] <- c("resident","full resident") # Recorded as Turdus libonyana
-birddata_temp[birddata_temp$Binomial == "Trogon ambiguus", c("Migratory_status", "Migratory_status_3")] <- c("directional migratory", "partial directional migrant") # Included in Trogon elegans
-birddata_temp[birddata_temp$Binomial == "Passer italiae", c("Migratory_status", "Migratory_status_3")] <- c("directional migratory", "partial directional migrant") # Included in Passer hispaniolensis
-birddata_temp[birddata_temp$Binomial == "Sephanoides sephaniodes", c("Migratory_status", "Migratory_status_3")] <- c("directional migratory", "partial directional migrant") # Recorded as Sephanoides sephanoides
-birddata_temp[birddata_temp$Binomial == "Spinus psaltria", c("Migratory_status", "Migratory_status_3")] <- c("directional migratory", "partial directional migrant") # Recorded as Carduelis psaltria
-birddata_temp[birddata_temp$Binomial == "Trichastoma tickelli", c("Migratory_status", "Migratory_status_3")] <- c("resident","full resident") # Recorded as Pellorneum tickelli
-birddata_temp[birddata_temp$Binomial == "Trichoglossus meyeri", c("Migratory_status", "Migratory_status_3")] <- c("resident","full resident") # Included in Trichoglossus flavoviridis
+# repeat for another dataset (nbn)
+# syn2 <- synonyms(missing, db = "nbn") # it takes quite some time
+# syn_df2 <- synonyms_df(syn2) # 62 retrieved
 
+# # save species for which we found a syn in itis
+# write.csv(syn_df2, "Data/syn_nbn.csv", row.names = F)
 
+# load here synonyms dataset to avoid searching again
+syn_df2 <- read.csv("Data/syn_nbn.csv", stringsAsFactors = F)
+
+# join syn with migratory dataset and keep those that match
+temp3 <- left_join(syn_df2[,c(".id", "nameString")], mig_status[,c("speciesname","Migratory_status", "Migratory_status_3")], by = c("nameString" = "speciesname"))
+temp3 <- temp3[!is.na(temp3$Migratory_status),]
+
+# add mig column based on migratory status
+temp3$mig <- ifelse(temp3$Migratory_status == "resident", "resident", "migratory")
+syn_mig2 <- temp3[,c(".id", "nameString", "mig")]
+
+syn_mig2 <- syn_mig2 %>% 
+  group_by(.id) %>% 
+  summarize(mig = first(mig))
+
+# save species with mig info based on nbn and Eyres et al. 2017
+write.csv(syn_mig2, "Data/syn_mig2.csv", row.names = F)
+
+# join original dataset with mig info, with missing species with mig status fixed after finding synonyms in itis and nbn
+temp4 <- left_join(mig_b,syn_mig, by = c("speciesname" = ".id"))
+temp5 <- left_join(temp4,syn_mig2, by = c("speciesname" = ".id"))
+
+temp5$Migratory_status <- ifelse(temp5$Migratory_status == "resident", "resident",
+                                 ifelse(temp5$Migratory_status == "nomadic","nomadic", "migratory"))
+
+temp5$migratory <- ifelse(!is.na(temp5$Migratory_status), temp5$Migratory_status, 
+                         ifelse(!is.na(temp5$mig.x),temp5$mig.x, temp5$mig.y)) 
+
+missing2 <- unique(temp5[is.na(temp5$migratory),]$speciesname) # 45 species need to be fixed manually
+
+# fix species without mig status manually (list of species in missing2)
+temp5[temp5$speciesname  == "Alcedo cyanopectus", "migratory"] <- "resident" # https://birdsoftheworld.org/bow/species/inbkin2/cur/movement
+temp5[temp5$speciesname  == "Aramides cajanea", "migratory"] <- "resident" #https://birdsoftheworld.org/bow/species/gycwor1/cur/introduction#mignat
+temp5[temp5$speciesname  == "Alaudala cheleensis", "migratory"] <- "migratory" # Eyres et al. 2017, recorded as Calandrella cheleensis
+temp5[temp5$speciesname  == "Chlorospingus flavopectus", "migratory"] <- "resident" # https://birdsoftheworld.org/bow/species/cobtan1/cur/introduction#mig
+temp5[temp5$speciesname  == "Kittacincla luzoniensis", "migratory"] <- "resident" # https://birdsoftheworld.org/bow/species/whbsha1/cur/introduction#mig, recorded as Copsychus luzoniensis
+temp5[temp5$speciesname  == "Melloria quoyi", "migratory"] <- "resident" # https://birdsoftheworld.org/bow/species/blabut1/cur/introduction#mig, recorded as Cracticus quoyi
+temp5[temp5$speciesname  == "Origma murina", "migratory"] <- "resident" # https://birdsoftheworld.org/bow/species/rumwar1/cur/introduction#mig, recorded as Crateroscelis murina
+temp5[temp5$speciesname  == "Origma robusta", "migratory"] <- "resident" # https://birdsoftheworld.org/bow/species/momwar1/cur/introduction#mig, recorded as Crateroscelis robusta
+temp5[temp5$speciesname  == "Cyanoloxia cyanoides", "migratory"] <- "resident" # https://birdsoftheworld.org/bow/species/bubgro1/cur/distribution
+temp5[temp5$speciesname  == "Cyanoderma ruficeps", "migratory"] <- "resident" # https://birdsoftheworld.org/bow/species/rucbab1/cur/introduction#mig
+temp5[temp5$speciesname  == "Schoeniclus elegans", "migratory"] <- "migratory" #  Eyres et al. 2017, recorded as Emberiza elegans
+temp5[temp5$speciesname  == "Schoeniclus spodocephala", "migratory"] <- "migratory" #  Eyres et al. 2017, recorded as Emberiza spodocephala
+temp5[temp5$speciesname  == "Fringillaria tahapisi", "migratory"] <- "migratory" #  Eyres et al. 2017, recorded as Emberiza tahapisi
+temp5[temp5$speciesname  == "Alopecoenas beccarii", "migratory"] <- "resident" #  https://birdsoftheworld.org/bow/species/brgdov1/cur/introduction#mignat (lumped taxon)
+temp5[temp5$speciesname  == "Setopagis parvulus", "migratory"] <- "migratory" #  Eyres et al. 2017, recorded as Caprimulgus parvulus
+temp5[temp5$speciesname  == "Kurochkinegramma hypogrammicum", "migratory"] <- "resident" #  Eyres et al. 2017, recorded as Hypogramma hypogrammicum
+temp5[temp5$speciesname  == "Bolemoreus frenatus", "migratory"] <- "resident" # https://birdsoftheworld.org/bow/species/brihon1/cur/introduction#mig
+temp5[temp5$speciesname  == "Mixornis gularis", "migratory"] <- "resident" # https://birdsoftheworld.org/bow/species/sttbab1/cur/introduction#mig
+temp5[temp5$speciesname  == "Melaenornis chocolatinus", "migratory"] <- "resident" # Eyres et al. 2017, recorded as Dioptrornis chocolatinus
+temp5[temp5$speciesname  == "Kieneria crissalis", "migratory"] <- "resident" # Eyres et al. 2017, recorded as Melozone crissalis
+temp5[temp5$speciesname  == "Kieneria fusca", "migratory"] <- "resident" # Eyres et al. 2017, recorded as Melozone fusca
+temp5[temp5$speciesname  == "Sporophila angolensis", "migratory"] <- "resident" # https://birdsoftheworld.org/bow/species/cbsfin/cur/introduction#mig
+temp5[temp5$speciesname  == "Otus flammeolus", "migratory"] <- "migratory" # Eyres et al. 2017, recorded as Megascops flammeolus
+temp5[temp5$speciesname  == "Pardaliparus elegans", "migratory"] <- "resident" # Eyres et al. 2017, recorded as Periparus elegans
+temp5[temp5$speciesname  == "Machlolophus spilonotus", "migratory"] <- "resident" # Eyres et al. 2017, recorded as Parus spilonotus
+temp5[temp5$speciesname  == "Nannopterum auritus", "migratory"] <- "migratory" # Eyres et al. 2017, recorded as Phalacrocorax auritus
+temp5[temp5$speciesname  == "Phyllergates cucullatus", "migratory"] <- "resident" # Eyres et al. 2017, recorded as Phyllergates heterolaemus
+temp5[temp5$speciesname  == "Seicercus borealis", "migratory"] <- "migratory" # Eyres et al. 2017, recorded as Phylloscopus borealis
+temp5[temp5$speciesname  == "Abrornis inornata", "migratory"] <- "migratory" # Eyres et al. 2017, recorded as Phylloscopus inornatus
+temp5[temp5$speciesname  == "Abrornis maculipennis", "migratory"] <- "resident" # Eyres et al. 2017, recorded as Phylloscopus maculipennis
+temp5[temp5$speciesname  == "Seicercus tenellipes", "migratory"] <- "migratory" # Eyres et al. 2017, recorded as Phylloscopus tenellipes
+temp5[temp5$speciesname  == "Pipra erythrocephala", "migratory"] <- "resident" # https://birdsoftheworld.org/bow/species/gohman1/cur/distribution, recorded as Ceratopipra erythrocephala
+temp5[temp5$speciesname  == "Pipraeidea bonariensis", "migratory"] <- "migratory" # Eyres et al. 2017, recorded as Thraupis bonariensis
+temp5[temp5$speciesname  == "Poecilodryas albispecularis", "migratory"] <- "resident" # Eyres et al. 2017, recorded as Heteromyias albispecularis
+temp5[temp5$speciesname  == "Rhipidura spilodera", "migratory"] <- "resident" # Eyres et al. 2017, recorded as Rhipidura verreauxi
+temp5[temp5$speciesname  == "Myrmelastes leucostigma", "migratory"] <- "resident" # Eyres et al. 2017, recorded as Schistocichla leucostigma
+temp5[temp5$speciesname  == "Aethomyias arfakianus", "migratory"] <- "resident" # Eyres et al. 2017, recorded as Sericornis arfakianus
+temp5[temp5$speciesname  == "Neosericornis citreogularis", "migratory"] <- "resident" # Eyres et al. 2017, recorded as Sericornis citreogularis
+temp5[temp5$speciesname  == "Aethomyias spilodera", "migratory"] <- "resident" # Eyres et al. 2017, recorded as Sericornis spilodera
+temp5[temp5$speciesname  == "Curruca subcoerulea", "migratory"] <- "resident" # Eyres et al. 2017, recorded as Sylvia subcaerulea
+temp5[temp5$speciesname  == "Luscinia cyanura", "migratory"] <- "migratory" # Eyres et al. 2017, recorded as Tarsiger cyanurus
+temp5[temp5$speciesname  == "Tangara episcopus", "migratory"] <- "resident" # Eyres et al. 2017, recorded as Thraupis episcopus
+temp5[temp5$speciesname  == "Tangara palmarum", "migratory"] <- "resident" # Eyres et al. 2017, recorded as Thraupis palmarum
+temp5[temp5$speciesname  == "Tangara sayaca", "migratory"] <- "migratory" # Eyres et al. 2017, recorded as Thraupis sayaca
+temp5[temp5$speciesname  == "Troglodytes musculus", "migratory"] <- "migratory" # Eyres et al. 2017, recorded as Troglodytes aedon
+
+birds_ph_mig <- temp5[,c("speciesname", "class", "order", "family", "freq" , "env.var", "corr.coeff",
+                         "z.cor.yi", "z.cor.vi","SPID","migratory")]
+
+write.csv(birds_ph_mig, "Data/birds_ph_mig.csv", row.names = F)

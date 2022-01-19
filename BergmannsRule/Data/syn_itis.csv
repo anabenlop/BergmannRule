@@ -1,0 +1,79 @@
+".id","sub_tsn","acc_tsn","syn_author","syn_name","syn_tsn","acc_name","acc_author"
+"Acanthis flammea","179241","179241","(Linnaeus, 1758)","Carduelis flammea","179230",NA,NA
+"Acanthis hornemanni","179238","179238","(Holböll, 1843)","Carduelis hornemanni","179231",NA,NA
+"Actitis macularia","176612","726049","(Linnaeus, 1766)","Actitis macularia","176612","Actitis macularius","(Linnaeus, 1766)"
+"Actitis macularia","176612","726049","Linnaeus, 1766","Tringa macularia","176631","Actitis macularius","(Linnaeus, 1766)"
+"Aglaiocercus kingi","555287","693170","G. R. Graves, 1993","Heliangelus zusii","555248","Aglaiocercus kingii","(R. Lesson, 1832)"
+"Aglaiocercus kingi","555287","693170","(R. Lesson, 1832)","Aglaiocercus kingi","555287","Aglaiocercus kingii","(R. Lesson, 1832)"
+"Aglaiocercus kingi","555287","693170","R. Lesson, 1832","Trochilus kingi","1149951","Aglaiocercus kingii","(R. Lesson, 1832)"
+"Alcedo cyanopectus","692716","692716","(Lafresnaye, 1840)","Alcedo cyanopecta","554556",NA,NA
+"Alethe poliocephala","558522","916176","(Bonaparte, 1850)","Alethe poliocephala","558522","Pseudalethe poliocephala","(Bonaparte, 1850)"
+"Mareca americana","175095","175094","(Gmelin, 1789)","Mareca americana","175095","Anas americana","Gmelin, 1789"
+"Anthreptes collaris","558617","916388","(Vieillot, 1819)","Anthreptes collaris","558617","Hedydipna collaris","(Vieillot, 1819)"
+"Baillonius bailloni","554296","1145221","(Vieillot, 1819)","Baillonius bailloni","554296","Pteroglossus bailloni","(Vieillot, 1819)"
+"Basileuterus rivularis","558869","950069","(zu Wied-Neuwied, 1821)","Basileuterus rivularis","558869","Myiothlypis rivularis","(zu Wied-Neuwied, 1821)"
+"Basileuterus rivularis","558869","950069","(zu Wied-Neuwied, 1821)","Phaeothlypis rivularis","726200","Myiothlypis rivularis","(zu Wied-Neuwied, 1821)"
+"Thryothorus leucotis","563453","915961","Lafresnaye, 1845","Thryothorus leucotis","563453","Cantorchilus leucotis","(Lafresnaye, 1845)"
+"Thryothorus modestus","563456","915960","Cabanis, 1861","Thryothorus modestus","563456","Cantorchilus modestus","(Cabanis, 1861)"
+"Haemorhous cassinii","997804","997804","S. F. Baird, 1854","Carpodacus cassinii","179190",NA,NA
+"Haemorhous mexicanus","997805","997805","(P. L. Statius Müller, 1776)","Carpodacus mexicanus","179191",NA,NA
+"Haemorhous purpureus","997803","997803","(J. F. Gmelin, 1789)","Carpodacus purpureus","179186",NA,NA
+"Cettia fortipes","559159","916921","(Hodgson, 1845)","Cettia fortipes","559159","Horornis fortipes","Hodgson, 1845"
+"Cettia ruficapilla","559163","916923","(E. P. Ramsay, 1875)","Cettia ruficapilla","559163","Horornis ruficapilla","(E. P. Ramsay, 1875)"
+"Anser caerulescens","175029","175038","(Linnaeus, 1758)","Anser caerulescens","175029","Chen caerulescens","(Linnaeus, 1758)"
+"Anser caerulescens","175029","175038","Pallas, 1769","Anser hyperboreus","175030","Chen caerulescens","(Linnaeus, 1758)"
+"Larus philadelphia","176839","824040","(Ord, 1815)","Larus philadelphia","176839","Chroicocephalus philadelphia","(Ord, 1815)"
+"Ciccaba virgata","555435","686689","(Cassin, 1849)","Ciccaba virgata","555435","Strix virgata","(Cassin, 1849)"
+"Ciccaba virgata","555435","686689","Cassin, 1849","Syrnium virgatum","1063464","Strix virgata","(Cassin, 1849)"
+"Cormobates leucophaeus","559485","711580","(Latham, 1802)","Cormobates leucophaeus","559485","Cormobates leucophaea","(Latham, 1802)"
+"Diglossopis caerulescens","559791","997763","P. L. Sclater, 1856","Diglossopis caerulescens","559791","Diglossa caerulescens","(P. L. Sclater, 1856)"
+"Diglossopis cyanea","559792","997764","(Lafresnaye, 1840)","Diglossopis cyanea","559792","Diglossa cyanea","(Lafresnaye, 1840)"
+"Cercotrichas leucophrys","559132","916327","(Vieillot, 1817)","Cercotrichas leucophrys","559132","Erythropygia leucophrys","(Vieillot, 1817)"
+"Cercotrichas paena","559134","916329","(A. Smith, 1836)","Cercotrichas paena","559134","Erythropygia paena","A. Smith, 1836"
+"Cercotrichas quadrivirgata","559136","916324","(Reichenow, 1879)","Cercotrichas quadrivirgata","559136","Erythropygia quadrivirgata","(Reichenow, 1879)"
+"Hylocharis leucotis","178069","693165","(Vieillot, 1818)","Hylocharis leucotis","178069","Basilinna leucotis","(Vieillot, 1818)"
+"Hylocharis leucotis","178069","693165","Vieillot, 1818","Trochilus leucotis","1149729","Basilinna leucotis","(Vieillot, 1818)"
+"Ixos everetti","560619","916246","(Tweeddale, 1877)","Ixos everetti","560619","Hypsipetes everetti","(Tweeddale, 1877)"
+"Ixos philippinus","560622","916241","(J. R. Forster, 1795)","Ixos philippinus","560622","Hypsipetes philippinus","(J. R. Forster, 1795)"
+"Molothrus badius","561174","729210","(Vieillot, 1819)","Molothrus badius","561174","Agelaioides badius","(Vieillot, 1819)"
+"Monarcha trivirgatus","561203","916291","(Temminck, 1826)","Monarcha trivirgatus","561203","Symposiachrus trivirgatus","(Temminck, 1826)"
+"Basileuterus fulvicauda","558860","950068","(von Spix, 1825)","Basileuterus fulvicauda","558860","Myiothlypis fulvicauda","(von Spix, 1825)"
+"Basileuterus fulvicauda","558860","950068","(von Spix, 1825)","Phaeothlypis fulvicauda","726199","Myiothlypis fulvicauda","(von Spix, 1825)"
+"Basileuterus leucoblepharus","558864","950065","(Vieillot, 1817)","Basileuterus leucoblepharus","558864","Myiothlypis leucoblephara","(Vieillot, 1817)"
+"Basileuterus luteoviridis","558866","950062","(Bonaparte, 1845)","Basileuterus luteoviridis","558866","Myiothlypis luteoviridis","(Bonaparte, 1845)"
+"Nectarinia olivacea","561525","916402","(A. Smith, 1840)","Nectarinia olivacea","561525","Cyanomitra olivacea","(A. Smith, 1840)"
+"Nectarinia senegalensis","561541","916408","(Linnaeus, 1766)","Nectarinia senegalensis","561541","Chalcomitra senegalensis","(Linnaeus, 1766)"
+"Nyctipolus nigrescens","1077338","1077338","Cabanis, 1849","Caprimulgus nigrescens","555564",NA,NA
+"Ochthoeca diadema","711539","711539","(Hartlaub, 1843)","Silvicultrix diadema","563005",NA,NA
+"Otus flammeolus","177878","1063247","(Kaup, 1852)","Otus flammeolus","177878","Psiloscops flammeolus","(Kaup, 1852)"
+"Otus flammeolus","177878","1063247","(Kaup, 1852)","Otus flammeolus flammeolus","177879","Psiloscops flammeolus","(Kaup, 1852)"
+"Otus flammeolus","177878","1063247","Kaup, 1852","Scops flammeola","1063329","Psiloscops flammeolus","(Kaup, 1852)"
+"Phalaropus fulicaria","554376","176734","(Linnaeus, 1758)","Phalaropus fulicaria","554376","Phalaropus fulicarius","(Linnaeus, 1758)"
+"Thryothorus maculipectus","563455","915953","Lafresnaye, 1845","Thryothorus maculipectus","563455","Pheugopedius maculipectus","(Lafresnaye, 1845)"
+"Pseudorectes ferrugineus","916837","916837","(Bonaparte, 1850)","Pitohui ferrugineus","562215",NA,NA
+"Melanorectes nigrescens","916835","916835","(Schlegel, 1871)","Pitohui nigrescens","562218",NA,NA
+"Pygochelidon cyanoleuca","726113","561625","(Vieillot, 1817)","Pygochelidon cyanoleuca","726113","Notiochelidon cyanoleuca","(Vieillot, 1817)"
+"Rhipidura spilodera","562762","917244","G. R. Gray, 1870","Rhipidura spilodera","562762","Rhipidura verreauxi spilodera","G. R. Gray, 1870"
+"Saxicola torquata","554448","726114","(Linnaeus, 1766)","Saxicola torquata","554448","Saxicola torquatus","(Linnaeus, 1766)"
+"Spinus magellanicus","997865","997865","(Vieillot, 1805)","Carduelis magellanica","559049",NA,NA
+"Spinus pinus","179246","179246","(A. Wilson, 1810)","Carduelis pinus","179233",NA,NA
+"Spinus psaltria","179254","179254","(Say, 1822)","Carduelis psaltria","179234",NA,NA
+"Spinus tristis","179249","179249","(Linnaeus, 1758)","Carduelis tristis","179236",NA,NA
+"Spizelloides arborea","997961","997961","(A. Wilson, 1810)","Spizella arborea","179432",NA,NA
+"Spizelloides arborea","997961","997961","A. Wilson, 1810","Fringilla arborea","997962",NA,NA
+"Selasphorus calliope","1149434","1149434","(Gould, 1847)","Stellula calliope","178048",NA,NA
+"Selasphorus calliope","1149434","1149434","Gould, 1847","Trochilus calliope","1149993",NA,NA
+"Streptopelia senegalensis","177147","1125211","(Linnaeus, 1766)","Streptopelia senegalensis","177147","Spilopelia senegalensis","(Linnaeus, 1766)"
+"Streptopelia senegalensis","177147","1125211","(Linnaeus, 1766)","Stigmatopelia senegalensis","1125277","Spilopelia senegalensis","(Linnaeus, 1766)"
+"Streptopelia senegalensis","177147","1125211","Linnaeus, 1766","Columba senegalensis","1125278","Spilopelia senegalensis","(Linnaeus, 1766)"
+"Systellura longirostris","1077346","1077346","Bonaparte, 1825","Caprimulgus longirostris","555557",NA,NA
+"Telophorus sulfureopectus","563346","916263","(Lesson, 1831)","Telophorus sulfureopectus","563346","Chlorophoneus sulfureopectus","(Lesson, 1831)"
+"Tiaris obscura","563470","726209","(d'Orbigny & Lafresnaye, 1837)","Tiaris obscura","563470","Tiaris obscurus","(d'Orbigny & Lafresnaye, 1837)"
+"Tiaris obscura","563470","726209","(d'Orbigny & Lafresnaye, 1837)","Sporophila obscura","997944","Tiaris obscurus","(d'Orbigny & Lafresnaye, 1837)"
+"Tiaris obscura","563470","726209","d'Orbigny & Lafresnaye, 1837","Emberiza obscura","997945","Tiaris obscurus","(d'Orbigny & Lafresnaye, 1837)"
+"Oreothlypis ruficapilla","950106","950018","(A. Wilson, 1811)","Vermivora ruficapilla","178861","Leiothlypis ruficapilla","(A. Wilson, 1811)"
+"Oreothlypis ruficapilla","950106","950018","A. Wilson, 1811","Sylvia ruficapilla","950105","Leiothlypis ruficapilla","(A. Wilson, 1811)"
+"Oreothlypis ruficapilla","950106","950018","(A. Wilson, 1811)","Oreothlypis ruficapilla","950106","Leiothlypis ruficapilla","(A. Wilson, 1811)"
+"Oreothlypis virginiae","950108","950019","(S. F. Baird, 1860)","Vermivora virginiae","178864","Leiothlypis virginiae","(S. F. Baird, 1860)"
+"Oreothlypis virginiae","950108","950019","S. F. Baird, 1860","Helmithophila virginiae","950107","Leiothlypis virginiae","(S. F. Baird, 1860)"
+"Oreothlypis virginiae","950108","950019","(S. F. Baird, 1860)","Oreothlypis virginiae","950108","Leiothlypis virginiae","(S. F. Baird, 1860)"
