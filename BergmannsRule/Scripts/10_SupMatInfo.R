@@ -40,6 +40,42 @@ x <- subset(am,env.var=='prec') # set data
 round(nrow(subset(x, z.cor.yi > 0)) / nrow(x) * 100,digits=2) #% pos
 round(nrow(subset(x, z.cor.yi < 0)) / nrow(x) * 100,digits=2) #% neg
 
+# Check whether the number of cells per species influences the intraspecies correlation -----
+# amphibians
+ggplot(am) + geom_point(aes(freq,z.cor.yi)) + #geom_smooth(aes(freq,z.cor.yi), method = "lm") +
+                facet_grid(rows = vars(env.var))
+
+ggsave(filename='Figures/Figure_cor-Ncells_amph.png', 
+       width=180, height=120, units = 'mm', dpi=600)
+
+
+# reptiles
+ggplot(re) + geom_point(aes(freq,z.cor.yi)) + #geom_smooth(aes(freq,z.cor.yi), method = "lm") +
+                facet_grid(rows = vars(env.var))
+
+ggsave(filename='Figures/Figure_cor-Ncells_rept.png', 
+       width=180, height=120, units = 'mm', dpi=600)
+
+# birds
+ggplot(bi) + geom_point(aes(freq,z.cor.yi)) + #geom_smooth(aes(freq,z.cor.yi), method = "lm") +
+                facet_grid(rows = vars(env.var))
+
+ggsave(filename='Figures/Figure_cor-Ncells_birds.png', 
+       width=180, height=120, units = 'mm', dpi=600)
+
+# mammals
+ggplot(ma) + geom_point(aes(freq,z.cor.yi)) + #geom_smooth(aes(freq,z.cor.yi), method = "lm") +
+              facet_grid(rows = vars(env.var))
+ggsave(filename='Figures/Figure_cor-Ncells_mam.png', 
+       width=180, height=120, units = 'mm', dpi=600)
+
+
+### Add all maps to one figure
+ggarrange(amcells,recells,bicells,macells,labels="auto") #,font.label = list(size=8))
+
+ggsave(filename='Figures/Figure_cor-Ncells.png', 
+       width=180, height=120, units = 'mm', dpi=600)
+
 
 # Table S3.3: Migration meta-regression ---------------------------------------
 
@@ -58,18 +94,28 @@ round(x$QE, digits=1) # QE
 x$QEp # p val for QE
 
 # Appendix S1: Data sources ----------------------------------------------------
+# get data before pooling into cells
+# dat_raw <- readRDS('Data/BergmannsRule_data_final_20211031.rds')
 
 # get data used for correlations
-cor.dat <- readRDS('Results/BergmannsRule_results_correlations_20211114.rds')
+cor.dat <- readRDS('Results/BergmannsRule_results_correlations_20211114.rds') # freq is number of cells
+dat <- readRDS('Data/BergmannsRule_data_forCorrelations_20211114.rds') # clean data pooled into cells (at least 5 or more). Sample size is number of individuals/body size records
 
-# get data before pooling into cells
-dat <- readRDS('Data/BergmannsRule_data_final_20211031.rds')
+# get final data
+am <- read.csv("Data/amphdata_ph.csv", stringsAsFactors = F)
+re <- read.csv("Data/reptdata_ph.csv", stringsAsFactors = F)
+bi <- read.csv("Data/birddata_ph.csv", stringsAsFactors = F)
+ma <- read.csv("Data/mamdata_ph.csv", stringsAsFactors = F)
+
+finaldata <- rbind(am,re, bi,ma)
+write.csv(finaldata, "Data/finaldata.csv", row.names = F)
 
 # subset data to only include species in correlation results
-dat <- subset(dat,speciesname %in% cor.dat$speciesname)
+# dat_raw <- subset(dat_raw,speciesname %in% finaldata$speciesname)
+dat <- subset(dat,speciesname %in% finaldata$speciesname)
 
-EH <- subset(dat,database=='Henry Lit Search')
-x <- plyr::count(dat,vars='citation')
+EH <- subset(dat_raw,database=='Henry Lit Search')
+x <- plyr::count(dat_raw,vars='citation')
 
 
 # Results section --------------------------------------------------------------
@@ -106,7 +152,7 @@ sum(subset(ma, env.var == 'tavg')$freq) # total cells, 25226
 
 # Other data for paper ---------------------------------------------------------
 # Check latitudinal range of classes
-dat <- readRDS('Data/BergmannsRule_data_forCorrelations_20211102.rds')
+dat <- readRDS('Data/BergmannsRule_data_forCorrelations_20211114.rds')
 am <- subset(dat, class== 'amphibian')
 re <- subset(dat, class== 'reptile')
 bi <- subset(dat, class== 'bird')
@@ -130,7 +176,7 @@ range(ma$y) # ~133
 boxplot(am$y, re$y, bi$y, ma$y)
 
 # Check sample size
-results <- readRDS('Results/BergmannsRule_results_correlations_20211114.rds')
+results <- readRDS('Results/BergmannsRule_results_correlations_20211224.rds')
 nrow(subset(results, env.var == 'tavg')) # total species
 nrow(subset(results, env.var == 'tavg' & class == 'amphibian'))
 nrow(subset(results, env.var == 'tavg' & class == 'reptile'))

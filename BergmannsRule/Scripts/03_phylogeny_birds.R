@@ -100,7 +100,7 @@ fix_taxa$species <- str_to_sentence(fix_taxa$search_string) #convert to upper ca
 
 birddata <- left_join(birddata,fix_taxa, by =c("speciesname" = "species"))
 birddata$speciesname <-ifelse(!is.na(birddata$unique_name), birddata$unique_name, birddata$speciesname)
-birddata <- birddata[,-c(11:12)] # remove join columns
+birddata <- birddata[,-c(10:11)] # remove join columns
 
 species <- sort(unique(as.character(birddata$speciesname))) #1546 species, we lose some species which were recorded as separate species, now they are duplicates
 

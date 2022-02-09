@@ -53,6 +53,9 @@ dat[dat$speciesname == "Hirundo pyrrhonota", "speciesname"] <- "Petrochelidon py
 dat[dat$speciesname == "Ceyx picta", "speciesname"] <- "Ispidina picta"
 dat[dat$speciesname == "Halcyon sanctus", "speciesname"] <- "Todiramphus sanctus"
 
+# save data with fixed species names
+write.csv(dat, "Data/Bergmanns_bodysize.csv", row.names = F)
+
 # 2. Perform correlations for all species --------------------------------------
 
 # vector of environmental variables

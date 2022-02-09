@@ -17,7 +17,8 @@ library(raster)  # intersect()
 library(rworldmap)
 library(rworldxtra)
 
-# setwd("D:/BergmannsRule_upload")
+# clean environment
+rm(list=ls())
 
 # Figure 1: Map of Occurrences -------------------------------------------------
 
@@ -25,7 +26,11 @@ library(rworldxtra)
 # old.dat <- readRDS("Data/BergmannsRule_data_final_20211031.rds")
 
 # get data divided into cells
-data <- readRDS("Data/BergmannsRule_data_forCorrelations_20211114.rds")
+dat <- readRDS("Data/BergmannsRule_data_forCorrelations_20211114.rds")
+data <- read.csv("Data/finaldata.csv", stringsAsFactors = F)
+
+# subset data to only include species in correlation results
+dat <- subset(dat,speciesname %in% finaldata$speciesname)
 
 # make world map
 world <- getMap(resolution = "high")
@@ -49,7 +54,7 @@ map
 ### Birds
 
 # subset data
-birds <- subset(data,class=="bird")
+birds <- subset(dat,class=="bird")
 
 # get phylopic
 img <- image_data("19f3f55c-f942-464b-a61f-27794b9000f7", size = "512")[[1]]
@@ -69,7 +74,7 @@ birdmap
 ### Mammals
 
 # subset data
-mammals <- subset(data,class=="mammal")
+mammals <- subset(dat,class=="mammal")
 
 # get phylopic
 img <- image_data("bb553480-e37f-4236-8c69-ce9fa8116b39", size = "512")[[1]]
@@ -89,7 +94,7 @@ mammap
 ### Reptiles
 
 # subset data
-reptiles <- subset(data,class=="reptile")
+reptiles <- subset(dat,class=="reptile")
 
 # get phylopic
 img <- image_data("0e2a08ed-13a1-4b9e-a047-ef4045e7d88f", size = "512")[[1]]
@@ -109,7 +114,7 @@ repmap
 ### Amphibians
 
 # subset data
-amphibians <- subset(data,class=="amphibian")
+amphibians <- subset(dat,class=="amphibian")
 
 # get phylopic
 img <- image_data("4679516b-405b-444f-974d-9775876716e2", size = "512")[[1]]
