@@ -99,7 +99,7 @@ x$QEp # p val for QE
 
 # get data used for correlations
 cor.dat <- readRDS('Results/BergmannsRule_results_correlations_20211114.rds') # freq is number of cells
-dat <- readRDS('Data/BergmannsRule_data_forCorrelations_20211114.rds') # clean data pooled into cells (at least 5 or more). Sample size is number of individuals/body size records
+dat <- read.csv('Data/Bergmanns_bodysize.csv') # clean data before pooling into cells. Sample size is number of individuals/body size records
 
 # get final data
 am <- read.csv("Data/amphdata_ph.csv", stringsAsFactors = F)
