@@ -145,22 +145,19 @@ species[!species %in% as.character(tree_random$tip.label)] #listed in our databa
 tree_random$tip.label[!as.character(tree_random$tip.label) %in% species] # listed in the tree but not in our database
 
 ##I have a problem with a species labeled "mrcaott319315ott366155", and another labeled 
-# "mrcaott62482ott62486" in the tree
 
-## Also, "Artibeus jamaicensis"     "Artibeus planirostris"    "Geomys bursarius" 
-# "Miniopterus schreibersii" "Myotis lucifugus" "Sturnira luisi" are in my data but not in the tree
+## Also, "Miniopterus schreibersii" "Myotis lucifugus" "Sturnira luisi" are in my data but not in the tree
 
 # try to see which species is that
 
-test<-tnrs_match_names(names = c("Artibeus jamaicensis","Artibeus planirostris","Geomys bursarius",
-                                 "Miniopterus schreibersii", "Myotis lucifugus", "Sturnira luisi"))
+test<-tnrs_match_names(names = c("Miniopterus schreibersii", "Myotis lucifugus", "Sturnira luisi"))
 
-tree_test <- tol_induced_subtree(ott_ids = c("366155",  "62486"), label_format = "name")
+tree_test <- tol_induced_subtree(ott_ids = c("366155", "62486"), label_format = "name")
 
 # Miniopterus schreibersii is mrcaott319315ott366155 and Artibeus planirostris is 62486
 # we fix them here
 tree_random$tip.label[tree_random$tip.label =="mrcaott319315ott366155"] <-"Miniopterus schreibersii"
-tree_random$tip.label[tree_random$tip.label =="mrcaott62482ott62486"] <-"Artibeus planirostris"
+# tree_random$tip.label[tree_random$tip.label =="mrcaott62482ott62486"] <-"Artibeus planirostris"
 
 tiff("Results/mam_phylogenetic_tree_pruned.tiff",
      height=20, width=10,
@@ -182,7 +179,7 @@ save(tree_random, file = "Data/mam_tree_random.Rdata")
 
 # before we need to make sure that tree labels and database
 # use the same nomenclature
-setdiff(mamdata$speciesname, as.character(tree_random$tip.label)) # "Artibeus jamaicensis" "Geomys bursarius"     "Myotis lucifugus"     "Sturnira luisi" still missing
+setdiff(mamdata$speciesname, as.character(tree_random$tip.label)) # "Myotis lucifugus" "Sturnira luisi" still missing
 setdiff(as.character(tree_random$tip.label),mamdata$speciesname)
 
 # exclude species in the tree that are not in dataset

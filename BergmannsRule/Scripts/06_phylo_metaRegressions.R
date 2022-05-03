@@ -171,5 +171,41 @@ names(bi.mr) <- c("tavg","tmax","npp","npp.sd")
 
 saveRDS(bi.mr,'Results/BergmannsRule_results_MR_mig.rds')
 
+# 3. Test mammals with body mass  ------------------------------------------------
+# Freckleton et al. 2003 --> Bergmann’s rule does depend on body mass: larger species follow the rule more commonly than smaller ones
+
+# load data
+mammals_ph <- read.csv("Data/mamdata_ph.csv", stringsAsFactors = F)
+# mammals_ph$Species_ph <- gsub(" ", "_", trimws(mammals_ph$speciesname))
+
+# read elton traits dataset and save body mass
+elton_mam <- read.csv("Data/EltonTraits_Mammals_taxid.csv", header = T, stringsAsFactors = F)
+
+mammals_ph <- left_join(mammals_ph, elton_mam[,c("Scientific", "BM")], by = c("speciesname" = "Scientific"))
+
+
+
+
+# loading phylogenetic matrixes 
+load("Data/mam_phylo_cor.Rdata") #mam_phylo_cor
+
+# define phylo vcov matrix and random effects
+phylocor<-list(speciesname  = mam_phylo_cor)
+RE = list( ~1|speciesname, ~1|SPID)
+
+# Tavg model
+mam.tavg.bm <- rma.mv(yi = z.cor.yi,
+                    V = z.cor.vi,
+                    data = birds,
+                    subset = env.var=="tavg",
+                    mods = ~ migratory-1,
+                    random = RE, R = phylocor)
+summary(bird.tavg)
+
+# save results
+saveRDS(bird.tavg,"Results/BergmannsRule_results_MR_mig_tavg.rds")
+rm(bird.tavg)
+
+
 # End of script
 

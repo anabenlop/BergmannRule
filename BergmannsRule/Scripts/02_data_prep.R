@@ -67,6 +67,15 @@ elton_mam <- read.csv("Data/EltonTraits_Mammals_taxid.csv", header = T, stringsA
 
 mammals <- left_join(mammals, elton_mam[,c("Scientific", "ForStrat.Value")], by = c("speciesname" = "Scientific"))
 mammals <-mammals[mammals$ForStrat.Value != "M",]
+
+# fix errors in taxonomic classification 
+mammals[mammals$speciesname == "Notiosorex crawfordi", "order"] <- "Eulipotyphla"
+mammals[mammals$speciesname == "Notiosorex crawfordi", "family"] <- "Soricidae"
+
+# fix old order name, Insectivora is now Eulipotyphla
+mammals$order <- ifelse(mammals$order == "Insectivora", "Eulipotyphla", mammals$order)
+
+# keep env.var of interest
 mammals <- mammals[mammals$env.var == 'tavg' | 
                      mammals$env.var =='tmax' | 
                      mammals$env.var == 'npp'| 
