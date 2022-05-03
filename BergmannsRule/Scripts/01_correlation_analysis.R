@@ -52,6 +52,8 @@ dat[dat$speciesname == "Columba fasciata", "speciesname"] <- "Patagioenas fascia
 dat[dat$speciesname == "Hirundo pyrrhonota", "speciesname"] <- "Petrochelidon pyrrhonota"
 dat[dat$speciesname == "Ceyx picta", "speciesname"] <- "Ispidina picta"
 dat[dat$speciesname == "Halcyon sanctus", "speciesname"] <- "Todiramphus sanctus"
+dat[dat$speciesname == "Microtus mogollonensis", "speciesname"] <- "Microtus mexicanus"
+dat[dat$speciesname == "Dicrostonyx kilangmiutak", "speciesname"] <- "Dicrostonyx groenlandicus"
 
 # save data with fixed species names
 write.csv(dat, "Data/Bergmanns_bodysize.csv", row.names = F)

@@ -118,7 +118,7 @@ saveRDS(rept.ma,
 # 3. Mammals ---------------------------------------------------------------------
 
 #Load data
-mammals_ph <- read.csv("Data/mamdata_ph.csv", stringsAsFactors = F)
+mammals_ph <- read.csv("Data/mamdata_ph.csv", stringsAsFactors = F) # 567 species
 # mammals_ph$Species_ph <- gsub(" ", "_", trimws(mammals_ph$speciesname))
 
 # loading phylogenetic matrixes 

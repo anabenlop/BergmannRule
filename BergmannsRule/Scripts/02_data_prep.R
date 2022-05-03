@@ -66,14 +66,16 @@ mammals <- subset(results, class == 'mammal')
 elton_mam <- read.csv("Data/EltonTraits_Mammals_taxid.csv", header = T, stringsAsFactors = F)
 
 mammals <- left_join(mammals, elton_mam[,c("Scientific", "ForStrat.Value")], by = c("speciesname" = "Scientific"))
-mammals <-mammals[mammals$ForStrat.Value != "M",]
-
+mammals <- mammals[!mammals$ForStrat.Value %in% c('M'),]
+  
 # fix errors in taxonomic classification 
 mammals[mammals$speciesname == "Notiosorex crawfordi", "order"] <- "Eulipotyphla"
 mammals[mammals$speciesname == "Notiosorex crawfordi", "family"] <- "Soricidae"
 
 # fix old order name, Insectivora is now Eulipotyphla
-mammals$order <- ifelse(mammals$order == "Insectivora", "Eulipotyphla", mammals$order)
+mammals$order <- ifelse(mammals$order == "Insectivora" | 
+                          mammals$order == "Erinaceomorpha" | 
+                          mammals$order == "Soricomorpha" , "Eulipotyphla", mammals$order)
 
 # keep env.var of interest
 mammals <- mammals[mammals$env.var == 'tavg' | 
@@ -83,7 +85,7 @@ mammals <- mammals[mammals$env.var == 'tavg' |
 
 mammals <-mammals[complete.cases(mammals$corr.coeff),]
 
-write.csv(mammals,"Data/mammals.csv", row.names = F)
+write.csv(mammals,"Data/mammals.csv", row.names = F) # 578
 
 
 # 4. Birds ---------------------------------------------------------------------

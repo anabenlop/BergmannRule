@@ -146,18 +146,24 @@ tree_random$tip.label[!as.character(tree_random$tip.label) %in% species] # liste
 
 ##I have a problem with a species labeled "mrcaott319315ott366155", and another labeled 
 
-## Also, "Miniopterus schreibersii" "Myotis lucifugus" "Sturnira luisi" are in my data but not in the tree
+## Also,"Artibeus jamaicensis"     "Artibeus planirostris"    "Geomys bursarius"         "Miniopterus schreibersii"
+# "Myotis lucifugus"         "Sturnira luisi"  "Miniopterus schreibersii" are in my data but not in the tree
 
 # try to see which species is that
 
-test<-tnrs_match_names(names = c("Miniopterus schreibersii", "Myotis lucifugus", "Sturnira luisi"))
+test<-tnrs_match_names(names = c("Artibeus jamaicensis",
+                                 "Artibeus planirostris",
+                                 "Geomys bursarius",
+                                 "Miniopterus schreibersii", 
+                                 "Myotis lucifugus", 
+                                 "Sturnira luisi"))
 
 tree_test <- tol_induced_subtree(ott_ids = c("366155", "62486"), label_format = "name")
 
 # Miniopterus schreibersii is mrcaott319315ott366155 and Artibeus planirostris is 62486
 # we fix them here
 tree_random$tip.label[tree_random$tip.label =="mrcaott319315ott366155"] <-"Miniopterus schreibersii"
-# tree_random$tip.label[tree_random$tip.label =="mrcaott62482ott62486"] <-"Artibeus planirostris"
+tree_random$tip.label[tree_random$tip.label =="mrcaott62482ott62486"] <-"Artibeus planirostris"
 
 tiff("Results/mam_phylogenetic_tree_pruned.tiff",
      height=20, width=10,
