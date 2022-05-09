@@ -257,29 +257,30 @@ rm(mam.nppsd.bm)
 
 # 4. Test effect of environmental variation  ------------------------------------------------
 
+#### a) Mammals ####
 # load mammal dataset 
-# mammals <- read.csv("Data/mamdata_ph.csv", stringsAsFactors = F)
-mamdata <- read.csv("Data/mammals.csv", stringsAsFactors = F) # no phylo
+mamdata <- read.csv("Data/mamdata_ph.csv", stringsAsFactors = F)
+# mamdata <- read.csv("Data/mammals.csv", stringsAsFactors = F) # no phylo
 
 # remove unknown species(genus level)
-mamdata <- mamdata[mamdata$speciesname != "Carollia carollia", ]
-mamdata <- mamdata[mamdata$speciesname != "Glossophaga glossophaga", ]
-mamdata <- mamdata[mamdata$speciesname != "Oryzomys oryzomys", ]
-mamdata <- mamdata[mamdata$speciesname != "Reithrodontomys reithrodontomys", ]
-mamdata <- mamdata[mamdata$speciesname != "Sturnira sturnira", ]
-mamdata <- mamdata[mamdata$speciesname != "Lophostoma aequatorialis", ]
-mamdata <- mamdata[mamdata$speciesname != "Peromyscus peromyscus", ]
+# mamdata <- mamdata[mamdata$speciesname != "Carollia carollia", ]
+# mamdata <- mamdata[mamdata$speciesname != "Glossophaga glossophaga", ]
+# mamdata <- mamdata[mamdata$speciesname != "Oryzomys oryzomys", ]
+# mamdata <- mamdata[mamdata$speciesname != "Reithrodontomys reithrodontomys", ]
+# mamdata <- mamdata[mamdata$speciesname != "Sturnira sturnira", ]
+# mamdata <- mamdata[mamdata$speciesname != "Lophostoma aequatorialis", ]
+# mamdata <- mamdata[mamdata$speciesname != "Peromyscus peromyscus", ]
 
 # loading phylogenetic matrixes 
 load("Data/mam_phylo_cor.Rdata") #bird_phylo_cor
 
 ##create Species ID to distinguish later between variation explained by non-phylogenetic and phylogenetic effects
-SpID <- data.frame(speciesname = unique(mamdata$speciesname), SPID = paste0("SP",1:length(unique(mamdata$speciesname))))
-SpID$speciesname <- as.character(SpID$speciesname)
-mamdata <- inner_join(mamdata,SpID, by = "speciesname")
+# SpID <- data.frame(speciesname = unique(mamdata$speciesname), SPID = paste0("SP",1:length(unique(mamdata$speciesname))))
+# SpID$speciesname <- as.character(SpID$speciesname)
+# mamdata <- inner_join(mamdata,SpID, by = "speciesname")
 
 # remove rows not in correlation matrix
-mamdata <- mamdata[which(mamdata$speciesname %in% rownames(mam_phylo_cor)),] # 554
+# mamdata <- mamdata[which(mamdata$speciesname %in% rownames(mam_phylo_cor)),] # 554
 
 # define phylo vcov matrix and random effects
 phylocor<-list(speciesname  = mam_phylo_cor)
@@ -338,10 +339,9 @@ summary(mam.npp.sd.env)
 saveRDS(mam.npp.sd.env,"Results/BergmannsRule_results_MR_mam_nppsd_env.rds")
 rm(mam.npp.sd.env)
 
-
-
+#### b) Birds ####
 # load birds dataset 
-# mammals <- read.csv("Data/mamdata_ph.csv", stringsAsFactors = F)
+# birddata <- read.csv("Data/birddata_ph.csv", stringsAsFactors = F)
 birddata <- read.csv("Data/birds.csv", stringsAsFactors = F) # no phylo
 
 # loading phylogenetic matrixes 
@@ -411,6 +411,107 @@ summary(bird.npp.sd.env)
 # save results
 saveRDS(bird.npp.sd.env,"Results/BergmannsRule_results_MR_bird_nppsd_env.rds")
 rm(bird.npp.sd.env)
+
+#### c) Reptiles ####
+# load reptiles dataset 
+# reptdata <- read.csv("Data/reptdata_ph.csv", stringsAsFactors = F)
+reptdata <- read.csv("Data/reptiles.csv", stringsAsFactors = F) # no phylo
+
+# loading phylogenetic matrixes 
+load("Data/rept_phylo_cor.Rdata") #rept_phylo_cor
+
+##create Species ID to distinguish later between variation explained by non-phylogenetic and phylogenetic effects
+SpID <- data.frame(speciesname = unique(reptdata$speciesname), SPID = paste0("SP",1:length(unique(reptdata$speciesname))))
+SpID$speciesname <- as.character(SpID$speciesname)
+reptdata <- inner_join(reptdata,SpID, by = "speciesname")
+
+# remove rows not in correlation matrix
+reptdata <- reptdata[which(reptdata$speciesname %in% rownames(rept_phylo_cor)),] # 554
+
+# define phylo vcov matrix and random effects
+phylocor<-list(speciesname  = rept_phylo_cor)
+RE = list( ~1|speciesname, ~1|SPID)
+
+# npp model with env variation
+rept.npp.env <- rma.mv(yi = z.cor.yi,
+                       V = z.cor.vi,
+                       data = reptdata,
+                       subset = env.var=="npp",
+                       mods = ~ log10(sd.npp),
+                       random = RE, R = phylocor)
+summary(rept.npp.env) # strong positive effect with variation in npp across the gradient of body size records
+
+# save results
+saveRDS(rept.npp.env,"Results/BergmannsRule_results_MR_rept_npp_env.rds")
+rm(rept.npp.env)
+
+# npp.sd model with env variation
+rept.npp.sd.env <- rma.mv(yi = z.cor.yi,
+                          V = z.cor.vi,
+                          data = reptdata,
+                          subset = env.var=="npp.sd",
+                          mods = ~ log10(sd.npp.sd),
+                          random = RE, R = phylocor)
+summary(rept.npp.sd.env) # no clear support for the seasonality hypothesis
+
+# save results
+saveRDS(rept.npp.sd.env,"Results/BergmannsRule_results_MR_rept_nppsd_env.rds")
+rm(rept.npp.sd.env)
+
+#### d) Amphibians ####
+# load amphibians dataset 
+# amphdata <- read.csv("Data/amphdata_ph.csv", stringsAsFactors = F)
+amphdata <- read.csv("Data/amphibians.csv", stringsAsFactors = F) # no phylo
+
+# loading phylogenetic matrixes 
+load("Data/amph_phylo_cor.Rdata") #amph_phylo_cor
+
+##create Species ID to distinguish later between variation explained by non-phylogenetic and phylogenetic effects
+SpID <- data.frame(speciesname = unique(amphdata$speciesname), SPID = paste0("SP",1:length(unique(amphdata$speciesname))))
+SpID$speciesname <- as.character(SpID$speciesname)
+amphdata <- inner_join(amphdata,SpID, by = "speciesname")
+
+# remove rows not in correlation matrix
+amphdata <- amphdata[which(amphdata$speciesname %in% rownames(amph_phylo_cor)),] # 554
+
+# define phylo vcov matrix and random effects
+phylocor<-list(speciesname  = amph_phylo_cor)
+RE = list( ~1|speciesname, ~1|SPID)
+
+# npp model with env variation
+amph.npp.env <- rma.mv(yi = z.cor.yi,
+                       V = z.cor.vi,
+                       data = amphdata,
+                       subset = env.var=="npp",
+                       mods = ~ log10(sd.npp),
+                       random = RE, R = phylocor)
+summary(amph.npp.env) # negative effects, non significant
+
+# save results
+saveRDS(amph.npp.env,"Results/BergmannsRule_results_MR_amph_npp_env.rds")
+rm(amph.npp.env)
+
+# npp.sd model with env variation
+amph.npp.sd.env <- rma.mv(yi = z.cor.yi,
+                          V = z.cor.vi,
+                          data = amphdata,
+                          subset = env.var=="npp.sd",
+                          mods = ~ log10(sd.npp.sd),
+                          random = RE, R = phylocor)
+summary(amph.npp.sd.env) # no clear support for the seasonality hypothesis
+
+# prec model with env variation
+amph.prec.env <- rma.mv(yi = z.cor.yi,
+                          V = z.cor.vi,
+                          data = amphdata,
+                          subset = env.var=="prec",
+                          mods = ~ sd.prec,
+                          random = RE, R = phylocor)
+summary(amph.prec.env) # tendency towards smaller size in large-bodied species, not in small-bodied?
+
+# save results
+saveRDS(amph.prec.env,"Results/BergmannsRule_results_MR_amph_prec_env.rds")
+rm(amph.prec.env)
 
 
 
