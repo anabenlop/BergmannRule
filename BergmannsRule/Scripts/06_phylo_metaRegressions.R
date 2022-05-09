@@ -175,15 +175,20 @@ saveRDS(bi.mr,'Results/BergmannsRule_results_MR_mig.rds')
 # Freckleton et al. 2003 --> Bergmann’s rule does depend on body mass: larger species follow the rule more commonly than smaller ones
 
 # load data
-mammals_ph <- read.csv("Data/mamdata_ph.csv", stringsAsFactors = F)
+mammals <- read.csv("Data/mamdata_ph.csv", stringsAsFactors = F)
 # mammals_ph$Species_ph <- gsub(" ", "_", trimws(mammals_ph$speciesname))
 
 # read elton traits dataset and save body mass
 elton_mam <- read.csv("Data/EltonTraits_Mammals_taxid.csv", header = T, stringsAsFactors = F)
 
-mammals_ph <- left_join(mammals_ph, elton_mam[,c("Scientific", "BM")], by = c("speciesname" = "Scientific"))
+mammals <- left_join(mammals, elton_mam[,c("Scientific", "BodyMass.Value")], by = c("speciesname" = "Scientific"))
 
+# join missing species
+mis_bm <- read.csv("Data/mammals_bm.csv", stringsAsFactors = F) 
+mammals <- left_join(mammals, mis_bm, by = "speciesname")
+mammals$BodyMass.Value <-ifelse(is.na(mammals$BodyMass.Value), mammals$BodyMass, mammals$BodyMass.Value)
 
+mammals$BM <- log10(mammals$BodyMass.Value) 
 
 
 # loading phylogenetic matrixes 
@@ -195,6 +200,80 @@ RE = list( ~1|speciesname, ~1|SPID)
 
 # Tavg model
 mam.tavg.bm <- rma.mv(yi = z.cor.yi,
+                    V = z.cor.vi,
+                    data = mammals,
+                    subset = env.var=="tavg",
+                    mods = ~ BM,
+                    random = RE, R = phylocor)
+summary(mam.tavg.bm)
+
+# save results
+saveRDS(mam.tavg.bm,"Results/BergmannsRule_results_MR_mammals_BM_tavg.rds")
+rm(mam.tavg.bm)
+
+# Tmaxmodel
+mam.tmax.bm <- rma.mv(yi = z.cor.yi,
+                      V = z.cor.vi,
+                      data = mammals,
+                      subset = env.var=="tmax",
+                      mods = ~ BM,
+                      random = RE, R = phylocor)
+summary(mam.tmax.bm) #marginally significant --> size-tmax corr becomes more negative for larger species
+
+# save results
+saveRDS(mam.tmax.bm,"Results/BergmannsRule_results_MR_mammals_BM_tmax.rds")
+rm(mam.tmax.bm)
+
+
+# NPP model
+mam.npp.bm <- rma.mv(yi = z.cor.yi,
+                      V = z.cor.vi,
+                      data = mammals,
+                      subset = env.var=="npp",
+                      mods = ~ BM,
+                      random = RE, R = phylocor)
+summary(mam.npp.bm) 
+
+# save results
+saveRDS(mam.npp.bm,"Results/BergmannsRule_results_MR_mammals_BM_npp.rds")
+rm(mam.npp.bm)
+
+
+
+# NPPsd model
+mam.nppsd.bm <- rma.mv(yi = z.cor.yi,
+                      V = z.cor.vi,
+                      data = mammals,
+                      subset = env.var=="npp.sd",
+                      mods = ~ BM,
+                      random = RE, R = phylocor)
+summary(mam.nppsd.bm) 
+
+
+# save results
+saveRDS(mam.nppsd.bm,"Results/BergmannsRule_results_MR_mammals_BM_nppsd.rds")
+rm(mam.nppsd.bm)
+
+
+# 4. Test effect of environmental variation  ------------------------------------------------
+
+# load mammal dataset 
+mammals <- read.csv("Data/mamdata_ph.csv", stringsAsFactors = F)
+
+# load dataset with env variation 
+dat_env <- read.csv("Data/Bergmann_envvariation.csv", header = T, stringsAsFactors = F)
+
+mammals <- left_join(mammals, dat_env, by = c("speciesname" = "species"))
+
+# loading phylogenetic matrixes 
+load("Data/bird_phylo_cor.Rdata") #bird_phylo_cor
+
+# define phylo vcov matrix and random effects
+phylocor<-list(speciesname  = bird_phylo_cor)
+RE = list( ~1|speciesname, ~1|SPID)
+
+# Tavg model
+bird.tavg <- rma.mv(yi = z.cor.yi,
                     V = z.cor.vi,
                     data = birds,
                     subset = env.var=="tavg",

@@ -28,36 +28,41 @@ library(dplyr)
 # clean environment
 rm(list=ls())
 
-# 1. Amphibians ----------------------------------------------------------------
-
+# Load data ---------------------------------------------------------------------
 # read in correlation results
 results <- readRDS('Results/BergmannsRule_results_correlations_20211224.rds')
 
+# load environmental variation per species
+dat_env <- read.csv("Data/Bergmann_envvariation.csv", header = T, stringsAsFactors = F)
+
+
+# 1. Amphibians ----------------------------------------------------------------
+
 # subset results for amphibians
 amphibians <- subset(results, class == 'amphibian')
-# amphibians$Species_ph <- gsub(" ", "_", trimws(amphibians$speciesname))
+
 amphibians <- amphibians[amphibians$env.var == 'prec' |
                            amphibians$env.var == 'npp'|
                             amphibians$env.var =='npp.sd',]
+
+# join env var data
+amphibians <- left_join(amphibians, dat_env, by = c("speciesname" = "species"))
 
 write.csv(amphibians,"Data/amphibians.csv", row.names = F)
 
 # 2. Reptiles ------------------------------------------------------------------
 
-# read in correlation results
-results <- readRDS('Results/BergmannsRule_results_correlations_20211224.rds')
-
 # subset results for reptiles
 reptiles <- subset(results, class == 'reptile')
-# reptiles$Species_ph <- gsub(" ", "_", trimws(reptiles$speciesname))
+
 reptiles <- reptiles[reptiles$env.var == 'npp' | reptiles$env.var == 'npp.sd',]
+
+# join env var data
+reptiles <- left_join(reptiles, dat_env, by = c("speciesname" = "species"))
 
 write.csv(reptiles,"Data/reptiles.csv", row.names = F)
 
 # 3. Mammals -------------------------------------------------------------------
-
-# read in correlation results
-results <- readRDS('Results/BergmannsRule_results_correlations_20211224.rds')
 
 # subset results for mammals
 mammals <- subset(results, class == 'mammal')
@@ -83,15 +88,13 @@ mammals <- mammals[mammals$env.var == 'tavg' |
                      mammals$env.var == 'npp'| 
                      mammals$env.var =='npp.sd',]
 
-mammals <-mammals[complete.cases(mammals$corr.coeff),]
+# join env var data
+mammals <- left_join(mammals, dat_env, by = c("speciesname" = "species"))
 
 write.csv(mammals,"Data/mammals.csv", row.names = F) # 578
 
 
 # 4. Birds ---------------------------------------------------------------------
-
-# read in correlation results
-results <- readRDS('Results/BergmannsRule_results_correlations_20211224.rds')
 
 # subset results for birds
 birds <- subset(results, class == 'bird')
@@ -107,19 +110,20 @@ birds <- birds[birds$env.var == 'tavg' |
                  birds$env.var == 'npp'| 
                  birds$env.var =='npp.sd',]
 
-birds <-birds[complete.cases(birds$corr.coeff),]
+# join env var data
+birds <- left_join(birds, dat_env, by = c("speciesname" = "species"))
 
 write.csv(birds,"Data/birds.csv", row.names = F)
 
 #5. Herps ----------------------------------------------------------------------
   
-# read in correlation results
-results <- readRDS('Results/BergmannsRule_results_correlations_20211224.rds')
-
 # subset results for herps
 herps <- subset(results, class == 'amphibian' | class == 'reptile')
 herps <- herps[herps$env.var == 'tavg',] # we only test the heat balance hyp for thermoconformers vs thermoregulators
-                
+    
+# join env var data
+herps <- left_join(herps, dat_env, by = c("speciesname" = "species"))
+
 write.csv(herps,"Data/herps.csv", row.names = F)
 
 
