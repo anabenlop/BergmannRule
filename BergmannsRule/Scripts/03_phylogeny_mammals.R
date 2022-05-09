@@ -49,7 +49,7 @@ mamdata <- mamdata[mamdata$speciesname != "Lophostoma aequatorialis", ]
 mamdata <- mamdata[mamdata$speciesname != "Peromyscus peromyscus", ]
 
 # generating list of species
-species <- sort(unique(as.character(mamdata$speciesname))) #556 species
+species <- sort(unique(as.character(mamdata$speciesname))) #571 species
 
 ##############################################################
 # Formatting species data
@@ -94,9 +94,9 @@ fix_taxa$species <- str_to_sentence(fix_taxa$search_string) #convert to upper ca
 
 mamdata <- left_join(mamdata,fix_taxa, by =c("speciesname" = "species"))
 mamdata$speciesname <-ifelse(!is.na(mamdata$unique_name), mamdata$unique_name, mamdata$speciesname)
-mamdata <- mamdata[,-c(10:12)] # remove join columns
+mamdata <- mamdata[,-c(26:27)] # remove join columns
 
-species <- sort(unique(as.character(mamdata$speciesname))) #556 species
+species <- sort(unique(as.character(mamdata$speciesname))) #571 species
 
 # rerun 2
 taxa.c2 <- tnrs_match_names(names = species)
@@ -104,6 +104,7 @@ taxa.c2 <- tnrs_match_names(names = species)
 taxa.c2[taxa.c2$approximate_match==TRUE,] # no species returned
 taxa.c2[taxa.c2$is_synonym==TRUE,] # no species returned
 
+rm(taxa, taxa.c) # remove unnecessary objects
 
 ##############################################################
 # Retrieving phylogenetic relationships

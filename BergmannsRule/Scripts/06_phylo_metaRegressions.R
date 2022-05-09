@@ -258,32 +258,160 @@ rm(mam.nppsd.bm)
 # 4. Test effect of environmental variation  ------------------------------------------------
 
 # load mammal dataset 
-mammals <- read.csv("Data/mamdata_ph.csv", stringsAsFactors = F)
+# mammals <- read.csv("Data/mamdata_ph.csv", stringsAsFactors = F)
+mamdata <- read.csv("Data/mammals.csv", stringsAsFactors = F) # no phylo
 
-# load dataset with env variation 
-dat_env <- read.csv("Data/Bergmann_envvariation.csv", header = T, stringsAsFactors = F)
+# remove unknown species(genus level)
+mamdata <- mamdata[mamdata$speciesname != "Carollia carollia", ]
+mamdata <- mamdata[mamdata$speciesname != "Glossophaga glossophaga", ]
+mamdata <- mamdata[mamdata$speciesname != "Oryzomys oryzomys", ]
+mamdata <- mamdata[mamdata$speciesname != "Reithrodontomys reithrodontomys", ]
+mamdata <- mamdata[mamdata$speciesname != "Sturnira sturnira", ]
+mamdata <- mamdata[mamdata$speciesname != "Lophostoma aequatorialis", ]
+mamdata <- mamdata[mamdata$speciesname != "Peromyscus peromyscus", ]
 
-mammals <- left_join(mammals, dat_env, by = c("speciesname" = "species"))
+# loading phylogenetic matrixes 
+load("Data/mam_phylo_cor.Rdata") #bird_phylo_cor
+
+##create Species ID to distinguish later between variation explained by non-phylogenetic and phylogenetic effects
+SpID <- data.frame(speciesname = unique(mamdata$speciesname), SPID = paste0("SP",1:length(unique(mamdata$speciesname))))
+SpID$speciesname <- as.character(SpID$speciesname)
+mamdata <- inner_join(mamdata,SpID, by = "speciesname")
+
+# remove rows not in correlation matrix
+mamdata <- mamdata[which(mamdata$speciesname %in% rownames(mam_phylo_cor)),] # 554
+
+# define phylo vcov matrix and random effects
+phylocor<-list(speciesname  = mam_phylo_cor)
+RE = list( ~1|speciesname, ~1|SPID)
+
+# Tmean model with env variation
+mam.tavg.env <- rma.mv(yi = z.cor.yi,
+                    V = z.cor.vi,
+                    data = mamdata,
+                    subset = env.var=="tavg",
+                    mods = ~ sd.tavg,
+                    random = RE, R = phylocor)
+summary(mam.tavg.env)
+
+# save results
+saveRDS(mam.tavg.env,"Results/BergmannsRule_results_MR_mam_tavg_env.rds")
+rm(mam.tavg.env)
+
+
+# Tmax model with env variation
+mam.tmax.env <- rma.mv(yi = z.cor.yi,
+                       V = z.cor.vi,
+                       data = mamdata,
+                       subset = env.var=="tmax",
+                       mods = ~ sd.tmax,
+                       random = RE, R = phylocor)
+summary(mam.tmax.env)
+
+# save results
+saveRDS(mam.tmax.env,"Results/BergmannsRule_results_MR_mam_tmax_env.rds")
+rm(mam.tmax.env)
+
+# npp model with env variation
+mam.npp.env <- rma.mv(yi = z.cor.yi,
+                       V = z.cor.vi,
+                       data = mamdata,
+                       subset = env.var=="npp",
+                       mods = ~ log10(sd.npp),
+                       random = RE, R = phylocor)
+summary(mam.npp.env)
+
+# save results
+saveRDS(mam.npp.env,"Results/BergmannsRule_results_MR_mam_npp_env.rds")
+rm(mam.npp.env)
+
+# npp.sd model with env variation
+mam.npp.sd.env <- rma.mv(yi = z.cor.yi,
+                      V = z.cor.vi,
+                      data = mamdata,
+                      subset = env.var=="npp.sd",
+                      mods = ~ log10(sd.npp.sd),
+                      random = RE, R = phylocor)
+summary(mam.npp.sd.env)
+
+# save results
+saveRDS(mam.npp.sd.env,"Results/BergmannsRule_results_MR_mam_nppsd_env.rds")
+rm(mam.npp.sd.env)
+
+
+
+# load birds dataset 
+# mammals <- read.csv("Data/mamdata_ph.csv", stringsAsFactors = F)
+birddata <- read.csv("Data/birds.csv", stringsAsFactors = F) # no phylo
 
 # loading phylogenetic matrixes 
 load("Data/bird_phylo_cor.Rdata") #bird_phylo_cor
+
+##create Species ID to distinguish later between variation explained by non-phylogenetic and phylogenetic effects
+SpID <- data.frame(speciesname = unique(birddata$speciesname), SPID = paste0("SP",1:length(unique(birddata$speciesname))))
+SpID$speciesname <- as.character(SpID$speciesname)
+birddata <- inner_join(birddata,SpID, by = "speciesname")
+
+# remove rows not in correlation matrix
+birddata <- birddata[which(birddata$speciesname %in% rownames(bird_phylo_cor)),] # 554
 
 # define phylo vcov matrix and random effects
 phylocor<-list(speciesname  = bird_phylo_cor)
 RE = list( ~1|speciesname, ~1|SPID)
 
-# Tavg model
-bird.tavg <- rma.mv(yi = z.cor.yi,
-                    V = z.cor.vi,
-                    data = birds,
-                    subset = env.var=="tavg",
-                    mods = ~ migratory-1,
-                    random = RE, R = phylocor)
-summary(bird.tavg)
+# Tmean model with env variation
+bird.tavg.env <- rma.mv(yi = z.cor.yi,
+                       V = z.cor.vi,
+                       data = birddata,
+                       subset = env.var=="tavg",
+                       mods = ~ sd.tavg,
+                       random = RE, R = phylocor)
+summary(bird.tavg.env)
 
 # save results
-saveRDS(bird.tavg,"Results/BergmannsRule_results_MR_mig_tavg.rds")
-rm(bird.tavg)
+saveRDS(bird.tavg.env,"Results/BergmannsRule_results_MR_bird_tavg_env.rds")
+rm(bird.tavg.env)
+
+
+# Tmax model with env variation
+bird.tmax.env <- rma.mv(yi = z.cor.yi,
+                       V = z.cor.vi,
+                       data = birddata,
+                       subset = env.var=="tmax",
+                       mods = ~ sd.tmax,
+                       random = RE, R = phylocor)
+summary(bird.tmax.env) # negative signal for birds, the greater the environmental variation en max temp, the most likely is a species will have a stronger negative size-tmax relationship. 
+
+# save results
+saveRDS(bird.tmax.env,"Results/BergmannsRule_results_MR_bird_tmax_env.rds")
+rm(bird.tmax.env)
+
+# npp model with env variation
+bird.npp.env <- rma.mv(yi = z.cor.yi,
+                      V = z.cor.vi,
+                      data = birddata,
+                      subset = env.var=="npp",
+                      mods = ~ log10(sd.npp),
+                      random = RE, R = phylocor)
+summary(bird.npp.env)
+
+# save results
+saveRDS(bird.npp.env,"Results/BergmannsRule_results_MR_bird_npp_env.rds")
+rm(bird.npp.env)
+
+# npp.sd model with env variation
+bird.npp.sd.env <- rma.mv(yi = z.cor.yi,
+                         V = z.cor.vi,
+                         data = birddata,
+                         subset = env.var=="npp.sd",
+                         mods = ~ log10(sd.npp.sd),
+                         random = RE, R = phylocor)
+summary(bird.npp.sd.env)
+
+# save results
+saveRDS(bird.npp.sd.env,"Results/BergmannsRule_results_MR_bird_nppsd_env.rds")
+rm(bird.npp.sd.env)
+
 
 
 # End of script
