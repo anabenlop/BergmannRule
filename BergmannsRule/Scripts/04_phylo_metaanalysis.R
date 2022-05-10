@@ -80,7 +80,6 @@ saveRDS(amph.ma,
 
 #Load data
 reptiles_ph <- read.csv("Data/reptdata_ph.csv", stringsAsFactors = F)
-# reptiles_ph$Species_ph <- gsub(" ", "_", trimws(reptiles_ph$speciesname))
 
 # loading phylogenetic matrixes 
 load("Data/rept_phylo_cor.Rdata") #rept_phylo_cor
@@ -119,7 +118,6 @@ saveRDS(rept.ma,
 
 #Load data
 mammals_ph <- read.csv("Data/mamdata_ph.csv", stringsAsFactors = F) # 567 species
-# mammals_ph$Species_ph <- gsub(" ", "_", trimws(mammals_ph$speciesname))
 
 # loading phylogenetic matrixes 
 load("Data/mam_phylo_cor.Rdata") #mam_phylo_cor
@@ -159,7 +157,6 @@ saveRDS(ma.ma,
 
 #Load data
 birds_ph <- read.csv("Data/birddata_ph.csv", stringsAsFactors = F)
-# birds_ph$Species_ph <- gsub(" ", "_", trimws(birds_ph$speciesname))
 
 # loading phylogenetic matrixes 
 load("Data/bird_phylo_cor.Rdata") #bird_phylo_cor
