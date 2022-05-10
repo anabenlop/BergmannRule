@@ -158,6 +158,10 @@ temp5[temp5$speciesname  == "Tangara sayaca", "migratory"] <- "migratory" # Eyre
 temp5[temp5$speciesname  == "Troglodytes musculus", "migratory"] <- "migratory" # Eyres et al. 2017, recorded as Troglodytes aedon
 
 birds_ph_mig <- temp5[,c("speciesname", "class", "order", "family", "freq" , "env.var", "corr.coeff",
-                         "z.cor.yi", "z.cor.vi","SPID","migratory")]
+                         "z.cor.yi", "z.cor.vi",
+                         "sd.tavg", "sd.tmax",  "sd.npp", "sd.npp.sd", "rng.tavg", "rng.tmax", "rng.npp", "rng.npp.sd",
+                         "SPID","migratory")]
 
 write.csv(birds_ph_mig, "Data/birds_ph_mig.csv", row.names = F)
+
+# End of script --- 
