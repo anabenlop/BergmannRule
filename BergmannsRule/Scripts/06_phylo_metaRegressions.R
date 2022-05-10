@@ -366,7 +366,7 @@ bird.npp.env <- rma.mv(yi = z.cor.yi,
                       subset = env.var=="npp",
                       mods = ~ log10(sd.npp),
                       random = RE, R = phylocor)
-summary(bird.npp.env)
+summary(bird.npp.env) #ns
 
 # save results
 saveRDS(bird.npp.env,"Results/BergmannsRule_results_MR_bird_npp_env.rds")
@@ -387,8 +387,8 @@ rm(bird.npp.sd.env)
 
 #### c) Reptiles ####
 # load reptiles dataset 
-# reptdata <- read.csv("Data/reptdata_ph.csv", stringsAsFactors = F)
-reptdata <- read.csv("Data/reptiles.csv", stringsAsFactors = F) # no phylo
+reptdata <- read.csv("Data/reptdata_ph.csv", stringsAsFactors = F)
+# reptdata <- read.csv("Data/reptiles.csv", stringsAsFactors = F) # no phylo
 
 # loading phylogenetic matrixes 
 load("Data/rept_phylo_cor.Rdata") #rept_phylo_cor
