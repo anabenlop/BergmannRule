@@ -260,27 +260,9 @@ rm(mam.nppsd.bm)
 #### a) Mammals ####
 # load mammal dataset 
 mamdata <- read.csv("Data/mamdata_ph.csv", stringsAsFactors = F)
-# mamdata <- read.csv("Data/mammals.csv", stringsAsFactors = F) # no phylo
-
-# remove unknown species(genus level)
-# mamdata <- mamdata[mamdata$speciesname != "Carollia carollia", ]
-# mamdata <- mamdata[mamdata$speciesname != "Glossophaga glossophaga", ]
-# mamdata <- mamdata[mamdata$speciesname != "Oryzomys oryzomys", ]
-# mamdata <- mamdata[mamdata$speciesname != "Reithrodontomys reithrodontomys", ]
-# mamdata <- mamdata[mamdata$speciesname != "Sturnira sturnira", ]
-# mamdata <- mamdata[mamdata$speciesname != "Lophostoma aequatorialis", ]
-# mamdata <- mamdata[mamdata$speciesname != "Peromyscus peromyscus", ]
 
 # loading phylogenetic matrixes 
 load("Data/mam_phylo_cor.Rdata") #bird_phylo_cor
-
-##create Species ID to distinguish later between variation explained by non-phylogenetic and phylogenetic effects
-# SpID <- data.frame(speciesname = unique(mamdata$speciesname), SPID = paste0("SP",1:length(unique(mamdata$speciesname))))
-# SpID$speciesname <- as.character(SpID$speciesname)
-# mamdata <- inner_join(mamdata,SpID, by = "speciesname")
-
-# remove rows not in correlation matrix
-# mamdata <- mamdata[which(mamdata$speciesname %in% rownames(mam_phylo_cor)),] # 554
 
 # define phylo vcov matrix and random effects
 phylocor<-list(speciesname  = mam_phylo_cor)
@@ -341,19 +323,10 @@ rm(mam.npp.sd.env)
 
 #### b) Birds ####
 # load birds dataset 
-# birddata <- read.csv("Data/birddata_ph.csv", stringsAsFactors = F)
-birddata <- read.csv("Data/birds.csv", stringsAsFactors = F) # no phylo
+birddata <- read.csv("Data/birddata_ph.csv", stringsAsFactors = F)
 
 # loading phylogenetic matrixes 
 load("Data/bird_phylo_cor.Rdata") #bird_phylo_cor
-
-##create Species ID to distinguish later between variation explained by non-phylogenetic and phylogenetic effects
-SpID <- data.frame(speciesname = unique(birddata$speciesname), SPID = paste0("SP",1:length(unique(birddata$speciesname))))
-SpID$speciesname <- as.character(SpID$speciesname)
-birddata <- inner_join(birddata,SpID, by = "speciesname")
-
-# remove rows not in correlation matrix
-birddata <- birddata[which(birddata$speciesname %in% rownames(bird_phylo_cor)),] # 554
 
 # define phylo vcov matrix and random effects
 phylocor<-list(speciesname  = bird_phylo_cor)
