@@ -56,22 +56,11 @@ taxa <- tnrs_match_names(species)
 # nrow(taxa[taxa$approximate_match==TRUE,])
 taxa[taxa$approximate_match==TRUE,] # no species returned
 
-# fixing those typos (example in case they were unresolved matches)
-#species[species=="Crocidura attenuatta"] <- "Crocidura attenuata"
-
-#amphdata$Binomial<-as.character(amphdata$Binomial)
-#amphdata[amphdata$Binomial=="Crocidura attenuatta","Binomial"] <- "Crocidura attenuata"
-
-# rerun
-# taxa.c <- tnrs_match_names(names = species)
-# 
-# taxa.c[taxa.c$approximate_match==TRUE,] # no species returned
-
 # exploring which species return more than one match, and the
 # reasons to make sure we retrieve the correct data.
-taxa.c <- taxa
-taxa.c[taxa.c$number_matches != 1,]
-ott_id_tocheck <- taxa.c[taxa.c$number_matches != 1,"ott_id"]
+# taxa.c <- taxa
+# taxa.c[taxa.c$number_matches != 1,]
+# ott_id_tocheck <- taxa.c[taxa.c$number_matches != 1,"ott_id"]
 
 # for(i in 1:length(ott_id_tocheck)){
 #   print(inspect(taxa.c, ott_id = ott_id_tocheck[i]))
@@ -87,7 +76,7 @@ fix_taxa$species <- str_to_sentence(fix_taxa$search_string) #convert to upper ca
 
 amphdata <- left_join(amphdata,fix_taxa, by =c("speciesname" = "species"))
 amphdata$speciesname <-ifelse(!is.na(amphdata$unique_name), amphdata$unique_name, amphdata$speciesname)
-amphdata <- amphdata[,-c(10:11)] # remove join columns
+amphdata <- amphdata[,-c(25:26)] # remove join columns
 
 species <- sort(unique(as.character(amphdata$speciesname))) #36 species
 

@@ -388,18 +388,9 @@ rm(bird.npp.sd.env)
 #### c) Reptiles ####
 # load reptiles dataset 
 reptdata <- read.csv("Data/reptdata_ph.csv", stringsAsFactors = F)
-# reptdata <- read.csv("Data/reptiles.csv", stringsAsFactors = F) # no phylo
 
 # loading phylogenetic matrixes 
 load("Data/rept_phylo_cor.Rdata") #rept_phylo_cor
-
-##create Species ID to distinguish later between variation explained by non-phylogenetic and phylogenetic effects
-SpID <- data.frame(speciesname = unique(reptdata$speciesname), SPID = paste0("SP",1:length(unique(reptdata$speciesname))))
-SpID$speciesname <- as.character(SpID$speciesname)
-reptdata <- inner_join(reptdata,SpID, by = "speciesname")
-
-# remove rows not in correlation matrix
-reptdata <- reptdata[which(reptdata$speciesname %in% rownames(rept_phylo_cor)),] # 554
 
 # define phylo vcov matrix and random effects
 phylocor<-list(speciesname  = rept_phylo_cor)
@@ -412,7 +403,7 @@ rept.npp.env <- rma.mv(yi = z.cor.yi,
                        subset = env.var=="npp",
                        mods = ~ log10(sd.npp),
                        random = RE, R = phylocor)
-summary(rept.npp.env) # strong positive effect with variation in npp across the gradient of body size records
+summary(rept.npp.env) # tendency to positive effect (large CI) with variation in npp across the gradient of body size records
 
 # save results
 saveRDS(rept.npp.env,"Results/BergmannsRule_results_MR_rept_npp_env.rds")
@@ -433,19 +424,10 @@ rm(rept.npp.sd.env)
 
 #### d) Amphibians ####
 # load amphibians dataset 
-# amphdata <- read.csv("Data/amphdata_ph.csv", stringsAsFactors = F)
-amphdata <- read.csv("Data/amphibians.csv", stringsAsFactors = F) # no phylo
+amphdata <- read.csv("Data/amphdata_ph.csv", stringsAsFactors = F)
 
 # loading phylogenetic matrixes 
 load("Data/amph_phylo_cor.Rdata") #amph_phylo_cor
-
-##create Species ID to distinguish later between variation explained by non-phylogenetic and phylogenetic effects
-SpID <- data.frame(speciesname = unique(amphdata$speciesname), SPID = paste0("SP",1:length(unique(amphdata$speciesname))))
-SpID$speciesname <- as.character(SpID$speciesname)
-amphdata <- inner_join(amphdata,SpID, by = "speciesname")
-
-# remove rows not in correlation matrix
-amphdata <- amphdata[which(amphdata$speciesname %in% rownames(amph_phylo_cor)),] # 554
 
 # define phylo vcov matrix and random effects
 phylocor<-list(speciesname  = amph_phylo_cor)
@@ -480,13 +462,13 @@ amph.prec.env <- rma.mv(yi = z.cor.yi,
                           subset = env.var=="prec",
                           mods = ~ sd.prec,
                           random = RE, R = phylocor)
-summary(amph.prec.env) # tendency towards smaller size in large-bodied species, not in small-bodied?
+summary(amph.prec.env) # tendency towards smaller size as species are exposed to more variation in precipitation
 
 # save results
 saveRDS(amph.prec.env,"Results/BergmannsRule_results_MR_amph_prec_env.rds")
 rm(amph.prec.env)
 
-
+# End of script ###
 
 # End of script
 
