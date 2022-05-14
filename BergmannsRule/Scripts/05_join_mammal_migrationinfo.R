@@ -34,7 +34,7 @@ library(tidyverse)
 mammals_ph <- read.csv("Data/mamdata_ph.csv", stringsAsFactors = F)
 
 # migration data from Soriano-Redondo et al. (2020)
-mig_status <- read.csv("Data/Soriano-Redondo_mig_mehaviour.csv", stringsAsFactors = FALSE) 
+mig_status <- read.csv("Data/Soriano-Redondo_mig_behaviour.csv", stringsAsFactors = FALSE) 
 mig_status <- mig_status %>%
               mutate(animal  = str_replace(animal , "_", " "))
 
@@ -48,23 +48,25 @@ length(unique(mig_m[is.na(mig_m$Mig_bi),]$speciesname)) #450 species without mig
 
 # migration data from Gnanadesikan et al 2018
 mig_status2 <- read.csv("Data/Gnanadesikan_2018_mammals_mig.csv", stringsAsFactors = FALSE) 
-
-###CONTINUE HERE####
+mig_status2$speciesname <- paste0(mig_status2$Genus," ", mig_status2$Species)
 
 # match species from mammals dataset with species in migration dataset 2
-mig_m2 <- left_join(mig_m, mig_status2[,c("speciesname","Mig")], by = "speciesname")
-mig_m2$Mig_status <- ifelse(is.na(mig_m2$Mig_bi), mig_m2$Mig, mig_m2$Mig_bi) 
+mig_m2 <- left_join(mig_m, mig_status2[,c("speciesname","Movement")], by = "speciesname")
+mig_m2$Mig_bi2 <- ifelse(mig_m2$Movement == "M",1, 
+                            ifelse(mig_m2$Movement == "N", 0, NA)) 
 
-length(unique(mig_m2[is.na(mig_m2$Mig_status),]$speciesname)) #312 species without mig status assigned
+mig_m2$Mig_status <- ifelse(is.na(mig_m2$Mig_bi), mig_m2$Mig_bi2, mig_m2$Mig_bi) 
+
+length(unique(mig_m2[is.na(mig_m2$Mig_status),]$speciesname)) #393 species without mig status assigned
 
 # migration data from Luca Santini and Leonardo Ancillotto (need a proper reference)
-mig_status2 <- read.csv("Data/MIG_BEHAVIOUR_mam.csv", stringsAsFactors = FALSE) 
+mig_status3 <- read.csv("Data/MIG_BEHAVIOUR_mam.csv", stringsAsFactors = FALSE) 
 
 # match species from mammals dataset with species in migration dataset 2
-mig_m2 <- left_join(mig_m, mig_status2[,c("speciesname","Mig")], by = "speciesname")
-mig_m2$Mig_status <- ifelse(is.na(mig_m2$Mig_bi), mig_m2$Mig, mig_m2$Mig_bi) 
+mig_m3 <- left_join(mig_m2, mig_status3[,c("speciesname","Mig")], by = "speciesname")
+mig_m3$Mig_status <- ifelse(is.na(mig_m3$Mig_status), mig_m3$Mig, mig_m3$Mig_status) 
 
-length(unique(mig_m2[is.na(mig_m2$Mig_status),]$speciesname)) #312 species without mig status assigned
+length(unique(mig_m3[is.na(mig_m3$Mig_status),]$speciesname)) #280 species without mig status assigned
 
 missing <- unique(mig_m2[is.na(mig_m2$Mig_status),]$speciesname)
 # missing <- data.frame(speciesname = missing)
