@@ -3,9 +3,6 @@
 "Abrothrix longipilis","970639","970639","Thomas, 1895","Acodon hirtus","971553",NA,NA
 "Abrothrix longipilis","970639","970639","Osgood, 1943","Akodon longipilis apta","973372",NA,NA
 "Abrothrix longipilis","970639","970639","Osgood, 1943","Akodon longipilis castaneus","973373",NA,NA
-"Abrothrix olivaceus","970641","970641","De Santis and Justo, 1980","Akodon mansoensis","633049",NA,NA
-"Abrothrix olivaceus","970641","970641","(Waterhouse, 1837)","Akodon olivaceus","633056",NA,NA
-"Abrothrix olivaceus","970641","970641","(Waterhouse, 1837)","Akodon xanthorhinus","633072",NA,NA
 "Allactaga sibirica","609741","609741","Olivier, 1800","Dipus alactaga","952086",NA,NA
 "Allactaga sibirica","609741","609741","Milne-Edwards, 1867","Dipus annulatus","952087",NA,NA
 "Allactaga sibirica","609741","609741","Blainville, 1817","Dipus brachyurus","952088",NA,NA
@@ -42,7 +39,6 @@
 "Apodemus uralensis","585145","585145","Ognev, 1924","Sylvaemus sylvaticus ciscaucasicus","973652",NA,NA
 "Apodemus uralensis","585145","585145","Ognev, 1913","Mus sylvaticus mosquensis","973653",NA,NA
 "Apodemus uralensis","585145","585145","Kashkarov, 1926","Apodemus arianus pallidus","973654",NA,NA
-"Arborimus longicaudus","180353","180353","A. B. Howell, 1921","Phenacomys silvicolus","971018",NA,NA
 "Artibeus jamaicensis aequatorialis","948232","947271","K. Andersen, 1906","Artibeus jamaicensis aequatorialis","948232","Artibeus aequatorialis","K. Andersen, 1906"
 "Callospermophilus lateralis","930305","930305","(Say, 1823)","Spermophilus lateralis","180154",NA,NA
 "Calomys callosus","633094","633094","Thomas, 1921","Hesperomys muriculus","971557",NA,NA
@@ -79,7 +75,6 @@
 "Chaetodipus formosus","552482","552482","Merriam, 1889","Perognathus formosus","180263",NA,NA
 "Chaetodipus hispidus","552483","552483","Baird, 1858","Perognathus hispidus","180264",NA,NA
 "Chaetodipus intermedius","552484","552484","Merriam, 1889","Perognathus intermedius","180266",NA,NA
-"Chaetodipus nelsoni","552485","552485","Merriam, 1894","Perognathus nelsoni","180268",NA,NA
 "Chaetodipus penicillatus","552486","552486","Woodhouse, 1852","Perognathus penicillatus","180270",NA,NA
 "Chaetodipus spinatus","552487","552487","Merriam, 1889","Perognathus spinatus","180271",NA,NA
 "Cratogeomys castanops","900158","900158","(Baird, 1852)","Pappogeomys castanops","180220",NA,NA
@@ -130,9 +125,7 @@
 "Dicrostonyx torquatus","180326","180326","Pallas, 1779","Mus lenensis","971052",NA,NA
 "Dicrostonyx torquatus","180326","180326","Von Baer, 1841","Lemmus ungulatus","971053",NA,NA
 "Dicrostonyx torquatus","180326","180326","Middendorff, 1853","Myodes torquatus pallida","972713",NA,NA
-"Dipodomys ingens","180240","180240","Merriam, 1904","Perodipus ingens","203487",NA,NA
 "Dipodomys panamintinus","180245","180245","Merriam, 1894","Perodipus panamintinus","900656",NA,NA
-"Dipodomys stephensi","180247","180247","Huey, 1962","Dipodomys cascus","202363",NA,NA
 "Dipus sagitta","609755","609755","Barrett-Hamilton, 1900","Dipus deasyi","952101",NA,NA
 "Dipus sagitta","609755","609755","Sowerby, 1920","Dipus halli","952102",NA,NA
 "Dipus sagitta","609755","609755","Lichtenstein, 1823","Dipus lagopus","952103",NA,NA
@@ -160,14 +153,6 @@
 "Geomys arenarius","180215","180215","Merriam, 1895","Geomys bursarius arenarius","900557",NA,NA
 "Geomys knoxjonesi","552518","552518","Baker and Genoways, 1975","Geomys bursarius knoxjonesi","900588",NA,NA
 "Geomys bursarius lutescens","900249","900196","Merriam, 1890","Geomys bursarius lutescens","900249","Geomys lutescens","Merriam, 1890"
-"Gerbillurus paeba","632911","632911","Thomas, 1918","Gerbillus calidus","971730",NA,NA
-"Gerbillurus paeba","632911","632911","Thomas and Hinton, 1925","Gerbillus swalius","971731",NA,NA
-"Gerbillurus paeba","632911","632911","A. Smith, 1842","Gerbillus tenuis","971732",NA,NA
-"Gerbillurus paeba","632911","632911","Thomas, 1918","Gerbillus paeba broomi","973505",NA,NA
-"Gerbillurus paeba","632911","632911","Roberts, 1932","Gerbillus calidus kalaharicus","973506",NA,NA
-"Gerbillurus paeba","632911","632911","Thomas, 1927","Gerbillus paeba leucanthus","973507",NA,NA
-"Gerbillurus paeba","632911","632911","Roberts, 1946","Gerbillus paeba mulleri","973508",NA,NA
-"Gerbillurus paeba","632911","632911","Roberts, 1951","Gerbillus paeba swakopensis","973509",NA,NA
 "Hydromys chrysogaster","585251","585251","Peters, 1874","Hydromys beccarii","971922",NA,NA
 "Hydromys chrysogaster","585251","585251","Thomas, 1906","Hydromys esox","971923",NA,NA
 "Hydromys chrysogaster","585251","585251","Gould, 1853","Hydromys fuliginosus","971924",NA,NA
@@ -225,13 +210,127 @@
 "Lemmiscus curtatus","552490","552490","Anthony, 1913","Microtus curtatus artemisiae","972735",NA,NA
 "Lemmiscus curtatus","552490","552490","Goldman, 1941","Lemmiscus curtatus levidensis","972736",NA,NA
 "Lemmiscus curtatus","552490","552490","Dearden and Lee, 1955","Lemmiscus curtatus orbitus","972737",NA,NA
-"Lemmus sibiricus","180320","180320","Middendorff, 1853","Myodes kittlitzi","971088",NA,NA
-"Lemmus sibiricus","180320","180320","Illiger, 1815","Hypudaeus migratorius","971089",NA,NA
-"Lemmus sibiricus","180320","180320","Vinogradov, 1924","Lemmus novosibiricus","971090",NA,NA
-"Lemmus sibiricus","180320","180320","Brants, 1827","Lemmus obensis","971091",NA,NA
-"Lemmus sibiricus","180320","180320","G. M. Allen, 1914","Lemmus paulus","971092",NA,NA
-"Lemmus sibiricus","180320","180320","Vinogradov, 1924","Lemmus obensis bungei","972740",NA,NA
-"Lemmus sibiricus","180320","180320","Pallas, 1811","Myodes lemmus minor","972741",NA,NA
+"Lemmus trimucronatus","203526","203526","(True, 1894)","Lemmus nigripes","180321",NA,NA
+"Lemmus trimucronatus","203526","203526","True, 1894","Myodes nigripes","203525",NA,NA
+"Lemmus trimucronatus","203526","203526","Richardson, 1825","Arvicola trimucronatus","203527",NA,NA
+"Lemmus trimucronatus","203526","203526","Merriam, 1900","Lemmus alascensis","971093",NA,NA
+"Lemmus trimucronatus","203526","203526","Swarth, 1931","Lemmus harroldi","971094",NA,NA
+"Lemmus trimucronatus","203526","203526","Richardson, 1828","Arvicola helvolus","971095",NA,NA
+"Lemmus trimucronatus","203526","203526","Osgood, 1904","Lemmus minusculus","971096",NA,NA
+"Lemmus trimucronatus","203526","203526","Merriam, 1900","Lemmus yukonensis","971097",NA,NA
+"Lemmus trimucronatus","203526","203526","Manning and Macpherson, 1958","Lemmus trimucronatus phaiocephalus","972742",NA,NA
+"Lemmus trimucronatus","203526","203526","Bee and Hall, 1956","Lemmus trimucronatus subarticus","972743",NA,NA
+"Lemniscomys striatus","585279","585279","Wroughton, 1906","Arvicanthis fasciatus","971941",NA,NA
+"Lemniscomys striatus","585279","585279","Pagenstecher, 1885","Mus massaicus","971942",NA,NA
+"Lemniscomys striatus","585279","585279","Gray, 1864","Golunda pulchella","971943",NA,NA
+"Lemniscomys striatus","585279","585279","Wroughton, 1906","Arvicanthis pulcher","971944",NA,NA
+"Lemniscomys striatus","585279","585279","Thomas, 1910","Arvicanthis pulchellus ardens","973708",NA,NA
+"Lemniscomys striatus","585279","585279","Heller, 1911","Arvicanthis pulchellus micropus","973709",NA,NA
+"Lemniscomys striatus","585279","585279","Heller, 1912","Lemniscomys pulchellus spermophilus","973710",NA,NA
+"Lemniscomys striatus","585279","585279","Thomas, 1911","Arvicanthis striatus venustus","973711",NA,NA
+"Hsunycteris thomasi","947388","947388","J. A. Allen, 1904","Lonchophylla thomasi","631798",NA,NA
+"Auliscomys micropus","633078","970675","(Waterhouse, 1837)","Auliscomys micropus","633078","Loxodontomys micropus","(Waterhouse, 1837)"
+"Auliscomys micropus","633078","970675","Thomas, 1919","Euneomys micropus alsus","973387","Loxodontomys micropus","(Waterhouse, 1837)"
+"Auliscomys micropus","633078","970675","Osgood, 1943","Phyllotis micropus fumipes","973388","Loxodontomys micropus","(Waterhouse, 1837)"
+"Desmodillus auricularis","632910","632910","F. Cuvier, 1838","Gerbillus brevicaudatus","971703",NA,NA
+"Desmodillus auricularis","632910","632910","Dollman, 1910","Desmodillus auricularis pudicus","973481",NA,NA
+"Dicrostonyx groenlandicus","180328","180328","Anderson and Rand, 1945","Dicrostonyx kilangmiutak","180330",NA,NA
+"Dicrostonyx groenlandicus","180328","180328","(Richardson, 1839)","Dicrostonyx rubricatus","180333",NA,NA
+"Dicrostonyx groenlandicus","180328","180328","Richardson, 1839","Arvicola rubricatus","971049",NA,NA
+"Dicrostonyx groenlandicus","180328","180328","Stone, 1900","Dicrostonyx hudsonius alascensis","972708",NA,NA
+"Dicrostonyx groenlandicus","180328","180328","Handley, 1953","Dicrostonyx groenlandicus clarus","972709",NA,NA
+"Dicrostonyx groenlandicus","180328","180328","Anderson and Rand, 1945","Dicrostonyx groenlandicus kilangmiutak","972710",NA,NA
+"Dicrostonyx groenlandicus","180328","180328","Handley, 1953","Dicrostonyx groenlandicus lentus","972711",NA,NA
+"Dicrostonyx torquatus","180326","180326","G. M. Allen, 1914","Dicrostonyx chionopaes","971050",NA,NA
+"Dicrostonyx torquatus","180326","180326","Kerr, 1792","Mus lenae","971051",NA,NA
+"Dicrostonyx torquatus","180326","180326","Pallas, 1779","Mus lenensis","971052",NA,NA
+"Dicrostonyx torquatus","180326","180326","Von Baer, 1841","Lemmus ungulatus","971053",NA,NA
+"Dicrostonyx torquatus","180326","180326","Middendorff, 1853","Myodes torquatus pallida","972713",NA,NA
+"Dipodomys panamintinus","180245","180245","Merriam, 1894","Perodipus panamintinus","900656",NA,NA
+"Dipus sagitta","609755","609755","Barrett-Hamilton, 1900","Dipus deasyi","952101",NA,NA
+"Dipus sagitta","609755","609755","Sowerby, 1920","Dipus halli","952102",NA,NA
+"Dipus sagitta","609755","609755","Lichtenstein, 1823","Dipus lagopus","952103",NA,NA
+"Dipus sagitta","609755","609755","Satunin, 1907","Dipus nogai","952104",NA,NA
+"Dipus sagitta","609755","609755","Thomas, 1908","Dipus sowerbyi","952105",NA,NA
+"Dipus sagitta","609755","609755","Ognev, 1930","Dipodipus sagitta innae","952159",NA,NA
+"Dipus sagitta","609755","609755","Selevin, 1934","Dipus sagitta zaissanensis","952160",NA,NA
+"Dipus sagitta","609755","609755","Bannikov, 1947","Dipus sagitta ubsanensis","952161",NA,NA
+"Dipus sagitta","609755","609755","Wang, 1964","Dipus sagitta aksuensis","952162",NA,NA
+"Dipus sagitta","609755","609755","Wang, 1964","Dipus sagitta fuscocanus","952163",NA,NA
+"Dipus sagitta","609755","609755","Shenbrot, 1991","Dipus sagitta austrouralensis","952164",NA,NA
+"Dipus sagitta","609755","609755","Shenbrot, 1991","Dipus sagitta turanicus","952165",NA,NA
+"Dipus sagitta","609755","609755","Shenbrot, 1991","Dipus sagitta megacranius","952166",NA,NA
+"Dipus sagitta","609755","609755","Shenbrot, 1991","Dipus sagitta usuni","952167",NA,NA
+"Dipus sagitta","609755","609755","Shenbrot, 1991","Dipus sagitta bulganensis","952168",NA,NA
+"Ellobius tancrei","632835","632835","Thomas, 1912","Ellobius albicatus","971061",NA,NA
+"Ellobius tancrei","632835","632835","Thomas, 1912","Ellobius coenosus","971062",NA,NA
+"Ellobius tancrei","632835","632835","Vinogradov, 1936","Ellobius fuscipes","971063",NA,NA
+"Ellobius tancrei","632835","632835","Thomas, 1912","Ellobius kastschenkoi","971064",NA,NA
+"Ellobius tancrei","632835","632835","G. M. Allen, 1924","Ellobius larvatus","971065",NA,NA
+"Ellobius tancrei","632835","632835","Dukelski, 1927","Ellobius talpinus ognevi","972720",NA,NA
+"Ellobius tancrei","632835","632835","Thomas, 1912","Ellobius fusciceps ursulus","972721",NA,NA
+"Erethizon dorsatum","180393","825295","(Linnaeus, 1758)","Erethizon dorsatum","180393","Erethizon dorsatus","(Linnaeus, 1758)"
+"Euryoryzomys nitidus","972467","972467","(Thomas, 1884)","Oryzomys nitidus","633237",NA,NA
+"Geomys arenarius","180215","180215","Merriam, 1895","Geomys bursarius arenarius","900557",NA,NA
+"Geomys knoxjonesi","552518","552518","Baker and Genoways, 1975","Geomys bursarius knoxjonesi","900588",NA,NA
+"Geomys bursarius lutescens","900249","900196","Merriam, 1890","Geomys bursarius lutescens","900249","Geomys lutescens","Merriam, 1890"
+"Hydromys chrysogaster","585251","585251","Peters, 1874","Hydromys beccarii","971922",NA,NA
+"Hydromys chrysogaster","585251","585251","Thomas, 1906","Hydromys esox","971923",NA,NA
+"Hydromys chrysogaster","585251","585251","Gould, 1853","Hydromys fuliginosus","971924",NA,NA
+"Hydromys chrysogaster","585251","585251","Jourdan, 1837","Hydromys fulvogaster","971925",NA,NA
+"Hydromys chrysogaster","585251","585251","Gould, 1853","Hydromys fulvolavatus","971926",NA,NA
+"Hydromys chrysogaster","585251","585251","F. Cuvier, 1837","Hydromys fulvoventer","971927",NA,NA
+"Hydromys chrysogaster","585251","585251","Troughton, 1935","Hydromys grootensis","971928",NA,NA
+"Hydromys chrysogaster","585251","585251","Troughton, 1935","Hydromys lawnensis","971929",NA,NA
+"Hydromys chrysogaster","585251","585251","É. Geoffroy, 1804","Hydromys leucogaster","971930",NA,NA
+"Hydromys chrysogaster","585251","585251","Thomas, 1923","Hydromys longmani","971931",NA,NA
+"Hydromys chrysogaster","585251","585251","Thomas, 1921","Hydromys melicertes","971932",NA,NA
+"Hydromys chrysogaster","585251","585251","Troughton, 1935","Hydromys moae","971933",NA,NA
+"Hydromys chrysogaster","585251","585251","Thomas, 1921","Hydromys nauticus","971934",NA,NA
+"Hydromys chrysogaster","585251","585251","Troughton, 1937","Hydromys oriens","971935",NA,NA
+"Hydromys chrysogaster","585251","585251","Thomas and Dollman, 1909","Hydromys chrysogaster reginae","974139",NA,NA
+"Hydromys chrysogaster","585251","585251","Thomas, 1909","Hydromys chrysogaster caurinus","974140",NA,NA
+"Hydromys chrysogaster","585251","585251","Thomas, 1922","Hydromys esox illuteus","974178",NA,NA
+"Jaculus jaculus","609758","609758","Lichtenstein, 1827","Dipus aegyptius","952106",NA,NA
+"Jaculus jaculus","609758","609758","Lataste, 1883","Dipus darricarrerei","952107",NA,NA
+"Jaculus jaculus","609758","609758","Loche, 1867","Dipus deserti","952108",NA,NA
+"Jaculus jaculus","609758","609758","Cheesman and Hinton, 1924","Jaculus florentiae","952109",NA,NA
+"Jaculus jaculus","609758","609758","Lichtenstein, 1823","Dipus hirtipes","952110",NA,NA
+"Jaculus jaculus","609758","609758","Blanford, 1875","Dipus loftusi","952111",NA,NA
+"Jaculus jaculus","609758","609758","Lichtenstein, 1828","Dipus macromystax","952112",NA,NA
+"Jaculus jaculus","609758","609758","Wagner, 1840","Dipus macrotarsus","952113",NA,NA
+"Jaculus jaculus","609758","609758","Nehring, 1901","Dipus schlueteri","952114",NA,NA
+"Jaculus jaculus","609758","609758","Thomas and Hinton, 1921","Jaculus jaculus sefrius","952214",NA,NA
+"Jaculus jaculus","609758","609758","Thomas, 1921","Jaculus loftusi vocator","952215",NA,NA
+"Jaculus jaculus","609758","609758","Thomas, 1922","Jaculus jaculus syrius","952216",NA,NA
+"Jaculus jaculus","609758","609758","Cheesman and Hinton, 1924","Jaculus florentiae oralis","952217",NA,NA
+"Jaculus jaculus","609758","609758","Thomas and Hinton, 1921","Jaculus jaculus centralis","952218",NA,NA
+"Jaculus jaculus","609758","609758","Thomas, 1921","Jaculus jaculus airensis","952219",NA,NA
+"Jaculus jaculus","609758","609758","Thomas, 1913","Jaculus jaculus favonicus","952220",NA,NA
+"Jaculus jaculus","609758","609758","Setzer, 1955","Jaculus deserti favillus","952221",NA,NA
+"Jaculus jaculus","609758","609758","Ranck, 1968","Jaculus deserti fuscipes","952222",NA,NA
+"Jaculus jaculus","609758","609758","Ranck, 1968","Jaculus deserti rarus","952223",NA,NA
+"Jaculus jaculus","609758","609758","Ranck, 1968","Jaculus deserti vastus","952224",NA,NA
+"Jaculus jaculus","609758","609758","Ranck, 1968","Jaculus jaculus arenaceous","952225",NA,NA
+"Jaculus jaculus","609758","609758","Ranck, 1968","Jaculus jaculus collinsi","952226",NA,NA
+"Jaculus jaculus","609758","609758","Ranck, 1968","Jaculus jaculus cufrensis","952227",NA,NA
+"Jaculus jaculus","609758","609758","Ranck, 1968","Jaculus jaculus tripolitanicus","952228",NA,NA
+"Jaculus jaculus","609758","609758","Ranck, 1968","Jaculus jaculus whitchurchi","952229",NA,NA
+"Aeorestes cinereus","1157324","1157324","(Palisot de Beauvois, 1796)","Lasiurus cinereus","180017",NA,NA
+"Aeorestes cinereus","1157324","1157324","(Palisot de Beauvois, 1796)","Lasiurus cinereus cinereus","202343",NA,NA
+"Aeorestes cinereus","1157324","1157324","Palisot de Beauvois, 1796","Vespertilio linereus","946985",NA,NA
+"Aeorestes cinereus","1157324","1157324","Palisot de Beauvois, 1796","Vespertilio cinereus","946986",NA,NA
+"Dasypterus ega","1157330","1157330","(Gervais, 1856)","Lasiurus ega","180018",NA,NA
+"Dasypterus ega","1157330","1157330","Gervais, 1856","Nycticejus ega","946826",NA,NA
+"Lemmiscus curtatus","552490","552490","(Cope, 1868)","Lagurus curtatus","180355",NA,NA
+"Lemmiscus curtatus","552490","552490","Cope, 1868","Arvicola curtata","203536",NA,NA
+"Lemmiscus curtatus","552490","552490","Coues, 1877","Arvicola decurtata","203537",NA,NA
+"Lemmiscus curtatus","552490","552490","Taylor, 1911","Microtus intermedius","971080",NA,NA
+"Lemmiscus curtatus","552490","552490","Merriam, 1888","Arvicola pallidus","971081",NA,NA
+"Lemmiscus curtatus","552490","552490","Cooper, 1868","Arvicola pauperrimus","971082",NA,NA
+"Lemmiscus curtatus","552490","552490","Anthony, 1913","Microtus curtatus artemisiae","972735",NA,NA
+"Lemmiscus curtatus","552490","552490","Goldman, 1941","Lemmiscus curtatus levidensis","972736",NA,NA
+"Lemmiscus curtatus","552490","552490","Dearden and Lee, 1955","Lemmiscus curtatus orbitus","972737",NA,NA
 "Lemmus trimucronatus","203526","203526","(True, 1894)","Lemmus nigripes","180321",NA,NA
 "Lemmus trimucronatus","203526","203526","True, 1894","Myodes nigripes","203525",NA,NA
 "Lemmus trimucronatus","203526","203526","Richardson, 1825","Arvicola trimucronatus","203527",NA,NA
@@ -359,26 +458,6 @@
 "Microtus mexicanus","180308","180308","Hooper, 1955","Microtus mexicanus neveriae","972847",NA,NA
 "Microtus mexicanus","180308","180308","Hall, 1948","Microtus mexicanus salvus","972848",NA,NA
 "Microtus mexicanus","180308","180308","Goldman, 1938","Microtus mexicanus subsimus","972849",NA,NA
-"Microtus montanus","180310","180310","Bailey, 1898","Microtus dutcheri","971173",NA,NA
-"Microtus montanus","180310","180310","Baird, 1857","Arvicola longirostris","971174",NA,NA
-"Microtus montanus","180310","180310","Merriam, 1891","Arvicola nanus","971175",NA,NA
-"Microtus montanus","180310","180310","Bailey, 1898","Microtus nevadensis","971176",NA,NA
-"Microtus montanus","180310","180310","Hall and Hayward, 1941","Microtus montanus amosus","972856",NA,NA
-"Microtus montanus","180310","180310","Bailey, 1898","Microtus montanus arizonensis","972857",NA,NA
-"Microtus montanus","180310","180310","Bailey, 1898","Microtus nanus canescens","972858",NA,NA
-"Microtus montanus","180310","180310","Bailey, 1917","Microtus montanus caryi","972859",NA,NA
-"Microtus montanus","180310","180310","S. Anderson, 1954","Microtus montanus codiensis","972860",NA,NA
-"Microtus montanus","180310","180310","Hall, 1935","Microtus montanus fucosus","972861",NA,NA
-"Microtus montanus","180310","180310","Hall, 1938","Microtus montanus fusus","972862",NA,NA
-"Microtus montanus","180310","180310","Hall, 1935","Microtus montanus micropus","972863",NA,NA
-"Microtus montanus","180310","180310","Hall and Hayward, 1941","Microtus montanus nexus","972864",NA,NA
-"Microtus montanus","180310","180310","Hall and Kelson, 1951","Microtus montanus pratincolus","972865",NA,NA
-"Microtus montanus","180310","180310","Bailey, 1898","Microtus nevadensis rivularis","972866",NA,NA
-"Microtus montanus","180310","180310","Hall, 1935","Microtus montanus undosus","972867",NA,NA
-"Microtus montanus","180310","180310","Grinnell, 1914","Microtus montanus yosemite","972868",NA,NA
-"Microtus montanus","180310","180310","S. Anderson, 1954","Microtus montanus zygomaticus","972869",NA,NA
-"Microtus montanus","180310","180310","Bailey, 1898","Microtus montanus nevadensis","974189",NA,NA
-"Microtus montanus","180310","180310","Bailey, 1898","Microtus montanus rivularis","974190",NA,NA
 "Microtus oeconomus","180298","180298","(Keyserling and Blasius, 1841)","Microtus ratticeps","203510",NA,NA
 "Microtus oeconomus","180298","180298","O. J. Murie, 1930","Microtus amakensis","971182",NA,NA
 "Microtus oeconomus","180298","180298","Selys-Longchamps, 1841","Arvicola arenicola","971183",NA,NA
@@ -420,12 +499,6 @@
 "Microtus richardsoni","180315","180315","Merriam, 1891","Arvicola macropus","971225",NA,NA
 "Microtus richardsoni","180315","180315","Rhoads, 1895","Microtus principalis","971226",NA,NA
 "Microtus richardsoni","180315","180315","Rasmussen and Chamberlain, 1959","Microtus richardsoni myllodontus","972916",NA,NA
-"Microtus townsendii","180316","180316","Peale, 1848","Arvicola occidentalis","971248",NA,NA
-"Microtus townsendii","180316","180316","Rhoads, 1894","Arvicola tetramerus","971249",NA,NA
-"Microtus townsendii","180316","180316","Guiguet, 1955","Microtus townsendii cowani","972930",NA,NA
-"Microtus townsendii","180316","180316","Hall, 1936","Microtus townsendii cummingi","972931",NA,NA
-"Microtus townsendii","180316","180316","Anderson and Rand, 1943","Microtus townsendi laingi","972932",NA,NA
-"Microtus townsendii","180316","180316","Dalquest, 1940","Microtus townsendii pugeti","972933",NA,NA
 "Gardnerycteris crenulatum","1058372","1058372","(E. Geoffroy, 1803)","Mimon crenulatum","631777",NA,NA
 "Gardnerycteris crenulatum","1058372","1058372","Thomas, 1903","Anthorhina picata","946571",NA,NA
 "Gardnerycteris crenulatum","1058372","1058372","(Thomas, 1903)","Mimon crenulatum picatum","948208",NA,NA
@@ -1041,24 +1114,6 @@
 "Rattus tiomanicus","585557","585557","Hill, 1960","Rattus rattus terutavensis","974072",NA,NA
 "Rattus tiomanicus","585557","585557","Sody, 1940","Rattus rattus vernalus","974073",NA,NA
 "Rattus tiomanicus","585557","585557","Miller, 1913","Epimys rattus viclana","974074",NA,NA
-"Reithrodontomys fulvescens","180341","180341","Elliot, 1905","Rhithrodontomys amoenus","971522",NA,NA
-"Reithrodontomys fulvescens","180341","180341","Elliot, 1899","Reithrodontomys chrysotis","971523",NA,NA
-"Reithrodontomys fulvescens","180341","180341","Merriam, 1901","Reithrodontomys difficilis","971524",NA,NA
-"Reithrodontomys fulvescens","180341","180341","Merriam, 1901","Reithrodontomys griseoflavus","971525",NA,NA
-"Reithrodontomys fulvescens","180341","180341","Elliot, 1903","Reithrodontomys inexspectatus","971526",NA,NA
-"Reithrodontomys fulvescens","180341","180341","J. A. Allen, 1896","Reithrodontomys laceyi","971527",NA,NA
-"Reithrodontomys fulvescens","180341","180341","J. A. Allen, 1899","Reithrodontomys tenuis","971528",NA,NA
-"Reithrodontomys fulvescens","180341","180341","J. A. Allen, 1895","Reithrodontomys mexicanus aurantius","973321",NA,NA
-"Reithrodontomys fulvescens","180341","180341","Benson, 1939","Reithrodontomys fulvescens canus","973322",NA,NA
-"Reithrodontomys fulvescens","180341","180341","A. H. Howell, 1914","Reithrodontomys fulvescens chiapensis","973323",NA,NA
-"Reithrodontomys fulvescens","180341","180341","Merriam, 1901","Reithrodontomys griseoflavus helvolus","973324",NA,NA
-"Reithrodontomys fulvescens","180341","180341","Hooper, 1950","Reithrodontomys fulvescens infernatis","973325",NA,NA
-"Reithrodontomys fulvescens","180341","180341","J. A. Allen, 1895","Reithrodontomys mexicanus intermedius","973326",NA,NA
-"Reithrodontomys fulvescens","180341","180341","Anderson and Jones, 1960","Reithrodontomys fulvescens meridionalis","973327",NA,NA
-"Reithrodontomys fulvescens","180341","180341","A. H. Howell, 1914","Reithrodontomys fulvescens mustelinus","973328",NA,NA
-"Reithrodontomys fulvescens","180341","180341","A. H. Howell, 1914","Reithrodontomys fulvescens nelsoni","973329",NA,NA
-"Reithrodontomys fulvescens","180341","180341","Merriam, 1901","Reithrodontomys levipes toltecus","973330",NA,NA
-"Reithrodontomys fulvescens","180341","180341","Davis, 1944","Reithrodontomys fulvescens tropicalis","973331",NA,NA
 "Reithrodontomys mexicanus","633324","633324","J. A. Allen, 1891","Hesperomys cherrii","971541",NA,NA
 "Reithrodontomys mexicanus","633324","633324","Enders and Pearson, 1940","Reithrodontomys mexicanus garichensis","973343",NA,NA
 "Reithrodontomys mexicanus","633324","633324","Goodwin, 1932","Reithrodontomys mexicanus howelli","973344",NA,NA
@@ -1072,8 +1127,6 @@
 "Reithrodontomys mexicanus","633324","633324","Hooper, 1950","Reithrodontomys mexicanus scansor","973352",NA,NA
 "Reithrodontomys microdon","633325","633325","Merriam, 1901","Reithrodontomys microdon albilabris","973353",NA,NA
 "Reithrodontomys microdon","633325","633325","Hooper, 1950","Reithrodontomys microdon wagneri","973354",NA,NA
-"Reithrodontomys montanus","180344","180344","Cary, 1903","Reithrodontomys albescens","971542",NA,NA
-"Reithrodontomys montanus","180344","180344","Bailey, 1905","Reithrodontomys griseus","971543",NA,NA
 "Reithrodontomys sumichrasti","633329","633329","A. H. Howell, 1914","Reithrodontomys alleni","971545",NA,NA
 "Reithrodontomys sumichrasti","633329","633329","J. A. Allen, 1895","Reithrodontomys australis","971546",NA,NA
 "Reithrodontomys sumichrasti","633329","633329","Merriam, 1901","Reithrodontomys dorsalis","971547",NA,NA
@@ -1100,9 +1153,6 @@
 "Rhabdomys pumilio","585562","585562","Roberts, 1926","Rhabdomys pumilio namibensis","974091",NA,NA
 "Rhabdomys pumilio","585562","585562","Roberts, 1946","Rhabdomys pumilio orangiae","974092",NA,NA
 "Rhabdomys pumilio","585562","585562","Roberts, 1946","Rhabdomys pumilio prieskae","974093",NA,NA
-"Sciurus arizonensis","180174","180174","Coues, 1867","Sciurus arizonensis arizonensis","930426",NA,NA
-"Sciurus arizonensis","180174","180174","Doutt, 1931","Sciurus arizonensis catalinae","930427",NA,NA
-"Sciurus arizonensis","180174","180174","J. A. Allen, 1894","Sciurus arizonensis huachuca","930428",NA,NA
 "Scotinomys teguina","633354","633354","J. A. Allen, 1904","Akodon irazu","971550",NA,NA
 "Scotinomys teguina","633354","633354","Bangs, 1902","Akodon teguina apricus","973361",NA,NA
 "Scotinomys teguina","633354","633354","Goodwin, 1945","Scotinomys teguina cacabatus","973362",NA,NA
@@ -1176,15 +1226,6 @@
 "Synaptomys borealis","180323","180323","Bangs, 1900","Synaptomys innuitus medioximus","973012",NA,NA
 "Synaptomys borealis","180323","180323","Anderson and Rand, 1943","Synaptomys borealis smithi","973013",NA,NA
 "Synaptomys borealis","180323","180323","Preble, 1899","Synaptomys borealis sphagnicola","974206",NA,NA
-"Synaptomys cooperi","180324","180324","Bangs, 1896","Synaptomys fatuus","971340",NA,NA
-"Synaptomys cooperi","180324","180324","Coues, 1877","Arvicola gossii","971341",NA,NA
-"Synaptomys cooperi","180324","180324","Merriam, 1896","Synaptomys helaletes","971342",NA,NA
-"Synaptomys cooperi","180324","180324","Rhoads, 1893","Synaptomys stonei","971343",NA,NA
-"Synaptomys cooperi","180324","180324","Barbour, 1956","Synaptomys cooperi kentucki","973014",NA,NA
-"Synaptomys cooperi","180324","180324","Hibbard and Rinker, 1942","Synaptomys cooperi paludis","973015",NA,NA
-"Synaptomys cooperi","180324","180324","Jones, 1958","Synaptomys cooperi relictus","973016",NA,NA
-"Synaptomys cooperi","180324","180324","Bole and Moulthrop, 1942","Synaptomys cooperi saturatus","973017",NA,NA
-"Synaptomys cooperi","180324","180324","Merriam, 1896","Synaptomys cooperi helaletes","974207",NA,NA
 "Gerbilliscus leucogaster","970792","970792","(Peters, 1852)","Tatera leucogaster","633004",NA,NA
 "Gerbilliscus leucogaster","970792","970792","de Winton, 1898","Gerbillus lobengulae","971724",NA,NA
 "Gerbilliscus leucogaster","970792","970792","Wroughton, 1906","Tatera panja","971725",NA,NA
@@ -1205,20 +1246,6 @@
 "Urocitellus armatus","930314","930314","Kennicott, 1863","Spermophilus armatus","180147",NA,NA
 "Vulpes lagopus","622025","622025","(Linnaeus, 1758)","Alopex lagopus","180602",NA,NA
 "Vulpes lagopus","622025","622025","Linnaeus, 1758","Canis lagopus","998413",NA,NA
-"Zapus princeps","180387","180387","Elliot, 1898","Zapus alleni","952144",NA,NA
-"Zapus princeps","180387","180387","Preble, 1899","Zapus major","952145",NA,NA
-"Zapus princeps","180387","180387","Preble, 1899","Zapus nevadensis","952146",NA,NA
-"Zapus princeps","180387","180387","Merriam, 1897","Zapus pacificus","952147",NA,NA
-"Zapus princeps","180387","180387","J. A. Allen, 1899","Zapus saltator","952148",NA,NA
-"Zapus princeps","180387","180387","Lee and Durrant, 1960","Zapus princeps chrysogenys","952243",NA,NA
-"Zapus princeps","180387","180387","Preble, 1899","Zapus princeps oregonus","952244",NA,NA
-"Zapus princeps","180387","180387","Hall, 1931","Zapus princeps cinereus","952245",NA,NA
-"Zapus princeps","180387","180387","Hall, 1931","Zapus princeps curtatus","952246",NA,NA
-"Zapus princeps","180387","180387","Davis, 1934","Zapus princeps idahoensis","952247",NA,NA
-"Zapus princeps","180387","180387","Anderson, 1932","Zapus princeps kootenayensis","952248",NA,NA
-"Zapus princeps","180387","180387","Preble, 1899","Zapus princeps minor","952249",NA,NA
-"Zapus princeps","180387","180387","Hall, 1931","Zapus princeps palatinus","952250",NA,NA
-"Zapus princeps","180387","180387","Hall, 1934","Zapus princeps utahensis","952251",NA,NA
 "Zapus trinotatus","180388","180388","Preble, 1899","Zapus trinotatus orarius","609783",NA,NA
 "Zapus trinotatus","180388","180388","Preble, 1899","Zapus orarius","952149",NA,NA
 "Zapus trinotatus","180388","180388","A. B. Howell, 1920","Zapus trinotatus eureka","952252",NA,NA

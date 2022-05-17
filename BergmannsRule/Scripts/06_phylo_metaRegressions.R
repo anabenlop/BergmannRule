@@ -45,6 +45,7 @@ saveRDS(mod.hb,"Results/BergmannsRule_results_MR_heatBalance.rds")
 
 # 2. Migration Meta-Regression ------------------------------------------------
 
+#a) Birds ----
 # load bird data with migratory info
 birds <- read.csv("Data/birds_ph_mig.csv", stringsAsFactors = F)
 
@@ -166,10 +167,84 @@ bird.npp.sd <- readRDS('Results/BergmannsRule_results_MR_mig_nppsd.rds')
 bird.npp.sd_n <- readRDS('Results/BergmannsRule_results_MR_mig_nppsd_n.rds')
 
 # save results in list
-bi.mr <- list(bird.tavg_n,bird.tmax_n,bird.npp_n,bird.npp.sd_n)
+bi.mr <- list(bird.tavg_n,bird.tmax_n,bird.npp_n,bird.npp.sd_n) # we exclude species that are nomadic
 names(bi.mr) <- c("tavg","tmax","npp","npp.sd")
 
 saveRDS(bi.mr,'Results/BergmannsRule_results_MR_mig.rds')
+
+#b) Mammals ----
+# load mammal data with migratory info
+mammals <- read.csv("Data/mammals_ph_mig.csv", stringsAsFactors = F)
+mammals$Mig_status <- as.character(mammals$Mig_status)
+
+# loading phylogenetic matrixes 
+load("Data/mam_phylo_cor.Rdata") #mam_phylo_cor
+
+# define phylo vcov matrix and random effects
+phylocor<-list(speciesname  = mam_phylo_cor)
+RE = list( ~1|speciesname, ~1|SPID)
+
+# Tavg model
+mam.tavg <- rma.mv(yi = z.cor.yi,
+                    V = z.cor.vi,
+                    data = mammals,
+                    subset = env.var=="tavg",
+                    mods = ~ Mig_status-1,
+                    random = RE, R = phylocor)
+summary(mam.tavg) # no clear signal
+
+# save results
+saveRDS(mam.tavg,"Results/BergmannsRule_results_MR_mig_mam_tavg.rds")
+rm(mam.tavg)
+
+# Tmax model
+mam.tmax <- rma.mv(yi = z.cor.yi,
+                    V = z.cor.vi,
+                    data = mammals,
+                    subset = env.var=="tmax",
+                    mods = ~ Mig_status - 1,
+                    random = RE,  R = phylocor)
+summary(mam.tmax)
+
+# save results
+saveRDS(mam.tmax,'Results/BergmannsRule_results_MR_mig_mam_tmax.rds')
+rm(mam.tmax)
+
+# NPP model
+mam.npp <- rma.mv(yi = z.cor.yi,
+                   V = z.cor.vi,
+                   data = mammals,
+                   subset = env.var=='npp',
+                   mods = ~ Mig_status - 1,
+                   random = RE,  R = phylocor)
+summary(mam.npp) # clear effect for resident but not for migratory species
+
+saveRDS(mam.npp,'Results/BergmannsRule_results_MR_mig_mam_npp.rds')
+rm(mam.npp)
+
+# NPP sd model
+mam.npp.sd <- rma.mv(yi = z.cor.yi,
+                      V = z.cor.vi,
+                      data = mammals, 
+                      subset = env.var=='npp.sd',
+                      mods = ~ Mig_status - 1,
+                      random = RE,  R = phylocor)
+summary(mam.npp.sd) # clear effect for resident but not for migratory species
+
+saveRDS(mam.npp.sd,'Results/BergmannsRule_results_MR_mig_mam_nppsd.rds')
+rm(mam.npp.sd)
+
+# load fitted models
+mam.tavg <- readRDS('Results/BergmannsRule_results_MR_mig_tavg.rds')
+mam.tmax <- readRDS('Results/BergmannsRule_results_MR_mig_tmax.rds')
+mam.npp <- readRDS('Results/BergmannsRule_results_MR_mig_npp.rds')
+mam.npp.sd <- readRDS('Results/BergmannsRule_results_MR_mig_nppsd.rds')
+
+# save results in list
+mam.mr <- list(mam.tavg,mam.tmax,mam.npp,mam.npp.sd)
+names(mam.mr) <- c("tavg","tmax","npp","npp.sd")
+
+saveRDS(mam.mr,'Results/BergmannsRule_results_MR_mam_mig.rds')
 
 # 3. Test mammals with body mass  ------------------------------------------------
 # Freckleton et al. 2003 --> Bergmann’s rule does depend on body mass: larger species follow the rule more commonly than smaller ones
@@ -262,7 +337,7 @@ rm(mam.nppsd.bm)
 mamdata <- read.csv("Data/mamdata_ph.csv", stringsAsFactors = F)
 
 # loading phylogenetic matrixes 
-load("Data/mam_phylo_cor.Rdata") #bird_phylo_cor
+load("Data/mam_phylo_cor.Rdata") #mam_phylo_cor
 
 # define phylo vcov matrix and random effects
 phylocor<-list(speciesname  = mam_phylo_cor)
