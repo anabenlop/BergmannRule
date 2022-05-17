@@ -245,90 +245,8 @@ names(mam.mr) <- c("tavg","tmax","npp","npp.sd")
 
 saveRDS(mam.mr,'Results/BergmannsRule_results_MR_mam_mig.rds')
 
-# 3. Test mammals with body mass  ------------------------------------------------
-# Freckleton et al. 2003 --> Bergmann’s rule does depend on body mass: larger species follow the rule more commonly than smaller ones
 
-# load data
-mammals <- read.csv("Data/mamdata_ph.csv", stringsAsFactors = F)
-# mammals_ph$Species_ph <- gsub(" ", "_", trimws(mammals_ph$speciesname))
-
-# read elton traits dataset and save body mass
-elton_mam <- read.csv("Data/EltonTraits_Mammals_taxid.csv", header = T, stringsAsFactors = F)
-
-mammals <- left_join(mammals, elton_mam[,c("Scientific", "BodyMass.Value")], by = c("speciesname" = "Scientific"))
-
-# join missing species
-mis_bm <- read.csv("Data/mammals_bm.csv", stringsAsFactors = F) 
-mammals <- left_join(mammals, mis_bm, by = "speciesname")
-mammals$BodyMass.Value <-ifelse(is.na(mammals$BodyMass.Value), mammals$BodyMass, mammals$BodyMass.Value)
-
-mammals$BM <- log10(mammals$BodyMass.Value) 
-
-
-# loading phylogenetic matrixes 
-load("Data/mam_phylo_cor.Rdata") #mam_phylo_cor
-
-# define phylo vcov matrix and random effects
-phylocor<-list(speciesname  = mam_phylo_cor)
-RE = list( ~1|speciesname, ~1|SPID)
-
-# Tavg model
-mam.tavg.bm <- rma.mv(yi = z.cor.yi,
-                    V = z.cor.vi,
-                    data = mammals,
-                    subset = env.var=="tavg",
-                    mods = ~ BM,
-                    random = RE, R = phylocor)
-summary(mam.tavg.bm)
-
-# save results
-saveRDS(mam.tavg.bm,"Results/BergmannsRule_results_MR_mammals_BM_tavg.rds")
-rm(mam.tavg.bm)
-
-# Tmaxmodel
-mam.tmax.bm <- rma.mv(yi = z.cor.yi,
-                      V = z.cor.vi,
-                      data = mammals,
-                      subset = env.var=="tmax",
-                      mods = ~ BM,
-                      random = RE, R = phylocor)
-summary(mam.tmax.bm) #marginally significant --> size-tmax corr becomes more negative for larger species
-
-# save results
-saveRDS(mam.tmax.bm,"Results/BergmannsRule_results_MR_mammals_BM_tmax.rds")
-rm(mam.tmax.bm)
-
-# NPP model
-mam.npp.bm <- rma.mv(yi = z.cor.yi,
-                      V = z.cor.vi,
-                      data = mammals,
-                      subset = env.var=="npp",
-                      mods = ~ BM,
-                      random = RE, R = phylocor)
-summary(mam.npp.bm) 
-
-# save results
-saveRDS(mam.npp.bm,"Results/BergmannsRule_results_MR_mammals_BM_npp.rds")
-rm(mam.npp.bm)
-
-
-
-# NPPsd model
-mam.nppsd.bm <- rma.mv(yi = z.cor.yi,
-                      V = z.cor.vi,
-                      data = mammals,
-                      subset = env.var=="npp.sd",
-                      mods = ~ BM,
-                      random = RE, R = phylocor)
-summary(mam.nppsd.bm) 
-
-
-# save results
-saveRDS(mam.nppsd.bm,"Results/BergmannsRule_results_MR_mammals_BM_nppsd.rds")
-rm(mam.nppsd.bm)
-
-
-# 4. Test effect of environmental variation  ------------------------------------------------
+# 3. Test effect of environmental variation  ------------------------------------------------
 
 #### a) Mammals ####
 # load mammal dataset 
@@ -402,7 +320,7 @@ mam.npp.sd.env <- readRDS('Results/BergmannsRule_results_MR_mam_nppsd_env.rds')
 
 # save results in list
 ma.mr.env <- list(mam.tavg.env,mam.tmax.env,mam.npp.env,mam.npp.sd.env) 
-names(ma.mr.env) <- c("tavg","tmax","npp","npp.sd")
+names(ma.mr.env) <- c("sd.tavg","sd.tmax","sd.npp","sd.npp.sd")
 
 saveRDS(ma.mr.env,'Results/BergmannsRule_results_MR_mam_env.rds')
 
@@ -478,7 +396,7 @@ bird.npp.sd.env <- readRDS('Results/BergmannsRule_results_MR_bird_nppsd_env.rds'
 
 # save results in list
 bi.mr.env <- list(bird.tavg.env,bird.tmax.env,bird.npp.env,bird.npp.sd.env) 
-names(bi.mr.env) <- c("tavg","tmax","npp","npp.sd")
+names(bi.mr.env) <- c("sd.tavg","sd.tmax","sd.npp","sd.npp.sd")
 
 saveRDS(bi.mr.env,'Results/BergmannsRule_results_MR_bird_env.rds')
 
@@ -525,7 +443,7 @@ rept.npp.sd.env <- readRDS('Results/BergmannsRule_results_MR_rept_nppsd_env.rds'
 
 # save results in list
 re.mr.env <- list(rept.npp.env,rept.npp.sd.env) 
-names(re.mr.env) <- c("npp","npp.sd")
+names(re.mr.env) <- c("sd.npp","sd.npp.sd")
 
 saveRDS(re.mr.env,'Results/BergmannsRule_results_MR_rept_env.rds')
 
@@ -562,6 +480,10 @@ amph.npp.sd.env <- rma.mv(yi = z.cor.yi,
                           random = RE, R = phylocor)
 summary(amph.npp.sd.env) # no clear support for the seasonality hypothesis
 
+# save results
+saveRDS(amph.npp.sd.env,"Results/BergmannsRule_results_MR_amph_nppsd_env.rds")
+rm(amph.npp.sd.env)
+
 # prec model with env variation
 amph.prec.env <- rma.mv(yi = z.cor.yi,
                           V = z.cor.vi,
@@ -581,10 +503,94 @@ amph.npp.sd.env <- readRDS('Results/BergmannsRule_results_MR_amph_nppsd_env.rds'
 amph.prec.env <- readRDS('Results/BergmannsRule_results_MR_amph_prec_env.rds')
 
 # save results in list
-re.mr.env <- list(amph.npp.env,amph.npp.sd.env,amph.prec.env) 
-names(re.mr.env) <- c("npp","npp.sd")
+am.mr.env <- list(amph.npp.env,amph.npp.sd.env,amph.prec.env) 
+names(am.mr.env) <- c("sd.npp","sd.npp.sd","sd.prec")
 
-saveRDS(re.mr.env,'Results/BergmannsRule_results_MR_amph_env.rds')
+saveRDS(am.mr.env,'Results/BergmannsRule_results_MR_amph_env.rds')
 
-# End of script
+# 4. Test mammals with body mass  ------------------------------------------------
+# Freckleton et al. 2003 --> Bergmann’s rule does depend on body mass: larger species follow the rule more commonly than smaller ones
 
+# # load data
+# mammals <- read.csv("Data/mamdata_ph.csv", stringsAsFactors = F)
+# # mammals_ph$Species_ph <- gsub(" ", "_", trimws(mammals_ph$speciesname))
+# 
+# # read elton traits dataset and save body mass
+# elton_mam <- read.csv("Data/EltonTraits_Mammals_taxid.csv", header = T, stringsAsFactors = F)
+# 
+# mammals <- left_join(mammals, elton_mam[,c("Scientific", "BodyMass.Value")], by = c("speciesname" = "Scientific"))
+# 
+# # join missing species
+# mis_bm <- read.csv("Data/mammals_bm.csv", stringsAsFactors = F) 
+# mammals <- left_join(mammals, mis_bm, by = "speciesname")
+# mammals$BodyMass.Value <-ifelse(is.na(mammals$BodyMass.Value), mammals$BodyMass, mammals$BodyMass.Value)
+# 
+# mammals$BM <- log10(mammals$BodyMass.Value) 
+# 
+# 
+# # loading phylogenetic matrixes 
+# load("Data/mam_phylo_cor.Rdata") #mam_phylo_cor
+# 
+# # define phylo vcov matrix and random effects
+# phylocor<-list(speciesname  = mam_phylo_cor)
+# RE = list( ~1|speciesname, ~1|SPID)
+# 
+# # Tavg model
+# mam.tavg.bm <- rma.mv(yi = z.cor.yi,
+#                       V = z.cor.vi,
+#                       data = mammals,
+#                       subset = env.var=="tavg",
+#                       mods = ~ BM,
+#                       random = RE, R = phylocor)
+# summary(mam.tavg.bm)
+# 
+# # save results
+# saveRDS(mam.tavg.bm,"Results/BergmannsRule_results_MR_mammals_BM_tavg.rds")
+# rm(mam.tavg.bm)
+# 
+# # Tmaxmodel
+# mam.tmax.bm <- rma.mv(yi = z.cor.yi,
+#                       V = z.cor.vi,
+#                       data = mammals,
+#                       subset = env.var=="tmax",
+#                       mods = ~ BM,
+#                       random = RE, R = phylocor)
+# summary(mam.tmax.bm) #marginally significant --> size-tmax corr becomes more negative for larger species
+# 
+# # save results
+# saveRDS(mam.tmax.bm,"Results/BergmannsRule_results_MR_mammals_BM_tmax.rds")
+# rm(mam.tmax.bm)
+# 
+# # NPP model
+# mam.npp.bm <- rma.mv(yi = z.cor.yi,
+#                      V = z.cor.vi,
+#                      data = mammals,
+#                      subset = env.var=="npp",
+#                      mods = ~ BM,
+#                      random = RE, R = phylocor)
+# summary(mam.npp.bm) 
+# 
+# # save results
+# saveRDS(mam.npp.bm,"Results/BergmannsRule_results_MR_mammals_BM_npp.rds")
+# rm(mam.npp.bm)
+# 
+# 
+# 
+# # NPPsd model
+# mam.nppsd.bm <- rma.mv(yi = z.cor.yi,
+#                        V = z.cor.vi,
+#                        data = mammals,
+#                        subset = env.var=="npp.sd",
+#                        mods = ~ BM,
+#                        random = RE, R = phylocor)
+# summary(mam.nppsd.bm) 
+# 
+# 
+# # save results
+# saveRDS(mam.nppsd.bm,"Results/BergmannsRule_results_MR_mammals_BM_nppsd.rds")
+# rm(mam.nppsd.bm)
+# 
+# 
+# 
+# # End of script
+# 

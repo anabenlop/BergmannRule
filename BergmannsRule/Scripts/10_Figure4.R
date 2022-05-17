@@ -30,56 +30,72 @@ library(ggpubr)
 # clean environment
 rm(list= ls())
 
-# Figure 3: Meta-regressions (Heat Balance and Migration) ----------------------
+# Figure 4: Meta-regressions testing the effect of environmental variation ----------------------
 
 ### Migration meta-regression panel birds ---------
 # get migration models
-mig.mods <- readRDS("Results/Bergmannsrule_results_MR_mig.rds")
+env.mods <- readRDS("Results/BergmannsRule_results_MR_bird_env.rds")
 
 # Get sample sizes for figure legend
-birds <- read.csv("Data/birds_ph_mig.csv", stringsAsFactors = F)
-nrow(subset(birds,migratory=="resident"))/4 # N resident species (divided by 4 env var) --> 957
-nrow(subset(birds,migratory=="migratory"))/4 # N migratory species  (divided by 4 env var) --> 579
-
-names(mig.mods)
+birds <- read.csv("Data/birddata_ph.csv", stringsAsFactors = F)
 
 # dataframe of models
-model <- data.frame(beta = unlist(lapply(mig.mods,"[","beta")),
-                    env.var = rep(c("MT","MaxT","NPP","NPPsd"),each=2),
-                    ci.lb = unlist(lapply(mig.mods,"[","ci.lb")),
-                    ci.ub = unlist(lapply(mig.mods,"[","ci.ub")),
-                    n = unlist(sapply(mig.mods,"[","k")),
-                    migration = rep(c("Migratory","Resident"),times=4),
-                    ID = 1:8)
-model$beta <- transf.ztor(model$beta)
-model$ci.lb <- transf.ztor(model$ci.lb)
-model$ci.ub <- transf.ztor(model$ci.ub)
+predictors <- data.frame(sd.tavg = seq(from = min(birds$sd.tavg), to = max(birds$sd.tavg), length.out = 1000),
+                         sd.tmax = seq(from = min(birds$sd.tmax), to = max(birds$sd.tmax), length.out = 1000),
+                         sd.npp = log10(seq(from = min(birds$sd.npp), to = max(birds$sd.npp), length.out = 1000)),
+                         sd.npp.sd = log10(seq(from = min(birds$sd.npp.sd), to = max(birds$sd.npp.sd), length.out = 1000)))
 
-# model <- subset(model,env.var!="MP" & env.var!="MinT" & env.var!="PET")
-model$env.var <- factor(model$env.var,levels=c("MT","MaxT","NPP","NPPsd"))
+#predict for each variable depicting env variation.
+names(env.mods)
 
-# make plot
-p <- ggplot(model,aes(x=beta,y=migration),show.legend=T) +
-  geom_vline(xintercept = 0, color = "gray80",size=.5) +
-  geom_point(mapping=aes(x=beta,y=migration,color=env.var),show.legend=T,
-             data=model,size=2) + 
-  geom_errorbarh(data=model,show.legend=F,size=.75, 
-                 mapping=aes(x=beta,y=migration,color=env.var,xmin=ci.lb,
-                             xmax=ci.ub,height=0)) +
-  theme_classic() +
-  labs(x="Spearman's r",y=NULL) +
-  scale_color_manual(name="Variable",
-                     values=c("#4477AA","#EE6677","#228833","#AA3377")) +
-  theme(axis.title=element_text(size=9),
-        plot.title = element_text(size=12),
-        axis.text=element_text(size=8),
-        plot.margin=unit(c(1,5,1,1),"lines"),
-        panel.border=element_rect(fill=NA),
-        legend.title=element_text(size=9),
-        legend.text=element_text(size=9))
+i <- 2
 
-p <- p + facet_wrap(~env.var,nrow=4) + 
-  theme(strip.text.x = element_blank(), # remove facet labels
-        strip.background = element_blank())
+colpalette <-c("#4477AA","#EE6677","#228833","#AA3377")
+tag <-c("a","b","c","d")
+B <- list()
 
-p
+for (i in 1:length(names(env.mods))) {
+  
+  df_b <- predict(env.mods[[i]], newmods = cbind(predictors[,i]), addx = T)
+  df_b <- data.frame(df_b)
+  colnames(df_b)[10] <- names(env.mods)[i]
+  df_b$pred <- transf.ztor(df_b$pred)
+  df_b$ci.lb <- transf.ztor(df_b$ci.lb)
+  df_b$ci.ub <- transf.ztor(df_b$ci.ub)
+
+  #calculate size of points based on sampling variance only
+# wi    <- 1/sqrt(birds$z.cor.vi)
+# size  <- 2 + 20.0 * (wi - min(wi))/(max(wi) - min(wi))
+
+# import silhouette
+# raster format
+# sil_M <- readPNG("Silhouettes/PhyloPic.72f2f997.Steven-Traver.Cervus-elaphus.png")
+
+B[[i]] <- ggplot()+ 
+        geom_hline(yintercept= 0, size=1.2, linetype="dashed", color="dark gray")+
+                  theme_bw(base_size=18) +
+  # annotation_custom(rasterGrob(sil_M,
+  #                              x = unit(0.14, "npc"),
+  #                              y = unit(0.15, "npc"),
+  #                              width = unit(0.22,"npc"),
+  #                              height = unit(0.27,"npc")),
+  #                             -Inf, Inf, -Inf, Inf) +
+  
+  # geom_point(aes(names(env.mods)[i],z.cor.yi), colour= "#0072B2",size = size[1:1545],shape=20, alpha=I(.3)) +
+  # scale_shape_identity()+
+ 
+  
+  geom_line(data=df_b,aes(df_b[,names(env.mods[i])],pred), colour = colpalette[i], size = 1.2)+
+  geom_ribbon(data=df_b, aes(x=df_b[,names(env.mods[i])], ymin=ci.lb,ymax=ci.ub),fill = colpalette[i], alpha=I(.4))+
+  theme(element_blank(), axis.text=element_text(size=18, colour ="black")) + 
+  xlab(names(env.mods[i]))+
+  ylab("Spearman's r")+
+  # scale_x_continuous(breaks=seq(round(min(df_b[,names(env.mods[i])]), digits = 1), max(df_b[,names(env.mods[i])]), 3)) +
+  # scale_y_continuous(breaks=seq(round(min(df_b[,"pred"]), digits = 2), round(max(df_b[,"pred"]), digits = 2), 0.05)) +
+  labs(tag = tag[i])
+}
+
+B[[1]]
+B[[2]]
+B[[3]]
+B[[4]]
