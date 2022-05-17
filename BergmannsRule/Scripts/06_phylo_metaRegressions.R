@@ -175,7 +175,6 @@ saveRDS(bi.mr,'Results/BergmannsRule_results_MR_mig.rds')
 #b) Mammals ----
 # load mammal data with migratory info
 mammals <- read.csv("Data/mammals_ph_mig.csv", stringsAsFactors = F)
-mammals$Mig_status <- as.character(mammals$Mig_status)
 
 # loading phylogenetic matrixes 
 load("Data/mam_phylo_cor.Rdata") #mam_phylo_cor
@@ -189,7 +188,7 @@ mam.tavg <- rma.mv(yi = z.cor.yi,
                     V = z.cor.vi,
                     data = mammals,
                     subset = env.var=="tavg",
-                    mods = ~ Mig_status-1,
+                    mods = ~ Mig_status2-1,
                     random = RE, R = phylocor)
 summary(mam.tavg) # no clear signal
 
@@ -202,7 +201,7 @@ mam.tmax <- rma.mv(yi = z.cor.yi,
                     V = z.cor.vi,
                     data = mammals,
                     subset = env.var=="tmax",
-                    mods = ~ Mig_status - 1,
+                    mods = ~ Mig_status2 - 1,
                     random = RE,  R = phylocor)
 summary(mam.tmax)
 
@@ -215,7 +214,7 @@ mam.npp <- rma.mv(yi = z.cor.yi,
                    V = z.cor.vi,
                    data = mammals,
                    subset = env.var=='npp',
-                   mods = ~ Mig_status - 1,
+                   mods = ~ Mig_status2 - 1,
                    random = RE,  R = phylocor)
 summary(mam.npp) # clear effect for resident but not for migratory species
 
@@ -227,7 +226,7 @@ mam.npp.sd <- rma.mv(yi = z.cor.yi,
                       V = z.cor.vi,
                       data = mammals, 
                       subset = env.var=='npp.sd',
-                      mods = ~ Mig_status - 1,
+                      mods = ~ Mig_status2 - 1,
                       random = RE,  R = phylocor)
 summary(mam.npp.sd) # clear effect for resident but not for migratory species
 
@@ -235,10 +234,10 @@ saveRDS(mam.npp.sd,'Results/BergmannsRule_results_MR_mig_mam_nppsd.rds')
 rm(mam.npp.sd)
 
 # load fitted models
-mam.tavg <- readRDS('Results/BergmannsRule_results_MR_mig_tavg.rds')
-mam.tmax <- readRDS('Results/BergmannsRule_results_MR_mig_tmax.rds')
-mam.npp <- readRDS('Results/BergmannsRule_results_MR_mig_npp.rds')
-mam.npp.sd <- readRDS('Results/BergmannsRule_results_MR_mig_nppsd.rds')
+mam.tavg <- readRDS('Results/BergmannsRule_results_MR_mig_mam_tavg.rds')
+mam.tmax <- readRDS('Results/BergmannsRule_results_MR_mig_mam_tmax.rds')
+mam.npp <- readRDS('Results/BergmannsRule_results_MR_mig_mam_npp.rds')
+mam.npp.sd <- readRDS('Results/BergmannsRule_results_MR_mig_mam_nppsd.rds')
 
 # save results in list
 mam.mr <- list(mam.tavg,mam.tmax,mam.npp,mam.npp.sd)
@@ -298,7 +297,6 @@ summary(mam.tmax.bm) #marginally significant --> size-tmax corr becomes more neg
 # save results
 saveRDS(mam.tmax.bm,"Results/BergmannsRule_results_MR_mammals_BM_tmax.rds")
 rm(mam.tmax.bm)
-
 
 # NPP model
 mam.npp.bm <- rma.mv(yi = z.cor.yi,
@@ -396,6 +394,18 @@ summary(mam.npp.sd.env)
 saveRDS(mam.npp.sd.env,"Results/BergmannsRule_results_MR_mam_nppsd_env.rds")
 rm(mam.npp.sd.env)
 
+# load fitted models
+mam.tavg.env <- readRDS('Results/BergmannsRule_results_MR_mam_tavg_env.rds')
+mam.tmax.env <- readRDS('Results/BergmannsRule_results_MR_mam_tmax_env.rds')
+mam.npp.env <- readRDS('Results/BergmannsRule_results_MR_mam_npp_env.rds')
+mam.npp.sd.env <- readRDS('Results/BergmannsRule_results_MR_mam_nppsd_env.rds')
+
+# save results in list
+ma.mr.env <- list(mam.tavg.env,mam.tmax.env,mam.npp.env,mam.npp.sd.env) 
+names(ma.mr.env) <- c("tavg","tmax","npp","npp.sd")
+
+saveRDS(ma.mr.env,'Results/BergmannsRule_results_MR_mam_env.rds')
+
 #### b) Birds ####
 # load birds dataset 
 birddata <- read.csv("Data/birddata_ph.csv", stringsAsFactors = F)
@@ -460,6 +470,18 @@ summary(bird.npp.sd.env)
 saveRDS(bird.npp.sd.env,"Results/BergmannsRule_results_MR_bird_nppsd_env.rds")
 rm(bird.npp.sd.env)
 
+# load fitted models
+bird.tavg.env <- readRDS('Results/BergmannsRule_results_MR_bird_tavg_env.rds')
+bird.tmax.env <- readRDS('Results/BergmannsRule_results_MR_bird_tmax_env.rds')
+bird.npp.env <- readRDS('Results/BergmannsRule_results_MR_bird_npp_env.rds')
+bird.npp.sd.env <- readRDS('Results/BergmannsRule_results_MR_bird_nppsd_env.rds')
+
+# save results in list
+bi.mr.env <- list(bird.tavg.env,bird.tmax.env,bird.npp.env,bird.npp.sd.env) 
+names(bi.mr.env) <- c("tavg","tmax","npp","npp.sd")
+
+saveRDS(bi.mr.env,'Results/BergmannsRule_results_MR_bird_env.rds')
+
 #### c) Reptiles ####
 # load reptiles dataset 
 reptdata <- read.csv("Data/reptdata_ph.csv", stringsAsFactors = F)
@@ -496,6 +518,16 @@ summary(rept.npp.sd.env) # no clear support for the seasonality hypothesis
 # save results
 saveRDS(rept.npp.sd.env,"Results/BergmannsRule_results_MR_rept_nppsd_env.rds")
 rm(rept.npp.sd.env)
+
+# load fitted models
+rept.npp.env <- readRDS('Results/BergmannsRule_results_MR_rept_npp_env.rds')
+rept.npp.sd.env <- readRDS('Results/BergmannsRule_results_MR_rept_nppsd_env.rds')
+
+# save results in list
+re.mr.env <- list(rept.npp.env,rept.npp.sd.env) 
+names(re.mr.env) <- c("npp","npp.sd")
+
+saveRDS(re.mr.env,'Results/BergmannsRule_results_MR_rept_env.rds')
 
 #### d) Amphibians ####
 # load amphibians dataset 
@@ -543,7 +575,16 @@ summary(amph.prec.env) # tendency towards smaller size as species are exposed to
 saveRDS(amph.prec.env,"Results/BergmannsRule_results_MR_amph_prec_env.rds")
 rm(amph.prec.env)
 
-# End of script ###
+# load fitted models
+amph.npp.env <- readRDS('Results/BergmannsRule_results_MR_amph_npp_env.rds')
+amph.npp.sd.env <- readRDS('Results/BergmannsRule_results_MR_amph_nppsd_env.rds')
+amph.prec.env <- readRDS('Results/BergmannsRule_results_MR_amph_prec_env.rds')
+
+# save results in list
+re.mr.env <- list(amph.npp.env,amph.npp.sd.env,amph.prec.env) 
+names(re.mr.env) <- c("npp","npp.sd")
+
+saveRDS(re.mr.env,'Results/BergmannsRule_results_MR_amph_env.rds')
 
 # End of script
 

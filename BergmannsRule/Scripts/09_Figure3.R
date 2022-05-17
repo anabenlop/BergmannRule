@@ -90,14 +90,15 @@ mig.mods <- readRDS("Results/Bergmannsrule_results_MR_mam_mig.rds")
 
 # Get sample sizes for figure legend
 mammals <- read.csv("Data/mammals_ph_mig.csv", stringsAsFactors = F)
-nrow(subset(mammals,migratory=="resident"))/4 # N resident species (divided by 4 env var) --> 957
-nrow(subset(mammals,migratory=="migratory"))/4 # N migratory species  (divided by 4 env var) --> 579
+
+nrow(subset(mammals,Mig_status2=="Resident"))/4 # N resident species (divided by 4 env var) --> 420
+nrow(subset(mammals,Mig_status2=="Migratory"))/4 # N migratory species  (divided by 4 env var) --> 147
 
 names(mig.mods)
 
 # dataframe of models
 model <- data.frame(beta = unlist(lapply(mig.mods,"[","beta")),
-                    env.var = rep(c("MT","MaxT","NPP","NPPsd"),each=2),
+                    env.var = rep(c("MeanT","MaxT","NPP","NPPsd"),each=2),
                     ci.lb = unlist(lapply(mig.mods,"[","ci.lb")),
                     ci.ub = unlist(lapply(mig.mods,"[","ci.ub")),
                     n = unlist(sapply(mig.mods,"[","k")),
@@ -108,10 +109,10 @@ model$ci.lb <- transf.ztor(model$ci.lb)
 model$ci.ub <- transf.ztor(model$ci.ub)
 
 # model <- subset(model,env.var!="MP" & env.var!="MinT" & env.var!="PET")
-model$env.var <- factor(model$env.var,levels=c("MT","MaxT","NPP","NPPsd"))
+model$env.var <- factor(model$env.var,levels=c("MeanT","MaxT","NPP","NPPsd"))
 
 # make plot
-p <- ggplot(model,aes(x=beta,y=migration),show.legend=T) +
+p2 <- ggplot(model,aes(x=beta,y=migration),show.legend=T) +
   geom_vline(xintercept = 0, color = "gray80",size=.5) +
   geom_point(mapping=aes(x=beta,y=migration,color=env.var),show.legend=T,
              data=model,size=2) + 
@@ -130,13 +131,29 @@ p <- ggplot(model,aes(x=beta,y=migration),show.legend=T) +
         legend.title=element_text(size=9),
         legend.text=element_text(size=9))
 
-p <- p + facet_wrap(~env.var,nrow=4) + 
+p2 <- p2 + facet_wrap(~env.var,nrow=4) + 
   theme(strip.text.x = element_blank(), # remove facet labels
         strip.background = element_blank())
 
-p
+p2
 
-### Heat balance meta-regression (Panel b)
+### Save figure
+ggsave(filename='Figures/Figure_3_b.png', 
+       width=120, height=80, units = 'mm', dpi=600)
+
+
+### Combine a and b (Into Fig 3.)
+ggarrange(p, p2, ncol=2,nrow=1,
+          labels="auto",#hjust=-5,vjust=2,
+          common.legend = T,
+          legend = "bottom") # save as 1000 x 400
+
+### Save figure
+ggsave(filename='Figures/Figure_3.png', 
+       width=180, height=80, units = 'mm', dpi=600)
+
+
+### Heat balance meta-regression (Panel c) -----
 hb.mod <- readRDS("Results/BergmannsRule_results_MR_heatBalance.rds")
 
 #Load data
@@ -168,7 +185,7 @@ model$ci.ub <- transf.ztor(model$ci.ub)
 # model$therm <- factor(model$therm,levels=c("TR","TC"))
 
 # make plot
-p2 <- ggplot(model,aes(x=beta,y=therm),show.legend=F) +
+p23 <- ggplot(model,aes(x=beta,y=therm),show.legend=F) +
   geom_vline(xintercept = 0, color = "gray80",size=.55) +
   geom_point(mapping=aes(x=beta,y=therm,color=env.var),show.legend=F,
              data=model,size=2) + 
@@ -188,7 +205,7 @@ p2 <- ggplot(model,aes(x=beta,y=therm),show.legend=F) +
         panel.border=element_rect(fill=NA),
         legend.spacing.x = unit(.1,'cm'),
   )
-p2
+p3
 
 ### Combine (Into Fig 3.)
 ggarrange(p2,p,ncol=2,nrow=1,

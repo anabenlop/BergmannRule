@@ -145,6 +145,9 @@ temp6 <- left_join(mig_m3,syn_mig, by = c("speciesname" = ".id"))
 
 temp6$Mig_status <- ifelse(!is.na(temp6$Mig_status), temp6$Mig_status, temp6$Mig_bi.y) 
 
+# remove duplicates
+temp6 <- temp6[!duplicated(temp6),]
+
 # there are still some species for which we do not have migratory info
 miss_mam <- unique(temp6[is.na(temp6$Mig_status),]$speciesname) # 263 species need to be fixed manually
 missing_df <- temp6[is.na(temp6$Mig_status),]
@@ -156,15 +159,22 @@ missing_df <- missing_df[,c("speciesname", "class", "order", "family", "freq" , 
 write.csv(missing_df, "Data/missing_mig_mam.csv", row.names = F)
 
 # fix species without mig status manually (list of species in miss_mam)
-# we will assume that all those missing are resident. 
-temp6$Mig_status <- ifelse(is.na(temp6$Mig_status), 0, temp6$Mig_status)
+# we will assume that all those missing are resident. we create a new var 
+temp6$Mig_status2 <- ifelse(is.na(temp6$Mig_status), 0, temp6$Mig_status)
 
 # temp6[temp6$speciesname  == "Abrothrix longipilis", "Mig_status"] <- "resident" #
 
 mammals_ph_mig <- temp6[,c("speciesname", "class", "order", "family", "freq" , "env.var", "corr.coeff",
                          "z.cor.yi", "z.cor.vi",
                          "sd.tavg", "sd.tmax",  "sd.npp", "sd.npp.sd", "rng.tavg", "rng.tmax", "rng.npp", "rng.npp.sd",
-                         "SPID","Mig_status")]
+                         "SPID","Mig_status", "Mig_status2")]
+
+mammals_ph_mig$Mig_status <- as.character(mammals_ph_mig$Mig_status)
+mammals_ph_mig$Mig_status2 <- as.character(mammals_ph_mig$Mig_status2)
+
+mammals_ph_mig$Mig_status<- ifelse(mammals_ph_mig$Mig_status == "1", "Migratory", 
+                                     ifelse(mammals_ph_mig$Mig_status == "0", "Resident", NA))
+mammals_ph_mig$Mig_status2 <- ifelse(mammals_ph_mig$Mig_status2 == "1", "Migratory", "Resident")
 
 write.csv(mammals_ph_mig, "Data/mammals_ph_mig.csv", row.names = F)
 
