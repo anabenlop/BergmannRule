@@ -222,7 +222,7 @@ model$hyp <- c("Water conservation","Resource availability","Seasonality")
 # model <- subset(model,env.var!="MT"&env.var!="MaxT"&env.var!="MinT"&env.var!="PET")
 
 # reorder env.vars
-model$env.var <- factor(model$env.var, levels = c("NPPsd","NPP","MP"))  
+model$env.var <- factor(model$env.var, levels = c("NPPsd","NPP","MeanP"))  
 
 xmin = -.2 #round(min(model$ci.lb-.01),digits=2)
 xmax = .2 #round(max(model$ci.ub+.01),digits=2)

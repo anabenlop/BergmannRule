@@ -159,6 +159,8 @@ missing_df <- missing_df[,c("speciesname", "class", "order", "family", "freq" , 
 write.csv(missing_df, "Data/missing_mig_mam.csv", row.names = F)
 
 # fix species without mig status manually (list of species in miss_mam)
+temp6[temp6$speciesname  == "Ursus americanus", "Mig_status"] <- 1 # Noyce, K. V., & Garshelis, D. L. (2011). Seasonal migrations of black bears (Ursus americanus): causes and consequences. Behavioral ecology and sociobiology, 65(4), 823-835.
+
 # we will assume that all those missing are resident. we create a new var 
 temp6$Mig_status2 <- ifelse(is.na(temp6$Mig_status), 0, temp6$Mig_status)
 
