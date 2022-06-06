@@ -36,7 +36,7 @@ rm(list=ls())
 # Importing datasets
 ##############################################################
 
-# load database and elton traits data to remove marine species
+# load database
 birddata<-read.csv("Data/birds.csv", header = TRUE, stringsAsFactors = FALSE) # 
 
 # generating list of species

@@ -20,6 +20,7 @@ library(dplyr)
 library(ape)
 library(ggtree)
 library(phytools)
+library(wesanderson)
 
 # Phylogenetic trees for the four taxa ####
 # mammals ####
@@ -68,7 +69,7 @@ fam <- avonet %>%
       summarize(freq = n()) # 11009 species
 
 # load tree - Tobias et al. 2022 - AVONET - BirdLife
-b_tree <- ape::read.nexus(file = "Data/Birdlife_Family_Phylogeny.nex")
+b_tree <- ape::read.nexus(file = "Data/Phylogeny/Birdlife_Family_Phylogeny.nex")
 b_tree
 plot(b_tree)
 
@@ -182,7 +183,51 @@ plot(r_tree)
 
 
 ## amphibians ####
+# load tree - www.amphibiaweb.org
+a_tree <- ape::read.nexus(file = "Data/Phylogeny/AW_Families_consensus_2019.tre")
+a_tree
+plot(a_tree)
 
+# drop subfamily trees
+a_tree$tip.label <- str_replace(a_tree$tip.label, " \\s*\\([^\\)]+\\)", "")
+a_tree$tip.label <- a_tree$tip.label[!duplicated(a_tree$tip.label)] # remove duplicates, DOES NOT WORK!
+
+# load data bergmann
+amphdata <- read.csv('Data/amphdata_ph.csv', stringsAsFactors = F)
+
+# summarize by env.var and family 
+amphdata2 <- amphdata %>% 
+  group_by(env.var, family) %>%
+  summarise(mean = mean(corr.coeff),
+            nsp = n())
+
+# use data for tavg only - discrete plot
+amph_npp <- amphdata2 %>% 
+  filter(env.var == "npp") # 11 families
+
+# create dataframe with all described families 
+afam <- data.frame(family = a_tree$tip.label)
+
+# fix family names (remove parentheses and condense)
+# afam$family <- str_replace(afam$family, " \\s*\\([^\\)]+\\)", "")
+# afam <- afam[!duplicated(afam$family),]
+# afam <- data.frame(family = afam)
+
+# join dataset with families included in Bergmann's rule paper
+afam <- left_join(afam, amph_npp, by = "family")
+afam$inc <- ifelse(is.na(afam$mean), "no", "yes")
+afam$bin <- ifelse(afam$inc == "yes", 1, 0)
+afam$bin <- as.integer(afam$bin)
+afam$hyp <- ifelse(afam$mean < 0, "yes","no")
+
+# palette <- c("yes" = "dark purple", "no" = "yellow")
+
+p <- ggtree(a_tree, layout = "circular") 
+p %<+% afam + geom_tree(aes(color = inc), size = 1) + geom_tiplab(aes(color=inc)) +
+  scale_color_manual(values= wes_palette("Cavalcanti1", n = 2)) 
+
+ggsave("Figures/phylo_birds.png", 
+       width= 250, height= 250, units = 'mm', dpi=300)
 
 
 
