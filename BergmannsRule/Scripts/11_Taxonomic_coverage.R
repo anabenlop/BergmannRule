@@ -20,6 +20,8 @@ library(dplyr)
 library(ape)
 library(ggtree)
 library(phytools)
+library(TreeTools)
+library(treeio)
 library(wesanderson)
 
 # Phylogenetic trees for the four taxa ####
@@ -31,15 +33,45 @@ fam <- mam_tax %>%
   group_by(Family.1.2) %>%
   summarize(freq = n()) # 5831 species
 
-# load tree - Tobias et al. 2022 - AVONET - BirdLife
-# m_tree <- ape::read.nexus(file = "Data/Phylogeny/mam_complete_phylogeny.nex") # 1000 trees
-# m_tree
-# plot(m_tree)
-
 m_tree_sm <- ape::read.nexus(file = "Data/Phylogeny/mam_small_phylogeny.nex")
-class(m_tree_sm[1]) #multiphylo
-plot(m_tree_sm[])
+class(m_tree_sm[[1]]) #multiphylo
+m_tree <- m_tree_sm[[1]]
+rm(m_tree_sm)
 
+
+
+groupInfo <- split(m_tree2$label, gsub("_\\w+", "", m_tree2$Family.1.2))
+mam_tree <- groupOTU(m_tree, groupInfo)
+p <- ggtree(mam_tree, aes(color=group), layout='circular') + 
+         geom_tiplab(size=1, aes(angle=angle)) 
+p 
+
+# Liam Revell code
+# nodes<-1:m_tree$Nnode+Ntip(m_tree) ## all nodes
+# subtrees<-list()
+# 
+# for(i in 1:m_tree$Nnode) subtrees[[i]]<-extract.clade(m_tree,nodes[i])
+# names(subtrees)<-nodes 
+
+m_tree2 <- as_tibble(m_tree)
+m_tree2 <- inner_join(m_tree2, mam_tax[, c("Binomial.1.2", "Family.1.2")], by = c("label" = "Binomial.1.2"))
+m_tree3 <- as.treedata(m_tree2)
+
+tips <- m_tree3@phylo$tip.label[m_tree3@data$Family.1.2 == "Peramelidae"]
+
+plot(drop.tip(m_tree, tips))
+plot(drop.tip(bird.families, tip, trim.internal = FALSE))
+
+p <- ggtree(m_tree, layout = "circular") 
+p %<+% m_tree2 + geom_tree(aes(color = Family.1.2), size = 1) + geom_tiplab(aes(color=Family.1.2)) 
+
+# p <- ggtree(m_tree3, layout = "circular") 
+# viewClade(p+geom_tiplab(), node=21)
+cp <- collapse(p, node = m_tree3[m_tree3@data$Family.1.2 == "Peramelidae", "node"])
+
+
+
+# m_tree_4 <- rename_taxa(m_tree, mam_tax, key = "tip.label", value = "Binomial.1.2")
 
 
 # load mammal dataset 
