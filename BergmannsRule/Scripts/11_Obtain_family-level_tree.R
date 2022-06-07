@@ -36,25 +36,27 @@ rm(list=ls())
 # Importing datasets
 ##############################################################
 
-# load mammals taxonomy from https://www.mammaldiversity.org/ 
-mam_tax <- read.csv('Data/MDD_v1.9_6596species.csv', stringsAsFactors = F)
-mam_tax$family <- str_to_sentence(mam_tax$family) #convert to upper case
-mam_tax$order <- str_to_sentence(mam_tax$order) #convert to upper case
+# load mammals taxonomy from PHYLACINE
+mam_tax <- read.csv('Data/PHYLACINE_Trait_data.csv', stringsAsFactors = F)
 
 # remove extinct species
-mam_tax <- mam_tax[mam_tax$extinct != 1,]
-mam_tax <- mam_tax[!mam_tax$iucnStatus %in% c("EW", "EX"),]
+mam_tax <- mam_tax[!mam_tax$IUCN.Status.1.2 %in% c("EW", "EX", "EP"),]
 
 # remove marine species
-mam_tax <- mam_tax[!mam_tax$order %in% c('Sirenia'),]
-mam_tax <- mam_tax[!mam_tax$family %in% c('Octodontidae','Otariidae','Balaenidae','Balaenopteridae','Ziphiidae','Neobalaenidae','Delphinidae','Phocidae','Monodontidae','Dugongidae','Iniidae','Physeteridae','Phocoenidae','Odobenidae','Trichechidae', 'Platanistidae'),]
+mam_tax <- mam_tax[mam_tax$Marine != 1,]
+mam_tax <- mam_tax[!mam_tax$Order.1.2 %in% c('Sirenia'),]
+mam_tax <- mam_tax[!mam_tax$Family.1.2 %in% c('Octodontidae','Otariidae','Balaenidae','Balaenopteridae','Ziphiidae','Neobalaenidae','Delphinidae','Phocidae','Monodontidae','Dugongidae','Iniidae','Physeteridae','Phocoenidae','Odobenidae','Trichechidae', 'Platanistidae'),]
+
+# fix CingulataFam cases
+mam_tax$Family.1.2 <- ifelse(mam_tax$Family.1.2 == "CingulataFam", "Chlamyphoridae", mam_tax$Family.1.2) 
+mam_tax$Family.1.2 <- ifelse(mam_tax$Genus.1.2 == "Dasypus", "Dasypodidae", mam_tax$Family.1.2) 
 
 fam <- mam_tax %>% 
-  group_by(family) %>%
-  summarize(freq = n()) # 6345 species and 145 families
+  group_by(Family.1.2) %>%
+  summarize(freq = n()) # 5327 species and 135 families
 
 # generating list of species
-mam_fam <- sort(unique(as.character(fam$family))) #145 families
+mam_fam <- sort(unique(as.character(fam$Family.1.2))) #134 families
 
 ##############################################################
 # Formatting family data
@@ -75,26 +77,26 @@ for(i in 1:length(ott_id_tocheck)){
 }
 
 # fix some of these families to older placements or subfamily names 
-mam_tax[mam_tax$family =="Heterocephalidae", "family"] <- "Bathyergidae"
-mam_tax[mam_tax$family =="Prionodontidae",  "family"] <- "Prionodontinae"
-mam_tax[mam_tax$family =="Zenkerellidae",  "family"] <- "Anomaluridae"
-mam_tax[mam_tax$family =="Zapodidae",  "family"] <- "Dipodidae"
-mam_tax[mam_tax$family =="Sminthidae",  "family"] <- "Dipodidae"
-mam_tax[mam_tax$family =="Potamogalidae",  "family"] <- "Tenrecidae"
+mam_tax[mam_tax$Family.1.2 =="Miniopteridae", "Family.1.2"] <- "Miniopterinae"
+mam_tax[mam_tax$Family.1.2 =="Prionodontidae",  "Family.1.2"] <- "Prionodontinae"
+# mam_tax[mam_tax$family =="Zenkerellidae",  "family"] <- "Anomaluridae"
+# mam_tax[mam_tax$family =="Zapodidae",  "family"] <- "Dipodidae"
+# mam_tax[mam_tax$family =="Sminthidae",  "family"] <- "Dipodidae"
+# mam_tax[mam_tax$family =="Potamogalidae",  "family"] <- "Tenrecidae"
 
-fam[fam$family =="Heterocephalidae", "family"] <- "Bathyergidae"
-fam[fam$family =="Prionodontidae",  "family"] <- "Prionodontinae"
-fam[fam$family =="Zenkerellidae",  "family"] <- "Anomaluridae"
-fam[fam$family =="Zapodidae",  "family"] <- "Dipodidae"
-fam[fam$family =="Sminthidae",  "family"] <- "Dipodidae"
-fam[fam$family =="Potamogalidae",  "family"] <- "Tenrecidae"
+fam[fam$Family.1.2 =="Miniopteridae", "Family.1.2"] <- "Miniopterinae"
+fam[fam$Family.1.2 =="Prionodontidae",  "Family.1.2"] <- "Prionodontinae"
+# fam[fam$family =="Zenkerellidae",  "family"] <- "Anomaluridae"
+# fam[fam$family =="Zapodidae",  "family"] <- "Dipodidae"
+# fam[fam$family =="Sminthidae",  "family"] <- "Dipodidae"
+# fam[fam$family =="Potamogalidae",  "family"] <- "Tenrecidae"
 
 # mam_fam[mam_fam =="Heterocephalidae"] <- "Bathyergidae"
 # mam_fam[mam_fam =="Prionodontidae"] <- "Prionodontinae"
 # mam_fam[mam_fam =="Zenkerellidae"] <- "Anomaluridae"
 
 # rerun again
-mam_fam <- sort(unique(as.character(fam$family))) 
+mam_fam <- sort(unique(as.character(fam$Family.1.2))) 
 
 taxa.c <- tnrs_match_names(names = mam_fam)
 taxa.c[taxa.c$approximate_match==TRUE,] # all good now
@@ -115,17 +117,17 @@ for(i in 1:length(ott_id_tocheck)){
 fix_taxa <- taxa[taxa$is_synonym == TRUE,] 
 
 fix_taxa <-fix_taxa[,c("search_string", "unique_name")]
-fix_taxa$family <- str_to_sentence(fix_taxa$search_string) #convert to upper case to join with original dataset
+fix_taxa$Family.1.2 <- str_to_sentence(fix_taxa$search_string) #convert to upper case to join with original dataset
 
-mam_tax <- left_join(mam_tax,fix_taxa, by =c("family" = "family"))
-mam_tax$family <- ifelse(!is.na(mam_tax$unique_name), mam_tax$unique_name, mam_tax$family)
+mam_tax <- left_join(mam_tax,fix_taxa, by =c("Family.1.2" = "Family.1.2"))
+mam_tax$Family.1.2 <- ifelse(!is.na(mam_tax$unique_name), mam_tax$unique_name, mam_tax$Family.1.2)
 
 fam <- mam_tax %>% 
-  group_by(family) %>%
-  summarize(freq = n()) # 6345 species and 145 families
+  group_by(Family.1.2) %>%
+  summarize(freq = n()) # 5327 species and 135 families
 
 # generating list of families
-mam_fam <- sort(unique(as.character(fam$family))) #145 families
+mam_fam <- sort(unique(as.character(fam$Family.1.2))) #135 families
 
 # rerun 3
 taxa.c2 <- tnrs_match_names(names = mam_fam)

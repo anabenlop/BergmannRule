@@ -26,64 +26,113 @@ library(wesanderson)
 
 # Phylogenetic trees for the four taxa ####
 # mammals ####
-# load mammals data from PHYLACINE
+# load mammals taxonomy from PHYLACINE
 mam_tax <- read.csv('Data/PHYLACINE_Trait_data.csv', stringsAsFactors = F)
 
-fam <- mam_tax %>% 
+# remove extinct species
+mam_tax <- mam_tax[!mam_tax$IUCN.Status.1.2 %in% c("EW", "EX", "EP"),]
+
+# remove marine species
+mam_tax <- mam_tax[mam_tax$Marine != 1,]
+mam_tax <- mam_tax[!mam_tax$Order.1.2 %in% c('Sirenia'),]
+mam_tax <- mam_tax[!mam_tax$Family.1.2 %in% c('Octodontidae','Otariidae','Balaenidae','Balaenopteridae','Ziphiidae','Neobalaenidae','Delphinidae','Phocidae','Monodontidae','Dugongidae','Iniidae','Physeteridae','Phocoenidae','Odobenidae','Trichechidae', 'Platanistidae'),]
+
+# fix CingulataFam cases
+mam_tax$Family.1.2 <- ifelse(mam_tax$Family.1.2 == "CingulataFam", "Chlamyphoridae", mam_tax$Family.1.2) 
+mam_tax$Family.1.2 <- ifelse(mam_tax$Genus.1.2 == "Dasypus", "Dasypodidae", mam_tax$Family.1.2) 
+
+mfam <- mam_tax %>% 
   group_by(Family.1.2) %>%
-  summarize(freq = n()) # 5831 species
+  summarize(freq = n()) # 5327 species
 
-m_tree_sm <- ape::read.nexus(file = "Data/Phylogeny/mam_small_phylogeny.nex")
-class(m_tree_sm[[1]]) #multiphylo
-m_tree <- m_tree_sm[[1]]
-rm(m_tree_sm)
+names(mfam) <- c("family", "freq")
 
-
-
-groupInfo <- split(m_tree2$label, gsub("_\\w+", "", m_tree2$Family.1.2))
-mam_tree <- groupOTU(m_tree, groupInfo)
-p <- ggtree(mam_tree, aes(color=group), layout='circular') + 
-         geom_tiplab(size=1, aes(angle=angle)) 
-p 
-
-# Liam Revell code
-# nodes<-1:m_tree$Nnode+Ntip(m_tree) ## all nodes
-# subtrees<-list()
-# 
-# for(i in 1:m_tree$Nnode) subtrees[[i]]<-extract.clade(m_tree,nodes[i])
-# names(subtrees)<-nodes 
-
-m_tree2 <- as_tibble(m_tree)
-m_tree2 <- inner_join(m_tree2, mam_tax[, c("Binomial.1.2", "Family.1.2")], by = c("label" = "Binomial.1.2"))
-m_tree3 <- as.treedata(m_tree2)
-
-tips <- m_tree3@phylo$tip.label[m_tree3@data$Family.1.2 == "Peramelidae"]
-
-plot(drop.tip(m_tree, tips))
-plot(drop.tip(bird.families, tip, trim.internal = FALSE))
-
-p <- ggtree(m_tree, layout = "circular") 
-p %<+% m_tree2 + geom_tree(aes(color = Family.1.2), size = 1) + geom_tiplab(aes(color=Family.1.2)) 
-
-# p <- ggtree(m_tree3, layout = "circular") 
-# viewClade(p+geom_tiplab(), node=21)
-cp <- collapse(p, node = m_tree3[m_tree3@data$Family.1.2 == "Peramelidae", "node"])
-
-
-
-# m_tree_4 <- rename_taxa(m_tree, mam_tax, key = "tip.label", value = "Binomial.1.2")
-
+# Load family-level tree
+m_tree <- ape::read.nexus(file = "Data/Phylogeny/mam_tree_family.nex")
 
 # load mammal dataset 
 mamdata <- read.csv('Data/mamdata_ph.csv', stringsAsFactors = F)
-mamdata <- mamdata[mamdata$env.var == 'tavg', ]
+
+# summarize by env.var and family 
+mamdata2 <- mamdata %>% 
+  group_by(env.var, family) %>%
+  summarise(mean = mean(corr.coeff),
+            nsp = n())
+
+# use data for tavg only - discrete plot
+mam_tavg <- mamdata2 %>% 
+  filter(env.var == "tavg") 
+
+# join families dataset with families included in Bergmann's rule paper
+mfam <- left_join(mfam, mam_tavg, by = "family")
+mfam$inc <- ifelse(is.na(mfam$mean), "no", "yes")
+mfam$bin <- ifelse(mfam$inc == "yes", 1, 0)
+mfam$bin <- as.integer(mfam$bin)
+mfam$hyp <- ifelse(mfam$mean < 0, "yes","no")
+
+# palette <- c("yes" = "dark purple", "no" = "yellow")
+
+p <- ggtree(m_tree, layout = "circular") 
+p %<+% mfam + geom_tree(aes(color = inc), size = 1) + geom_tiplab(aes(color=inc)) +
+  scale_color_manual(values= wes_palette("Cavalcanti1", n = 2)) 
+
+ggsave("Figures/phylo_mammals_included.png", 
+       width= 250, height= 250, units = 'mm', dpi=300)
 
 
+# exclude families in the tree that are not in dataset
+mfam2 <- mfam[mfam$bin == 1,]
+drops <- m_tree$tip.label[!m_tree$tip.label %in% mfam2$family]
+m_tree2 <- drop.tip(m_tree, drops)
 
-ET2<-ET[!duplicated(ET$MSWFamilyLatin),] # 132 families
-mamdata2<-mamdata[!duplicated(mamdata$family),] # 49 families 49/132*100 = 37.1 %
+# create tree
+p2 <-  ggtree(m_tree2, layout = "circular") 
+
+# nsp per family
+p2 %<+% mfam2 + geom_tree(aes(color = log10(nsp)), size = 1) + geom_tiplab(aes(color = log10(nsp))) +
+  scale_color_viridis() 
+
+# mean corr coeff tavg per family
+p2 %<+% mfam2 + geom_tree(aes(color = mean), size = 1) + geom_tiplab(aes(color = mean)) +
+  scale_color_viridis() 
+
+# Adherence to heat conserv hypothesis birds (bergmann's rule)
+p2 %<+% mfam2 + geom_tree(aes(color = hyp), size = 1) + geom_tiplab(aes(color = hyp)) +
+  scale_color_manual(values= wes_palette("Cavalcanti1", n = 2)) 
+
+ggsave("Figures/phylo_mammals_tavg.png", 
+       width= 250, height= 250, units = 'mm', dpi=300)
 
 
+table(mfam2$hyp) # 26 out of 46 families follow bergmann's rule (56%)
+
+# Test phylogenetic clustering of included mammalian families. Are most included families related?
+
+# The D-statistic is the sum of state changes along the edges of a phylogeny. 
+# The D statistic is equal to 1 if the observed binary trait has a phylogenetically random distribution across 
+# the tips of the phylogeny and to 0 if the observed trait is as clumped as if it had evolved by Brownian motion under 
+# our threshold model. Values of D can fall outside this range. 
+# Continuous vertical lines represent the mean of random D-statistic values obtained from two null models: 
+# Brownian motion (red) and phylogenetic randomness (blue). 
+# Dashed gray lines represent observed D-statistics.
+library(caper)
+
+# order mfam
+tips <- data.frame(family = m_tree$tip.label)
+mfam <- left_join(tips, mfam, by = c("family"))
+
+mfam_D <- comparative.data(m_tree, mfam[,c("family","bin")], family)
+PhyloD <- phylo.d(mfam_D, binvar=bin) # Estimated D :  0.4084372, P no random = 0, P Browniam = 0.12
+plot(PhyloD) # some phylogenetic clumping, but nothing too severe 
+
+# order mfam
+tips <- data.frame(family = m_tree2$tip.label)
+mfam2 <- left_join(tips, mfam2, by = c("family"))
+
+# Test phylogenetic clustering of families adhering to the heat conservation hypothesis. Are the majority of families that follow the heat conserv hyp clustered?
+mfam_D2 <- comparative.data(m_tree2, mfam2[,c("family","hyp")], family) 
+PhyloD2 <- phylo.d(mfam_D2, binvar = hyp) # Estimated D :  0.3867931, P no random: 0.078, P Brownian: 0.271
+plot(PhyloD2) # phylogenetically random pattern, almost overdispersed across families.
 
 ## birds ####
 # load AVONET Datase BirdLife taxonomy
