@@ -20,7 +20,7 @@ library(dplyr)
 library(ape)
 library(ggtree)
 library(phytools)
-library(TreeTools)
+# library(TreeTools)
 library(treeio)
 library(wesanderson)
 
@@ -74,10 +74,16 @@ mfam$hyp <- ifelse(mfam$mean < 0, "yes","no")
 
 p <- ggtree(m_tree, layout = "circular") 
 p %<+% mfam + geom_tree(aes(color = inc), size = 1) + geom_tiplab(aes(color=inc)) +
-  scale_color_manual(values= wes_palette("Cavalcanti1", n = 2)) 
+  scale_color_manual(values = wes_palette("Cavalcanti1", n = 2), breaks = c("no", "yes")) +
+  theme(legend.position = "none")
 
-ggsave("Figures/phylo_mammals_included.png", 
+ggsave(filename = "Figures/phylo_mammals_included.jpg", 
        width= 250, height= 250, units = 'mm', dpi=300)
+
+
+# pdf(file = "C:/Users/anyta/Documents/GitHub/BergmannRule/BergmannsRule/Figures/phylo_mammals_included.pdf")
+# p_save
+# dev.off()
 
 
 # exclude families in the tree that are not in dataset
