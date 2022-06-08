@@ -1,0 +1,159 @@
+#NEXUS
+[R-package APE, Wed Jun  8 12:56:24 2022]
+
+BEGIN TAXA;
+	DIMENSIONS NTAX = 73;
+	TAXLABELS
+		Rhinatrematidae
+		Ichthyophiidae
+		Scolecomorphidae
+		Chikilidae
+		Herpelidae
+		Typhlonectidae
+		Caeciliidae
+		Indotyphlidae
+		Siphonopidae
+		Dermophiidae
+		Hynobiidae
+		Cryptobranchidae
+		Sirenidae
+		Salamandridae
+		Ambystomatidae
+		Dicamptodontidae
+		Proteidae
+		Rhyacotritonidae
+		Amphiumidae
+		Plethodontidae
+		Ascaphidae
+		Leiopelmatidae
+		Bombinatoridae
+		Alytidae
+		Rhinophrynidae
+		Pipidae
+		Scaphiopodidae
+		Pelodytidae
+		Megophryidae
+		Pelobatidae
+		Heleophrynidae
+		Myobatrachidae
+		Calyptocephalellidae
+		Dendrobatidae
+		Hemiphractidae
+		Ceuthomantidae
+		Brachycephalidae
+		Eleutherodactylidae
+		Craugastoridae
+		Strabomantidae
+		Ceratophryidae
+		Rhinodermatidae
+		Telmatobiidae
+		Cycloramphidae
+		Batrachylidae
+		Hylodidae
+		Alsodidae
+		Hylidae
+		Odontophrynidae
+		Bufonidae
+		Leptodactylidae
+		Centrolenidae
+		Allophrynidae
+		Nasikabatrachidae
+		Sooglossidae
+		Hemisotidae
+		Brevicipitidae
+		Hyperoliidae
+		Arthroleptidae
+		Microhylidae
+		Ptychadenidae
+		Odontobatrachidae
+		Phrynobatrachidae
+		Conrauidae
+		Petropedetidae
+		Pyxicephalidae
+		Ceratobatrachidae
+		Nyctibatrachidae
+		Ranixalidae
+		Dicroglossidae
+		Ranidae
+		Rhacophoridae
+		Mantellidae
+	;
+END;
+BEGIN TREES;
+	TRANSLATE
+		1	Rhinatrematidae,
+		2	Ichthyophiidae,
+		3	Scolecomorphidae,
+		4	Chikilidae,
+		5	Herpelidae,
+		6	Typhlonectidae,
+		7	Caeciliidae,
+		8	Indotyphlidae,
+		9	Siphonopidae,
+		10	Dermophiidae,
+		11	Hynobiidae,
+		12	Cryptobranchidae,
+		13	Sirenidae,
+		14	Salamandridae,
+		15	Ambystomatidae,
+		16	Dicamptodontidae,
+		17	Proteidae,
+		18	Rhyacotritonidae,
+		19	Amphiumidae,
+		20	Plethodontidae,
+		21	Ascaphidae,
+		22	Leiopelmatidae,
+		23	Bombinatoridae,
+		24	Alytidae,
+		25	Rhinophrynidae,
+		26	Pipidae,
+		27	Scaphiopodidae,
+		28	Pelodytidae,
+		29	Megophryidae,
+		30	Pelobatidae,
+		31	Heleophrynidae,
+		32	Myobatrachidae,
+		33	Calyptocephalellidae,
+		34	Dendrobatidae,
+		35	Hemiphractidae,
+		36	Ceuthomantidae,
+		37	Brachycephalidae,
+		38	Eleutherodactylidae,
+		39	Craugastoridae,
+		40	Strabomantidae,
+		41	Ceratophryidae,
+		42	Rhinodermatidae,
+		43	Telmatobiidae,
+		44	Cycloramphidae,
+		45	Batrachylidae,
+		46	Hylodidae,
+		47	Alsodidae,
+		48	Hylidae,
+		49	Odontophrynidae,
+		50	Bufonidae,
+		51	Leptodactylidae,
+		52	Centrolenidae,
+		53	Allophrynidae,
+		54	Nasikabatrachidae,
+		55	Sooglossidae,
+		56	Hemisotidae,
+		57	Brevicipitidae,
+		58	Hyperoliidae,
+		59	Arthroleptidae,
+		60	Microhylidae,
+		61	Ptychadenidae,
+		62	Odontobatrachidae,
+		63	Phrynobatrachidae,
+		64	Conrauidae,
+		65	Petropedetidae,
+		66	Pyxicephalidae,
+		67	Ceratobatrachidae,
+		68	Nyctibatrachidae,
+		69	Ranixalidae,
+		70	Dicroglossidae,
+		71	Ranidae,
+		72	Rhacophoridae,
+		73	Mantellidae
+	;
+	TREE * UNTITLED = [&R] ((1:180.208357,(2:160.1480811,(3:143.9101869,((4:112.156,5:112.1559832):20.72391,((6:87.62932,7:87.62930505):29.49265,(8:98.2457827,(9:83.70442292,10:83.70441584):14.54136):18.87618):15.75791):11.03029):16.23793):20.06029):132.5577,(((11:152.8446919,12:152.844715):44.10943,(13:182.75206,((14:149.2546537,(15:96.52587641,16:96.525885):52.72878):15.72227,(17:153.684945,(18:138.514859,(19:123.161783,20:123.1617717):15.35306):15.17009):11.292):17.77512):14.2021):89.94401,((21:160.28461,22:160.28463):61.82832,((23:167.78891,24:167.7889):45.52217,((25:168.0165,26:168.0164663):39.9284,((27:150.41128,(28:132.15442,(29:105.4753678,30:105.47542):26.679):18.25686):51.42381,(31:176.986,(((32:126.6955116,33:126.69555):31.12412,(34:116.9049852,((35:108.1957884,(36:103.1739951,((37:89.69602298,38:89.69601193):6.823619,(39:87.03253178,40:87.03252316):9.487122):6.654333):5.021795):5.026238,((41:90.97782656,((42:70.56566,43:70.56565187):11.50986,(44:73.7326196,(45:70.33904926,(46:63.31448228,47:63.31448457):7.024556):3.393584):8.342892):8.902312):14.27851,(48:100.6522648,((49:82.64577975,50:82.64575141):10.03525,(51:85.88544504,(52:65.98434916,53:65.98436):19.90111):6.795564):7.971241):4.604069):7.965685):3.682951):40.91469):12.97952,((54:114.1839,55:114.18395):51.4586,((((56:99.53643964,57:99.53646):26.89938,(58:111.9123951,59:111.91238):14.52345):12.46304,60:138.8988647):6.045197,(61:132.1312534,(62:128.2192,(63:123.5879859,((64:110.7127,(65:104.658155,66:104.6581377):6.054535):8.843924,((67:101.7650927,68:101.7651):12.43487,((69:98.26246421,70:98.26246606):11.12391,(71:102.5045822,(72:92.55185815,73:92.55185516):9.952704):6.881815):4.813568):5.356668):4.031351):4.631279):3.912026):12.8128):20.69847):5.15664):6.186843):24.84906):6.109811):5.366168):8.801841):64.78526):25.86795);
+END;

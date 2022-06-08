@@ -1,0 +1,159 @@
+#NEXUS
+[R-package APE, Tue Jun  7 14:29:12 2022]
+
+BEGIN TAXA;
+	DIMENSIONS NTAX = 73;
+	TAXLABELS
+		Sphenodontidae
+		Dibamidae
+		Diplodactylidae
+		Pygopodidae
+		Carphodactylidae
+		Eublepharidae
+		Sphaerodactylidae
+		Phyllodactylidae
+		Gekkonidae
+		Scincidae
+		Cordylidae
+		Gerrhosauridae
+		Xantusiidae
+		Teiidae
+		Tupinambidae
+		Gymnophthalmidae
+		Lacertidae
+		Rhineuridae
+		Bipedidae
+		Cadeidae
+		Amphisbaenidae
+		Trogonophiidae
+		Blanidae
+		Varanidae
+		Lanthanotidae
+		Shinisauridae
+		Xenosauridae
+		Helodermatidae
+		Anniellidae
+		Anguidae
+		Chamaeleonidae
+		Agamidae
+		Phrynosomatidae
+		Dactyloidae
+		Corytophanidae
+		Leiocephalidae
+		Liolaemidae
+		Leiosauridae
+		Opluridae
+		Tropiduridae
+		Iguanidae
+		Hoplocercidae
+		Polychrotidae
+		Crotaphytidae
+		Leptotyphlopidae
+		Gerrhopilidae
+		Xenotyphlopidae
+		Typhlopidae
+		Anomalepididae
+		Tropidophiidae
+		Aniliidae
+		Uropeltidae
+		Cylindrophiidae
+		Xenopeltidae
+		Pythonidae
+		Loxocemidae
+		Sanziniidae
+		Calabariidae
+		Charinidae
+		Candoiidae
+		Boidae
+		Erycidae
+		Xenophidiidae
+		Bolyeriidae
+		Acrochordidae
+		Xenodermatidae
+		Pareatidae
+		Viperidae
+		Homalopsidae
+		Micrelapidae
+		Elapidae
+		Lamprophiidae
+		Colubridae
+	;
+END;
+BEGIN TREES;
+	TRANSLATE
+		1	Sphenodontidae,
+		2	Dibamidae,
+		3	Diplodactylidae,
+		4	Pygopodidae,
+		5	Carphodactylidae,
+		6	Eublepharidae,
+		7	Sphaerodactylidae,
+		8	Phyllodactylidae,
+		9	Gekkonidae,
+		10	Scincidae,
+		11	Cordylidae,
+		12	Gerrhosauridae,
+		13	Xantusiidae,
+		14	Teiidae,
+		15	Tupinambidae,
+		16	Gymnophthalmidae,
+		17	Lacertidae,
+		18	Rhineuridae,
+		19	Bipedidae,
+		20	Cadeidae,
+		21	Amphisbaenidae,
+		22	Trogonophiidae,
+		23	Blanidae,
+		24	Varanidae,
+		25	Lanthanotidae,
+		26	Shinisauridae,
+		27	Xenosauridae,
+		28	Helodermatidae,
+		29	Anniellidae,
+		30	Anguidae,
+		31	Chamaeleonidae,
+		32	Agamidae,
+		33	Phrynosomatidae,
+		34	Dactyloidae,
+		35	Corytophanidae,
+		36	Leiocephalidae,
+		37	Liolaemidae,
+		38	Leiosauridae,
+		39	Opluridae,
+		40	Tropiduridae,
+		41	Iguanidae,
+		42	Hoplocercidae,
+		43	Polychrotidae,
+		44	Crotaphytidae,
+		45	Leptotyphlopidae,
+		46	Gerrhopilidae,
+		47	Xenotyphlopidae,
+		48	Typhlopidae,
+		49	Anomalepididae,
+		50	Tropidophiidae,
+		51	Aniliidae,
+		52	Uropeltidae,
+		53	Cylindrophiidae,
+		54	Xenopeltidae,
+		55	Pythonidae,
+		56	Loxocemidae,
+		57	Sanziniidae,
+		58	Calabariidae,
+		59	Charinidae,
+		60	Candoiidae,
+		61	Boidae,
+		62	Erycidae,
+		63	Xenophidiidae,
+		64	Bolyeriidae,
+		65	Acrochordidae,
+		66	Xenodermatidae,
+		67	Pareatidae,
+		68	Viperidae,
+		69	Homalopsidae,
+		70	Micrelapidae,
+		71	Elapidae,
+		72	Lamprophiidae,
+		73	Colubridae
+	;
+	TREE * UNTITLED = [&R] (1:242.774,(2:189.9631796,(((3:63.73813718,(4:55.37121341,5:55.37120547):8.366917):35.55545,(6:95.17683802,(7:88.86870769,(8:83.19532829,9:83.19532719):5.673385):6.308133):4.116732):81.23026,((10:140.5993967,((11:81.59171252,12:81.59169624):45.79188,13:127.38359):13.2158):32.34822,(((14:95.79517973,(15:83.58209518,16:83.582105):12.21309):61.15505,(17:141.3393892,(18:129.8673,(19:85.35879,(20:76.89675,((21:54.60684324,22:54.60684445):15.18851,23:69.79536):7.10139):8.462038):44.50847):11.47213):15.61085):10.70893,((((24:67.19700626,25:67.19701):62.83825,(26:112.4814,(27:94.5369,(28:86.95361,(29:59.25873859,30:59.2587419):27.69486):7.583293):17.94448):17.55388):26.69114,((31:115.0097037,32:115.0097059):31.27853,(33:82.88625992,((34:68.40470155,(35:59.61286496,36:59.61286456):8.791852):9.857946,((37:68.37226,(38:60.48566464,39:60.485664):7.886592):5.700082,((40:58.26308548,41:58.26309885):11.14005,((42:55.5405763,43:55.54057852):8.692138,44:64.23272):5.17043):4.669194):4.190327):4.623604):63.40197):10.43816):5.535868,((45:97.00591732,(46:74.47627589,(47:65.44817,48:65.44817103):9.028117):22.52965):7.831074,(49:101.3690944,((50:71.05715965,51:71.05717):18.27189,((((52:43.64404232,53:43.64404584):22.15573,(54:54.30332,(55:35.46324932,56:35.46325):18.84007):11.49646):9.633781,(57:55.69607336,(58:50.49453,(59:45.094826,(60:38.87269,(61:32.55047,62:32.55047):6.322227):6.222133):5.399706):5.201551):19.73748):9.615065,((63:65.45215,64:65.45215):16.22297,(65:77.69464,(66:73.96568653,(67:69.80608546,(68:66.043685,(69:62.60191661,((70:53.68011823,(71:50.59035769,72:50.59036341):3.089765):6.139293,73:59.81941713):2.782504):3.441757):3.762419):4.159591):3.728947):3.980485):3.373505):4.280424):12.04008):3.467872):57.42525):5.396902):5.288459):7.576217):9.439375):52.81081);
+END;

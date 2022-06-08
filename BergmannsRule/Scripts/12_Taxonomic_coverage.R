@@ -20,12 +20,12 @@ library(dplyr)
 library(ape)
 library(ggtree)
 library(phytools)
-# library(TreeTools)
 library(treeio)
 library(wesanderson)
+library(caper)
 
 # Phylogenetic trees for the four taxa ####
-# mammals ####
+## mammals ####
 # load mammals taxonomy from PHYLACINE
 mam_tax <- read.csv('Data/PHYLACINE_Trait_data.csv', stringsAsFactors = F)
 
@@ -80,12 +80,6 @@ p %<+% mfam + geom_tree(aes(color = inc), size = 1) + geom_tiplab(aes(color=inc)
 ggsave(filename = "Figures/phylo_mammals_included.jpg", 
        width= 250, height= 250, units = 'mm', dpi=300)
 
-
-# pdf(file = "C:/Users/anyta/Documents/GitHub/BergmannRule/BergmannsRule/Figures/phylo_mammals_included.pdf")
-# p_save
-# dev.off()
-
-
 # exclude families in the tree that are not in dataset
 mfam2 <- mfam[mfam$bin == 1,]
 drops <- m_tree$tip.label[!m_tree$tip.label %in% mfam2$family]
@@ -104,7 +98,7 @@ p2 %<+% mfam2 + geom_tree(aes(color = mean), size = 1) + geom_tiplab(aes(color =
 
 # Adherence to heat conserv hypothesis birds (bergmann's rule)
 p2 %<+% mfam2 + geom_tree(aes(color = hyp), size = 1) + geom_tiplab(aes(color = hyp)) +
-  scale_color_manual(values= wes_palette("Cavalcanti1", n = 2)) 
+  scale_color_manual(values= wes_palette("Cavalcanti1", n = 2)) + theme(legend.position = "none")
 
 ggsave("Figures/phylo_mammals_tavg.png", 
        width= 250, height= 250, units = 'mm', dpi=300)
@@ -244,33 +238,110 @@ PhyloD2 <- phylo.d(bfam_D2, binvar = hyp)
 plot(PhyloD2) # phylogenetically random pattern, almost overdispersed across families.
 
 ## reptiles ####
-rept_tax <- read.csv('Data/reptile_checklist_2022_03.csv', stringsAsFactors = F)
+# load squamates taxonomy from Tonini et al. 2017
+rept_tax <- read.csv('Data/squam_shl_new_Classification.csv', stringsAsFactors = F)
 
+rfam <- rept_tax %>% 
+  group_by(Family) %>%
+  summarize(freq = n()) # 9755 species
+
+# Load family-level tree - squamates
+r_tree <- ape::read.nexus(file = "Data/Phylogeny/rept_tree_family.nex")
+
+# load mammal dataset - all squamates
 reptdata <- read.csv('Data/reptdata_ph.csv', stringsAsFactors = F)
-reptdata <- reptdata[reptdata$env.var == 'tavg', ]
 
-ET2<-ET[!duplicated(ET$BLFamilyLatin),] # 184 families
-reptdata2<-reptdata[!duplicated(reptdata$family),] # 140 families (140/184*100 = 76%)
+# summarize by env.var and family 
+reptdata2 <- reptdata %>% 
+  group_by(env.var, family) %>%
+  summarise(mean = mean(corr.coeff),
+            nsp = n())
 
-r_tree <- ape::read.tree(file = "Data/rep_phyl_Pyron.txt")
-r_tree 
+# use data for npp only - discrete plot
+rept_npp <- reptdata2 %>% 
+  filter(env.var == "npp") 
 
-plot(r_tree)
+colnames(rept_npp)[2] <- "Family"
 
+# join families dataset with families included in Bergmann's rule paper
+rfam <- left_join(rfam, rept_npp, by = "Family")
+rfam$inc <- ifelse(is.na(rfam$mean), "no", "yes")
+rfam$bin <- ifelse(rfam$inc == "yes", 1, 0)
+rfam$bin <- as.integer(rfam$bin)
+rfam$hyp <- ifelse(rfam$mean < 0, "yes","no")
 
+# palette <- c("yes" = "dark purple", "no" = "yellow")
 
+p <- ggtree(r_tree, layout = "circular") 
+p %<+% rfam + geom_tree(aes(color = inc), size = 1) + geom_tiplab(aes(color=inc)) +
+  scale_color_manual(values = wes_palette("Cavalcanti1", n = 2), breaks = c("no", "yes")) +
+  theme(legend.position = "none")
 
-# plotBranchbyTrait(b_tree, bfam$mean, # x2 variable used to colour
+ggsave(filename = "Figures/phylo_reptiles_included.jpg", 
+       width= 250, height= 250, units = 'mm', dpi=300)
 
-#                   type = "fan", edge.width=0.5, cex=0.4, show.tip.label=FALSE,
-#                   mode='tips', 
-#                   palette=palette, legend=TRUE)#viridis
+# exclude families in the tree that are not in dataset
+rfam2 <- rfam[rfam$bin == 1,]
+drops <- r_tree$tip.label[!r_tree$tip.label %in% rfam2$Family]
+r_tree2 <- drop.tip(r_tree, drops)
 
+# create tree
+p2 <-  ggtree(r_tree2, layout = "circular") 
 
+# nsp per family
+p2 %<+% rfam2 + geom_tree(aes(color = log10(nsp)), size = 1) + geom_tiplab(aes(color = log10(nsp))) +
+  scale_color_viridis() 
+
+# mean corr coeff tavg per family
+p2 %<+% rfam2 + geom_tree(aes(color = mean), size = 1) + geom_tiplab(aes(color = mean)) +
+  scale_color_viridis() 
+
+# Adherence to resource availability hypothesis squamates 
+p2 %<+% rfam2 + geom_tree(aes(color = hyp), size = 1) + geom_tiplab(aes(color = hyp)) +
+  scale_color_manual(values= wes_palette("Cavalcanti1", n = 2)) + theme(legend.position = "none")
+
+ggsave("Figures/phylo_reptiles_npp.png", 
+       width= 250, height= 250, units = 'mm', dpi=300)
+
+table(rfam2$hyp) # 9 out of 19 families follow resource avail. hyp (47%)
+
+# Test phylogenetic clustering of included mammalian families. Are most included families related?
+
+# The D-statistic is the sum of state changes along the edges of a phylogeny. 
+# The D statistic is equal to 1 if the observed binary trait has a phylogenetically random distribution across 
+# the tips of the phylogeny and to 0 if the observed trait is as clumped as if it had evolved by Brownian motion under 
+# our threshold model. Values of D can fall outside this range. 
+# Continuous vertical lines represent the mean of random D-statistic values obtained from two null models: 
+# Brownian motion (red) and phylogenetic randomness (blue). 
+# Dashed gray lines represent observed D-statistics.
+
+# order rfam
+tips <- data.frame(Family = r_tree$tip.label)
+rfam <- left_join(tips, rfam, by = c("Family"))
+
+rfam_D <- comparative.data(r_tree, rfam[,c("Family","bin")], Family)
+PhyloD <- phylo.d(rfam_D, binvar=bin) # Estimated D :  0.8684831, P no random = 0.324, P Browniam = 0.05
+plot(PhyloD) # some tendency for overdispersion
+
+# order rfam
+tips <- data.frame(Family = r_tree2$tip.label)
+rfam2 <- left_join(tips, rfam2, by = c("Family"))
+
+# Test phylogenetic clustering of families adhering to the resource availability hypothesis. Are the majority of families that follow the heat conserv hyp clustered?
+rfam_D2 <- comparative.data(r_tree2, rfam2[,c("Family","hyp")], Family) 
+PhyloD2 <- phylo.d(rfam_D2, binvar = hyp) # Estimated D :  0.377288, P no random: 0.184, P Brownian: 0.446
+plot(PhyloD2) # phylogenetically clustering pattern.
 
 
 ## amphibians ####
-# load tree - www.amphibiaweb.org
+# load data - Jetz and Pyron 2019
+amph_tax <- read.csv('Data/amph_shl_new_Classification.csv', stringsAsFactors = F)
+
+afam <- amph_tax %>% 
+  group_by(Family) %>%
+  summarize(freq = n()) # 9755 species
+
+# load tree - Jetz and Pyron 2019
 a_tree <- ape::read.nexus(file = "Data/Phylogeny/AW_Families_consensus_2019.tre")
 a_tree
 plot(a_tree)
