@@ -73,11 +73,12 @@ mfam$hyp <- ifelse(mfam$mean < 0, "yes","no")
 # palette <- c("yes" = "dark purple", "no" = "yellow")
 
 p <- ggtree(m_tree, layout = "circular") 
-p %<+% mfam + geom_tree(aes(color = inc), size = 1) + geom_tiplab(aes(color=inc)) +
-  scale_color_manual(values = wes_palette("Cavalcanti1", n = 2), breaks = c("no", "yes")) +
-  theme(legend.position = "none")
+pm <- p %<+% mfam + geom_tree(aes(color = inc), size = 1) + geom_tiplab(aes(color=inc)) +
+      scale_color_manual(values = wes_palette("Cavalcanti1", n = 2), breaks = c("no", "yes")) +
+      theme(legend.position = "none", plot.margin = unit(c(3,3,3,3), "lines"))
+pm
 
-ggsave(filename = "Figures/phylo_mammals_included.jpg", 
+ggsave(filename = "Figures/phylo_mammals_included.png", 
        width= 250, height= 250, units = 'mm', dpi=300)
 
 # exclude families in the tree that are not in dataset
@@ -185,12 +186,13 @@ bfam$hyp <- ifelse(bfam$mean < 0, "yes","no")
 # palette <- c("yes" = "dark purple", "no" = "yellow")
 
 p <- ggtree(b_tree2, layout = "circular") 
-p %<+% bfam + geom_tree(aes(color = inc), size = 1) + geom_tiplab(aes(color=inc)) +
-  scale_color_manual(values= wes_palette("Cavalcanti1", n = 2)) 
+pb <- p %<+% bfam + geom_tree(aes(color = inc), size = 1) + geom_tiplab(aes(color=inc)) +
+  scale_color_manual(values= wes_palette("Cavalcanti1", n = 2)) + 
+  theme(legend.position = "none", plot.margin = unit(c(3,3,3,3), "lines"))
+pb
 
 ggsave("Figures/phylo_birds.png", 
        width= 250, height= 250, units = 'mm', dpi=300)
-
 
 # exclude families in the tree that are not in dataset
 bfam2 <- bfam[bfam$bin == 1,]
@@ -273,9 +275,10 @@ rfam$hyp <- ifelse(rfam$mean < 0, "yes","no")
 # palette <- c("yes" = "dark purple", "no" = "yellow")
 
 p <- ggtree(r_tree, layout = "circular") 
-p %<+% rfam + geom_tree(aes(color = inc), size = 1) + geom_tiplab(aes(color=inc)) +
+pr <- p %<+% rfam + geom_tree(aes(color = inc), size = 1) + geom_tiplab(aes(color=inc)) +
   scale_color_manual(values = wes_palette("Cavalcanti1", n = 2), breaks = c("no", "yes")) +
-  theme(legend.position = "none")
+  theme(legend.position = "none", plot.margin = unit(c(3,3,3,3), "lines"))
+pr
 
 ggsave(filename = "Figures/phylo_reptiles_included.png", 
        width= 250, height= 250, units = 'mm', dpi=300)
@@ -370,9 +373,10 @@ afam$hyp <- ifelse(afam$mean < 0, "yes","no")
 # palette <- c("yes" = "dark purple", "no" = "yellow")
 
 p <- ggtree(a_tree, layout = "circular") 
-p %<+% afam + geom_tree(aes(color = inc), size = 1) + geom_tiplab(aes(color=inc)) +
+pa <- p %<+% afam + geom_tree(aes(color = inc), size = 1) + geom_tiplab(aes(color=inc)) +
   scale_color_manual(values = wes_palette("Cavalcanti1", n = 2), breaks = c("no", "yes")) +
-  theme(legend.position = "none")
+  theme(legend.position = "none", plot.margin = unit(c(3,3,3,3), "lines"))
+pa
 
 ggsave(filename = "Figures/phylo_amphibians_included.png", 
        width= 250, height= 250, units = 'mm', dpi=300)
@@ -429,4 +433,13 @@ afam_D2 <- comparative.data(a_tree2, afam2[,c("Family","hyp")], Family)
 PhyloD2 <- phylo.d(afam_D2, binvar = hyp) # Estimated D :  1.493811, P no random: 0.57, P Brownian: 0.23
 plot(PhyloD2) # phylogenetically overdispersed pattern?? too small of a sample...
 
+## Plot all phylogenies together into Fig. S1
+### Combine a and b (Into Fig 3.)
+ggarrange(pa, pr, pb, pm, ncol=2,nrow=2,
+          labels= "auto",#hjust=-5,vjust=2,
+          common.legend = T,
+          legend = "bottom") 
 
+### Save figure
+ggsave(filename = 'Figures/Figure_S1.png', 
+       width = 320, height = 320, units = 'mm', dpi=300)
