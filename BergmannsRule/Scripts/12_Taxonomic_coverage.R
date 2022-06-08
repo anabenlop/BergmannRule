@@ -248,7 +248,7 @@ rfam <- rept_tax %>%
 # Load family-level tree - squamates
 r_tree <- ape::read.nexus(file = "Data/Phylogeny/rept_tree_family.nex")
 
-# load mammal dataset - all squamates
+# load reptiles dataset - all squamates
 reptdata <- read.csv('Data/reptdata_ph.csv', stringsAsFactors = F)
 
 # summarize by env.var and family 
@@ -277,7 +277,7 @@ p %<+% rfam + geom_tree(aes(color = inc), size = 1) + geom_tiplab(aes(color=inc)
   scale_color_manual(values = wes_palette("Cavalcanti1", n = 2), breaks = c("no", "yes")) +
   theme(legend.position = "none")
 
-ggsave(filename = "Figures/phylo_reptiles_included.jpg", 
+ggsave(filename = "Figures/phylo_reptiles_included.png", 
        width= 250, height= 250, units = 'mm', dpi=300)
 
 # exclude families in the tree that are not in dataset
@@ -336,21 +336,16 @@ plot(PhyloD2) # phylogenetically clustering pattern.
 ## amphibians ####
 # load data - Jetz and Pyron 2019
 amph_tax <- read.csv('Data/amph_shl_new_Classification.csv', stringsAsFactors = F)
+amph_tax <- amph_tax[-c(7239:7240),] # remove rows with no info or info on the Outgroup
 
 afam <- amph_tax %>% 
   group_by(Family) %>%
-  summarize(freq = n()) # 9755 species
+  summarize(freq = n()) # 7238 species and 73 families
 
-# load tree - Jetz and Pyron 2019
-a_tree <- ape::read.nexus(file = "Data/Phylogeny/AW_Families_consensus_2019.tre")
-a_tree
-plot(a_tree)
+# Load family-level tree - squamates
+a_tree <- ape::read.nexus(file = "Data/Phylogeny/amph_tree_family.nex")
 
-# drop subfamily trees
-a_tree$tip.label <- str_replace(a_tree$tip.label, " \\s*\\([^\\)]+\\)", "")
-a_tree$tip.label <- a_tree$tip.label[!duplicated(a_tree$tip.label)] # remove duplicates, DOES NOT WORK!
-
-# load data bergmann
+# load amphibians dataset 
 amphdata <- read.csv('Data/amphdata_ph.csv', stringsAsFactors = F)
 
 # summarize by env.var and family 
@@ -359,20 +354,14 @@ amphdata2 <- amphdata %>%
   summarise(mean = mean(corr.coeff),
             nsp = n())
 
-# use data for tavg only - discrete plot
+# use data for npp only - discrete plot
 amph_npp <- amphdata2 %>% 
-  filter(env.var == "npp") # 11 families
+  filter(env.var == "npp") 
 
-# create dataframe with all described families 
-afam <- data.frame(family = a_tree$tip.label)
+colnames(amph_npp)[2] <- "Family"
 
-# fix family names (remove parentheses and condense)
-# afam$family <- str_replace(afam$family, " \\s*\\([^\\)]+\\)", "")
-# afam <- afam[!duplicated(afam$family),]
-# afam <- data.frame(family = afam)
-
-# join dataset with families included in Bergmann's rule paper
-afam <- left_join(afam, amph_npp, by = "family")
+# join families dataset with families included in Bergmann's rule paper
+afam <- left_join(afam, amph_npp, by = "Family")
 afam$inc <- ifelse(is.na(afam$mean), "no", "yes")
 afam$bin <- ifelse(afam$inc == "yes", 1, 0)
 afam$bin <- as.integer(afam$bin)
@@ -382,10 +371,62 @@ afam$hyp <- ifelse(afam$mean < 0, "yes","no")
 
 p <- ggtree(a_tree, layout = "circular") 
 p %<+% afam + geom_tree(aes(color = inc), size = 1) + geom_tiplab(aes(color=inc)) +
-  scale_color_manual(values= wes_palette("Cavalcanti1", n = 2)) 
+  scale_color_manual(values = wes_palette("Cavalcanti1", n = 2), breaks = c("no", "yes")) +
+  theme(legend.position = "none")
 
-ggsave("Figures/phylo_birds.png", 
+ggsave(filename = "Figures/phylo_amphibians_included.png", 
        width= 250, height= 250, units = 'mm', dpi=300)
 
+# exclude families in the tree that are not in dataset
+afam2 <- afam[afam$bin == 1,]
+drops <- a_tree$tip.label[!a_tree$tip.label %in% afam2$Family]
+a_tree2 <- drop.tip(a_tree, drops)
+
+# create tree
+p2 <-  ggtree(a_tree2, layout = "circular") 
+
+# nsp per family
+p2 %<+% afam2 + geom_tree(aes(color = log10(nsp)), size = 1) + geom_tiplab(aes(color = log10(nsp))) +
+  scale_color_viridis() 
+
+# mean corr coeff npp per family
+p2 %<+% afam2 + geom_tree(aes(color = mean), size = 1) + geom_tiplab(aes(color = mean)) +
+  scale_color_viridis() 
+
+# Adherence to resource availability hypothesis amphibians
+p2 %<+% afam2 + geom_tree(aes(color = hyp), size = 1) + geom_tiplab(aes(color = hyp)) +
+  scale_color_manual(values= wes_palette("Cavalcanti1", n = 2)) + theme(legend.position = "none")
+
+ggsave("Figures/phylo_amphibians_npp.png", 
+       width= 250, height= 250, units = 'mm', dpi=300)
+
+table(afam2$hyp) # 4 out of 11 families follow resource avail. hyp (36%)
+
+# Test phylogenetic clustering of included mammalian families. Are most included families related?
+
+# The D-statistic is the sum of state changes along the edges of a phylogeny. 
+# The D statistic is equal to 1 if the observed binary trait has a phylogenetically random distribution across 
+# the tips of the phylogeny and to 0 if the observed trait is as clumped as if it had evolved by Brownian motion under 
+# our threshold model. Values of D can fall outside this range. 
+# Continuous vertical lines represent the mean of random D-statistic values obtained from two null models: 
+# Brownian motion (red) and phylogenetic randomness (blue). 
+# Dashed gray lines represent observed D-statistics.
+
+# order afam
+tips <- data.frame(Family = a_tree$tip.label)
+afam <- left_join(tips, afam, by = c("Family"))
+
+afam_D <- comparative.data(a_tree, afam[,c("Family","bin")], Family)
+PhyloD <- phylo.d(afam_D, binvar=bin) # Estimated D :  0.64918, P no random = 0.189, P Browniam = 0.197
+plot(PhyloD) # families not phylogenetically clustered, no evidence from random distribution either
+
+# order afam
+tips <- data.frame(Family = a_tree2$tip.label)
+afam2 <- left_join(tips, afam2, by = c("Family"))
+
+# Test phylogenetic clustering of families adhering to the resource availability hypothesis. Are the majority of families that follow the heat conserv hyp clustered?
+afam_D2 <- comparative.data(a_tree2, afam2[,c("Family","hyp")], Family) 
+PhyloD2 <- phylo.d(afam_D2, binvar = hyp) # Estimated D :  1.493811, P no random: 0.57, P Brownian: 0.23
+plot(PhyloD2) # phylogenetically overdispersed pattern?? too small of a sample...
 
 
