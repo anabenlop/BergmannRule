@@ -248,6 +248,67 @@ saveRDS(mam.mr,'Results/BergmannsRule_results_MR_mam_mig.rds')
 
 # 3. Test effect of environmental variation  ------------------------------------------------
 
+# 1. Amphibians ---------------------------------------------------------------------
+# load amphibians dataset 
+amphdata <- read.csv("Data/amphdata_ph.csv", stringsAsFactors = F)
+
+# loading phylogenetic matrixes 
+load("Data/Phylogeny/amph_phylo_cor.Rdata") #amph_phylo_cor
+
+# define phylo vcov matrix and random effects
+phylocor<-list(speciesname  = amph_phylo_cor)
+RE = list( ~1|speciesname, ~1|SPID)
+
+# npp model with env variation
+amph.npp.env <- rma.mv(yi = z.cor.yi,
+                       V = z.cor.vi,
+                       data = amphdata,
+                       subset = env.var=="npp",
+                       mods = ~ log10(sd.npp),
+                       random = RE, R = phylocor)
+summary(amph.npp.env) # negative effects, non significant
+
+# save results
+saveRDS(amph.npp.env,"Results/BergmannsRule_results_MR_amph_npp_env.rds")
+rm(amph.npp.env)
+
+# npp.sd model with env variation
+amph.npp.sd.env <- rma.mv(yi = z.cor.yi,
+                          V = z.cor.vi,
+                          data = amphdata,
+                          subset = env.var=="npp.sd",
+                          mods = ~ log10(sd.npp.sd),
+                          random = RE, R = phylocor)
+summary(amph.npp.sd.env) # no clear support for the seasonality hypothesis
+
+# save results
+saveRDS(amph.npp.sd.env,"Results/BergmannsRule_results_MR_amph_nppsd_env.rds")
+rm(amph.npp.sd.env)
+
+# prec model with env variation
+amph.prec.env <- rma.mv(yi = z.cor.yi,
+                        V = z.cor.vi,
+                        data = amphdata,
+                        subset = env.var=="prec",
+                        mods = ~ sd.prec,
+                        random = RE, R = phylocor)
+summary(amph.prec.env) # tendency towards smaller size as species are exposed to more variation in precipitation
+
+# save results
+saveRDS(amph.prec.env,"Results/BergmannsRule_results_MR_amph_prec_env.rds")
+rm(amph.prec.env)
+
+# load fitted models
+amph.npp.env <- readRDS('Results/BergmannsRule_results_MR_amph_npp_env.rds')
+amph.npp.sd.env <- readRDS('Results/BergmannsRule_results_MR_amph_nppsd_env.rds')
+amph.prec.env <- readRDS('Results/BergmannsRule_results_MR_amph_prec_env.rds')
+
+# save results in list
+am.mr.env <- list(amph.npp.env,amph.npp.sd.env,amph.prec.env) 
+names(am.mr.env) <- c("sd.npp","sd.npp.sd","sd.prec")
+
+saveRDS(am.mr.env,'Results/BergmannsRule_results_MR_amph_env.rds')
+
 #### a) Mammals ####
 # load mammal dataset 
 mamdata <- read.csv("Data/mamdata_ph.csv", stringsAsFactors = F)
@@ -271,7 +332,6 @@ summary(mam.tavg.env)
 # save results
 saveRDS(mam.tavg.env,"Results/BergmannsRule_results_MR_mam_tavg_env.rds")
 rm(mam.tavg.env)
-
 
 # Tmax model with env variation
 mam.tmax.env <- rma.mv(yi = z.cor.yi,
@@ -400,7 +460,7 @@ names(bi.mr.env) <- c("sd.tavg","sd.tmax","sd.npp","sd.npp.sd")
 
 saveRDS(bi.mr.env,'Results/BergmannsRule_results_MR_bird_env.rds')
 
-#### c) Reptiles ####
+# 2. Reptiles ---------------------------------------------------------------------
 # load reptiles dataset 
 reptdata <- read.csv("Data/reptdata_ph.csv", stringsAsFactors = F)
 
@@ -447,66 +507,6 @@ names(re.mr.env) <- c("sd.npp","sd.npp.sd")
 
 saveRDS(re.mr.env,'Results/BergmannsRule_results_MR_rept_env.rds')
 
-#### d) Amphibians ####
-# load amphibians dataset 
-amphdata <- read.csv("Data/amphdata_ph.csv", stringsAsFactors = F)
-
-# loading phylogenetic matrixes 
-load("Data/amph_phylo_cor.Rdata") #amph_phylo_cor
-
-# define phylo vcov matrix and random effects
-phylocor<-list(speciesname  = amph_phylo_cor)
-RE = list( ~1|speciesname, ~1|SPID)
-
-# npp model with env variation
-amph.npp.env <- rma.mv(yi = z.cor.yi,
-                       V = z.cor.vi,
-                       data = amphdata,
-                       subset = env.var=="npp",
-                       mods = ~ log10(sd.npp),
-                       random = RE, R = phylocor)
-summary(amph.npp.env) # negative effects, non significant
-
-# save results
-saveRDS(amph.npp.env,"Results/BergmannsRule_results_MR_amph_npp_env.rds")
-rm(amph.npp.env)
-
-# npp.sd model with env variation
-amph.npp.sd.env <- rma.mv(yi = z.cor.yi,
-                          V = z.cor.vi,
-                          data = amphdata,
-                          subset = env.var=="npp.sd",
-                          mods = ~ log10(sd.npp.sd),
-                          random = RE, R = phylocor)
-summary(amph.npp.sd.env) # no clear support for the seasonality hypothesis
-
-# save results
-saveRDS(amph.npp.sd.env,"Results/BergmannsRule_results_MR_amph_nppsd_env.rds")
-rm(amph.npp.sd.env)
-
-# prec model with env variation
-amph.prec.env <- rma.mv(yi = z.cor.yi,
-                          V = z.cor.vi,
-                          data = amphdata,
-                          subset = env.var=="prec",
-                          mods = ~ sd.prec,
-                          random = RE, R = phylocor)
-summary(amph.prec.env) # tendency towards smaller size as species are exposed to more variation in precipitation
-
-# save results
-saveRDS(amph.prec.env,"Results/BergmannsRule_results_MR_amph_prec_env.rds")
-rm(amph.prec.env)
-
-# load fitted models
-amph.npp.env <- readRDS('Results/BergmannsRule_results_MR_amph_npp_env.rds')
-amph.npp.sd.env <- readRDS('Results/BergmannsRule_results_MR_amph_nppsd_env.rds')
-amph.prec.env <- readRDS('Results/BergmannsRule_results_MR_amph_prec_env.rds')
-
-# save results in list
-am.mr.env <- list(amph.npp.env,amph.npp.sd.env,amph.prec.env) 
-names(am.mr.env) <- c("sd.npp","sd.npp.sd","sd.prec")
-
-saveRDS(am.mr.env,'Results/BergmannsRule_results_MR_amph_env.rds')
 
 # 4. Test mammals with body mass  ------------------------------------------------
 # Freckleton et al. 2003 --> Bergmann’s rule does depend on body mass: larger species follow the rule more commonly than smaller ones

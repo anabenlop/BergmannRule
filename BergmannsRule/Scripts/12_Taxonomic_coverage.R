@@ -1,10 +1,21 @@
 ##############################################################
 # Authors: 
-# Ana Benítez
-# Email: abenitez81@gmail.com
+# Ana Benitez-Lopez (@anabenlop)
+# Email: ana.benitez@ugr.es
+
+# Scholar Profile: https://scholar.google.com/citations?user=HC_j51sAAAAJ&hl=es
+# www.anabenitezlopez.com
+# Department of Environmental Science, Radboud University (the Netherlands)
+# Department of Integrative Ecology, Estación Biológica de Doñana (EBD-CSIC, Spain)
+# Department of Zoology, University of Granada (UGR, Spain)
+
+# First created on 31 May 2022
+
+##############################################################
+# Description of script and instructions                  ####
+##############################################################
 
 # Script to check family coverage in the dataset 
-# Made on 31 May 2022
 
 # clean environment
 rm(list = ls())

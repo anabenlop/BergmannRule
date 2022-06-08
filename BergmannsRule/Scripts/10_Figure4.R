@@ -15,7 +15,8 @@
 # Description of script and instructions                  ####
 ##############################################################
 
-# Script to create figure env variation for the paper
+# Script to test whether species exposed to a wider ranfe of variation in environmental conditions
+# are more likely to adhere to the tested hypothesis 
 
 # Henry, E., Santini, L., Huijbregts, M. A. J., Benítez-López, A. Uncovering the environmental drivers 
 # of intraspecific body size variation in terrestrial vertebrates. 
@@ -26,15 +27,32 @@
 library(metafor)
 library(ggplot2)
 library(ggpubr)
+library(MuMIn)
 
 # clean environment
 rm(list= ls())
 
 # Figure 4: Meta-regressions testing the effect of environmental variation ----------------------
 
-### Migration meta-regression panel birds ---------
-# get migration models
+### meta-regression panel birds ---------
+# get models
+# load random-effects meta-analysis models (null)
+bird.mods <- readRDS("Results/BergmannsRule_results_MA_birds_phylo_nonphylo.rds")
+names(bird.mods)
+
 env.mods <- readRDS("Results/BergmannsRule_results_MR_bird_env.rds")
+
+# which model is better? null or the one including env variation? 
+BIC(bird.mods$tavg, env.mods$sd.tavg) # null
+BIC(bird.mods$tmax, env.mods$sd.tmax) # null
+BIC(bird.mods$npp, env.mods$sd.npp)  # null
+BIC(bird.mods$npp.sd, env.mods$sd.npp.sd) # null
+
+anova(bird.mods$tavg, env.mods$sd.tavg, refit = T) # null
+BIC(bird.mods$tmax, env.mods$sd.tmax) # null
+BIC(bird.mods$npp, env.mods$sd.npp)  # null
+BIC(bird.mods$npp.sd, env.mods$sd.npp.sd) # null
+
 
 # Get sample sizes for figure legend
 birds <- read.csv("Data/birddata_ph.csv", stringsAsFactors = F)

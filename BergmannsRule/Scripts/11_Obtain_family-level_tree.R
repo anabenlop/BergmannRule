@@ -1,6 +1,17 @@
-# Pruning trees to one member per genus, 
-# Liam Revell solution
-# http://blog.phytools.org/2014/11/pruning-trees-to-one-member-per-genus.html
+##############################################################
+# Authors: 
+# Ana Benitez-Lopez (@anabenlop)
+# Email: ana.benitez@ugr.es
+
+# Scholar Profile: https://scholar.google.com/citations?user=HC_j51sAAAAJ&hl=es
+# www.anabenitezlopez.com
+# Department of Environmental Science, Radboud University (the Netherlands)
+# Department of Integrative Ecology, Estación Biológica de Doñana (EBD-CSIC, Spain)
+# Department of Zoology, University of Granada (UGR, Spain)
+###############################################################
+
+# Script to obtain family-level trees from species-level trees  ------
+# Made on 31 May 2022
 
 # load libraries
 library(tidyverse)
