@@ -147,7 +147,7 @@ bird.npp_n <- rma.mv(yi = z.cor.yi,
                    V = z.cor.vi,
                    data = birds,
                    subset = env.var=='npp' & migratory != "nomadic",
-                   mods = ~ migratory, # remove -1 for testing differences between the two groups.
+                   mods = ~ migratory-1, # remove -1 for testing differences between the two groups.
                    random = RE,  R = phylocor)
 summary(bird.npp_n)
 
@@ -171,7 +171,7 @@ bird.npp.sd_n <- rma.mv(yi = z.cor.yi,
                       V = z.cor.vi,
                       data = birds, 
                       subset = env.var=='npp.sd' & migratory != "nomadic",
-                      mods = ~ migratory - 1, # remove -1 for testing differences between the two groups.
+                      mods = ~ migratory, # remove -1 for testing differences between the two groups.
                       random = RE,  R = phylocor)
 summary(bird.npp.sd_n)
 
@@ -199,7 +199,7 @@ saveRDS(bi.mr,'Results/BergmannsRule_results_MR_mig.rds')
 mammals <- read.csv("Data/mammals_ph_mig.csv", stringsAsFactors = F)
 
 # loading phylogenetic matrixes 
-load("Data/mam_phylo_cor.Rdata") #mam_phylo_cor
+load("Data/Phylogeny/mam_phylo_cor.Rdata") #mam_phylo_cor
 
 # define phylo vcov matrix and random effects
 phylocor<-list(speciesname  = mam_phylo_cor)
@@ -210,7 +210,7 @@ mam.tavg <- rma.mv(yi = z.cor.yi,
                     V = z.cor.vi,
                     data = mammals,
                     subset = env.var=="tavg",
-                    mods = ~ Mig_status2-1,
+                    mods = ~ Mig_status2 - 1, # remove -1 for testing differences between the two groups.
                     random = RE, R = phylocor)
 summary(mam.tavg) # no clear signal
 
@@ -223,7 +223,7 @@ mam.tmax <- rma.mv(yi = z.cor.yi,
                     V = z.cor.vi,
                     data = mammals,
                     subset = env.var=="tmax",
-                    mods = ~ Mig_status2 - 1,
+                    mods = ~ Mig_status2 - 1, # remove -1 for testing differences between the two groups.
                     random = RE,  R = phylocor)
 summary(mam.tmax)
 
@@ -236,7 +236,7 @@ mam.npp <- rma.mv(yi = z.cor.yi,
                    V = z.cor.vi,
                    data = mammals,
                    subset = env.var=='npp',
-                   mods = ~ Mig_status2 - 1,
+                   mods = ~ Mig_status2 - 1, # remove -1 for testing differences between the two groups.
                    random = RE,  R = phylocor)
 summary(mam.npp) # clear effect for resident but not for migratory species
 
@@ -248,7 +248,7 @@ mam.npp.sd <- rma.mv(yi = z.cor.yi,
                       V = z.cor.vi,
                       data = mammals, 
                       subset = env.var=='npp.sd',
-                      mods = ~ Mig_status2 - 1,
+                      mods = ~ Mig_status2 - 1, # remove -1 for testing differences between the two groups.
                       random = RE,  R = phylocor)
 summary(mam.npp.sd) # clear effect for resident but not for migratory species
 
