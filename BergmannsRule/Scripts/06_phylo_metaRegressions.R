@@ -27,7 +27,8 @@
 library(dplyr)
 library(metafor)
 
-# setwd('D:/BergmannsRule_upload')
+# clean environment
+rm(list = ls())
 
 # 1. Heat Balance Hypothesis ---------------------------------------------------
 
@@ -95,7 +96,7 @@ bird.tavg_n <- rma.mv(yi = z.cor.yi,
                     V = z.cor.vi,
                     data = birds,
                     subset = env.var=="tavg" & migratory != "nomadic",
-                    mods = ~ migratory-1,
+                    mods = ~ migratory-1, # remove -1 for testing differences between the two groups.
                     random = RE, R = phylocor)
 summary(bird.tavg_n)
 
@@ -121,7 +122,7 @@ bird.tmax_n <- rma.mv(yi = z.cor.yi,
                     V = z.cor.vi,
                     data = birds,
                     subset = env.var=="tmax" & migratory != "nomadic",
-                    mods = ~ migratory - 1,
+                    mods = ~ migratory - 1, # remove -1 for testing differences between the two groups.
                     random = RE,  R = phylocor)
 summary(bird.tmax_n)
 
@@ -146,7 +147,7 @@ bird.npp_n <- rma.mv(yi = z.cor.yi,
                    V = z.cor.vi,
                    data = birds,
                    subset = env.var=='npp' & migratory != "nomadic",
-                   mods = ~ migratory - 1,
+                   mods = ~ migratory, # remove -1 for testing differences between the two groups.
                    random = RE,  R = phylocor)
 summary(bird.npp_n)
 
@@ -170,7 +171,7 @@ bird.npp.sd_n <- rma.mv(yi = z.cor.yi,
                       V = z.cor.vi,
                       data = birds, 
                       subset = env.var=='npp.sd' & migratory != "nomadic",
-                      mods = ~ migratory - 1,
+                      mods = ~ migratory - 1, # remove -1 for testing differences between the two groups.
                       random = RE,  R = phylocor)
 summary(bird.npp.sd_n)
 
@@ -178,13 +179,13 @@ saveRDS(bird.npp.sd_n,'Results/BergmannsRule_results_MR_mig_nppsd_n.rds')
 rm(bird.npp.sd_n)
 
 # load fitted models
-bird.tavg <- readRDS('Results/BergmannsRule_results_MR_mig_tavg.rds')
+# bird.tavg <- readRDS('Results/BergmannsRule_results_MR_mig_tavg.rds')
 bird.tavg_n <- readRDS('Results/BergmannsRule_results_MR_mig_tavg_n.rds')
-bird.tmax <- readRDS('Results/BergmannsRule_results_MR_mig_tmax.rds')
+# bird.tmax <- readRDS('Results/BergmannsRule_results_MR_mig_tmax.rds')
 bird.tmax_n <- readRDS('Results/BergmannsRule_results_MR_mig_tmax_n.rds')
-bird.npp <- readRDS('Results/BergmannsRule_results_MR_mig_npp.rds')
+# bird.npp <- readRDS('Results/BergmannsRule_results_MR_mig_npp.rds')
 bird.npp_n <- readRDS('Results/BergmannsRule_results_MR_mig_npp_n.rds')
-bird.npp.sd <- readRDS('Results/BergmannsRule_results_MR_mig_nppsd.rds')
+# bird.npp.sd <- readRDS('Results/BergmannsRule_results_MR_mig_nppsd.rds')
 bird.npp.sd_n <- readRDS('Results/BergmannsRule_results_MR_mig_nppsd_n.rds')
 
 # save results in list
