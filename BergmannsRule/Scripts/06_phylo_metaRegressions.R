@@ -1,7 +1,27 @@
-###### Meta Regressions v5 ######
+##############################################################
+# Authors: 
+# Erin Henry, Ana Benitez-Lopez (@anabenlop)
+# Email: erinhenry55@gmail.com, abenitez81@gmail.com, ana.benitez@ugr.es
+# Scholar Profile: https://scholar.google.com/citations?user=HC_j51sAAAAJ&hl=es
+# Department of Integrative Ecology, Estación Biológica de Doñana (EBD-CSIC, ESP) 
+# Department of Zoology, University of Granada (UGR, SP) 
 
-# Created on 29 September 2020
-## Modified 14 November 2021 ##
+##############################################################
+# Description of script and instructions                  ####
+##############################################################
+
+# This script is meant to 
+# 1) test the heat balance hypothesis in thermoconformers and thermoregulators. 
+# 2) test the adherence to different hypotheses of migratory and sedentary birds and mammals
+
+
+# Henry, E., Santini, L., Huijbregts, M. A. J., Benítez-López, A. Uncovering the environmental drivers 
+# of intraspecific body size variation in terrestrial vertebrates. 
+
+
+##############################################################
+# Packages needed                                         ####
+##############################################################
 
 # Packages and working directory -----------------------------------------------
 library(dplyr)
@@ -15,7 +35,7 @@ library(metafor)
 ecto <- read.csv("Data/herpdata_ph.csv", stringsAsFactors = F)
 
 # loading phylogenetic matrixes 
-load("Data/herp_phylo_cor.Rdata") # need to create a ectotherm phylogenetic correlationmatrix
+load("Data/Phylogeny/herp_phylo_cor.Rdata") 
 
 # new column: thermoregulator (reptiles and anura) or thermoconformer (caudata)
 ecto$therm <- ifelse(ecto$order=="Caudata",
@@ -34,7 +54,7 @@ RE = list( ~1|speciesname, ~1|SPID)
 mod.hb <- rma.mv(yi = z.cor.yi,
                  V = z.cor.vi,
                  data = ecto, 
-                 mods = ~ therm - 1,
+                 mods = ~ therm-1,
                  random = RE, R = phylocor)
 
 summary(mod.hb)
@@ -42,6 +62,7 @@ summary(mod.hb)
 # save results
 saveRDS(mod.hb,"Results/BergmannsRule_results_MR_heatBalance.rds")
 
+# mod.hb <- readRDS("Results/BergmannsRule_results_MR_heatBalance.rds")
 
 # 2. Migration Meta-Regression ------------------------------------------------
 
@@ -50,7 +71,7 @@ saveRDS(mod.hb,"Results/BergmannsRule_results_MR_heatBalance.rds")
 birds <- read.csv("Data/birds_ph_mig.csv", stringsAsFactors = F)
 
 # loading phylogenetic matrixes 
-load("Data/bird_phylo_cor.Rdata") #bird_phylo_cor
+load("Data/Phylogeny/bird_phylo_cor.Rdata") #bird_phylo_cor
 
 # define phylo vcov matrix and random effects
 phylocor<-list(speciesname  = bird_phylo_cor)
@@ -389,7 +410,7 @@ saveRDS(ma.mr.env,'Results/BergmannsRule_results_MR_mam_env.rds')
 birddata <- read.csv("Data/birddata_ph.csv", stringsAsFactors = F)
 
 # loading phylogenetic matrixes 
-load("Data/bird_phylo_cor.Rdata") #bird_phylo_cor
+load("Data/Phylogeny/bird_phylo_cor.Rdata") #bird_phylo_cor
 
 # define phylo vcov matrix and random effects
 phylocor<-list(speciesname  = bird_phylo_cor)

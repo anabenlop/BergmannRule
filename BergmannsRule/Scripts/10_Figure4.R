@@ -37,22 +37,10 @@ rm(list= ls())
 ### meta-regression panel birds ---------
 # get models
 # load random-effects meta-analysis models (null)
-bird.mods <- readRDS("Results/BergmannsRule_results_MA_birds_phylo_nonphylo.rds")
-names(bird.mods)
+# bird.mods <- readRDS("Results/BergmannsRule_results_MA_birds_phylo_nonphylo.rds")
+# names(bird.mods)
 
 env.mods <- readRDS("Results/BergmannsRule_results_MR_bird_env.rds")
-
-# which model is better? null or the one including env variation? 
-BIC(bird.mods$tavg, env.mods$sd.tavg) # null
-BIC(bird.mods$tmax, env.mods$sd.tmax) # null
-BIC(bird.mods$npp, env.mods$sd.npp)  # null
-BIC(bird.mods$npp.sd, env.mods$sd.npp.sd) # null
-
-anova(bird.mods$tavg, env.mods$sd.tavg, refit = T) # null
-BIC(bird.mods$tmax, env.mods$sd.tmax) # null
-BIC(bird.mods$npp, env.mods$sd.npp)  # null
-BIC(bird.mods$npp.sd, env.mods$sd.npp.sd) # null
-
 
 # Get sample sizes for figure legend
 birds <- read.csv("Data/birddata_ph.csv", stringsAsFactors = F)
