@@ -242,7 +242,7 @@ table(bfam2$hyp) # 104 families follow bergmann's rule
 # Dashed gray lines represent observed D-statistics.
 
 bfam_D <- comparative.data(b_tree2, bfam[,c("family","bin")], family)
-PhyloD <- phylo.d(bfam_D, binvar=bin)
+PhyloD <- phylo.d(bfam_D, binvar=bin) # Estimated D :  0.62, P no random: 0.006, P Brownian: 0.014
 plot(PhyloD) # some phylogenetic clumping, but nothing too severe 
 
 # Test phylogenetic clustering of families adhering to the heat conservation hypothesis. Are the majority of families that follow the heat conserv hyp clustered?
