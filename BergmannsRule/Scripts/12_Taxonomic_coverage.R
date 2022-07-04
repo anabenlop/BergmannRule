@@ -86,7 +86,7 @@ mfam$hyp <- ifelse(mfam$mean < 0, "yes","no")
 p <- ggtree(m_tree, layout = "circular") 
 pm <- p %<+% mfam + geom_tree(aes(color = inc), size = 1) + geom_tiplab(aes(color=inc)) +
       scale_color_manual(values = wes_palette("Cavalcanti1", n = 2), breaks = c("no", "yes")) +
-      theme(legend.position = "none", plot.margin = unit(c(3,3,3,3), "lines"))
+      theme(plot.margin = unit(c(3,3,3,3), "cm"))
 pm
 
 ggsave(filename = "Figures/phylo_mammals_included.png", 
@@ -199,7 +199,7 @@ bfam$hyp <- ifelse(bfam$mean < 0, "yes","no")
 p <- ggtree(b_tree2, layout = "circular") 
 pb <- p %<+% bfam + geom_tree(aes(color = inc), size = 1) + geom_tiplab(aes(color=inc)) +
   scale_color_manual(values= wes_palette("Cavalcanti1", n = 2)) + 
-  theme(legend.position = "none", plot.margin = unit(c(3,3,3,3), "lines"))
+  theme(legend.position = "none", plot.margin = unit(c(3,3,3,3), "cm"))
 pb
 
 ggsave("Figures/phylo_birds.png", 
@@ -288,7 +288,7 @@ rfam$hyp <- ifelse(rfam$mean < 0, "yes","no")
 p <- ggtree(r_tree, layout = "circular") 
 pr <- p %<+% rfam + geom_tree(aes(color = inc), size = 1) + geom_tiplab(aes(color=inc)) +
   scale_color_manual(values = wes_palette("Cavalcanti1", n = 2), breaks = c("no", "yes")) +
-  theme(legend.position = "none", plot.margin = unit(c(3,3,3,3), "lines"))
+  theme(legend.position = "none", plot.margin = unit(c(3,3,3,3), "cm"))
 pr
 
 ggsave(filename = "Figures/phylo_reptiles_included.png", 
@@ -386,7 +386,7 @@ afam$hyp <- ifelse(afam$mean < 0, "yes","no")
 p <- ggtree(a_tree, layout = "circular") 
 pa <- p %<+% afam + geom_tree(aes(color = inc), size = 1) + geom_tiplab(aes(color=inc)) +
   scale_color_manual(values = wes_palette("Cavalcanti1", n = 2), breaks = c("no", "yes")) +
-  theme(legend.position = "none", plot.margin = unit(c(3,3,3,3), "lines"))
+  theme(legend.position = "none", plot.margin = unit(c(3,3,3,3), "cm"))
 pa
 
 ggsave(filename = "Figures/phylo_amphibians_included.png", 
@@ -432,8 +432,8 @@ tips <- data.frame(Family = a_tree$tip.label)
 afam <- left_join(tips, afam, by = c("Family"))
 
 afam_D <- comparative.data(a_tree, afam[,c("Family","bin")], Family)
-PhyloD <- phylo.d(afam_D, binvar=bin) # Estimated D :  0.64918, P no random = 0.189, P Browniam = 0.197
-plot(PhyloD) # families not phylogenetically clustered, no evidence from random distribution either
+PhyloD <- phylo.d(afam_D, binvar=bin) # Estimated D :  0.64918, P no random = 0.189, P Brownian = 0.197
+plot(PhyloD) # families not phylogenetically clustered, no evidence from non random distribution either
 
 # order afam
 tips <- data.frame(Family = a_tree2$tip.label)
@@ -444,13 +444,27 @@ afam_D2 <- comparative.data(a_tree2, afam2[,c("Family","hyp")], Family)
 PhyloD2 <- phylo.d(afam_D2, binvar = hyp) # Estimated D :  1.493811, P no random: 0.57, P Brownian: 0.23
 plot(PhyloD2) # phylogenetically overdispersed pattern?? too small of a sample...
 
-## Plot all phylogenies together into Fig. S1
-### Combine a and b (Into Fig 3.)
-ggarrange(pa, pr, pb, pm, ncol=2,nrow=2,
+## Plot all phylogenies together into Fig. S1 ----
+### Combine 4 paneles (pa,pr,pb,pm) into Fig. S1)
+# modify plot. margins
+pa2 <- pa + theme(plot.margin = unit(c(1.5,1.5,1.5,1.5), "cm"),
+                  legend.title = element_blank(),
+                  legend.text = element_text(size = 16))
+pr2 <- pr + theme(plot.margin = unit(c(1.5,1.5,1.5,1.5), "cm"),
+                  legend.title = element_blank(),
+                  legend.text = element_text(size = 16))
+pb2 <- pb + theme(plot.margin = unit(c(1.5,1.5,1.5,1.5), "cm"),
+                  legend.title = element_blank(),
+                  legend.text = element_text(size = 16))
+pm2 <- pm + theme(plot.margin = unit(c(1.5,1.5,1.5,1.5), "cm"),
+                  legend.title = element_blank(),
+                        legend.text = element_text(size = 16))
+
+ggarrange(pa2, pr2, pb2, pm2, ncol=2,nrow=2,
           labels= "auto",#hjust=-5,vjust=2,
           common.legend = T,
           legend = "bottom") 
 
 ### Save figure
 ggsave(filename = 'Figures/Figure_S1.png', 
-       width = 320, height = 320, units = 'mm', dpi=300)
+       width = 340, height = 340, units = 'mm', dpi=300)

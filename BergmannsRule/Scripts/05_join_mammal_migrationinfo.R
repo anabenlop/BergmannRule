@@ -13,9 +13,11 @@
 # Description of script and instructions                  ####
 ##############################################################
 
-# This script loads the mammals correlations dataset, migratory information from Soriano-Redondo et al. (2020)
-# https://www.nature.com/articles/s41467-020-19256-0
-# and joins both datasets to run metaregressions for resident vs migratory mammals (script 06_phylo_metaRegressions)
+# This script loads the mammals correlations dataset, migratory information from 
+# Soriano-Redondo et al. (2020), https://www.nature.com/articles/s41467-020-19256-0; 
+# Teitelbaum et al. (2015), https://onlinelibrary.wiley.com/doi/10.1111/ele.12435
+# Gnanadesikan et al. (2017), https://onlinelibrary.wiley.com/doi/full/10.1002/ece3.3120
+# and joins all datasets to run meta-regressions for resident vs migratory mammals (script 06_phylo_metaRegressions)
 # for the paper:
 
 # Henry, E., Santini, L., Huijbregts, M. A. J., Benítez-López, A. Uncovering the environmental drivers 
@@ -59,7 +61,7 @@ mig_m2$Mig_status <- ifelse(is.na(mig_m2$Mig_bi), mig_m2$Mig_bi2, mig_m2$Mig_bi)
 
 length(unique(mig_m2[is.na(mig_m2$Mig_status),]$speciesname)) #393 species without mig status assigned
 
-# migration data from Luca Santini and Leonardo Ancillotto (need a proper reference)
+# migration data from Teitelbaum et al. (2015)
 mig_status3 <- read.csv("Data/MIG_BEHAVIOUR_mam.csv", stringsAsFactors = FALSE) 
 
 # match species from mammals dataset with species in migration dataset 2
