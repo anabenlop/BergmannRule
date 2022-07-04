@@ -446,19 +446,19 @@ plot(PhyloD2) # phylogenetically overdispersed pattern?? too small of a sample..
 
 ## Plot all phylogenies together into Fig. S1 ----
 ### Combine 4 paneles (pa,pr,pb,pm) into Fig. S1)
-# modify plot. margins
+# modify plot. margins and legend size
 pa2 <- pa + theme(plot.margin = unit(c(1.5,1.5,1.5,1.5), "cm"),
                   legend.title = element_blank(),
-                  legend.text = element_text(size = 16))
+                  legend.text = element_text(size = 18))
 pr2 <- pr + theme(plot.margin = unit(c(1.5,1.5,1.5,1.5), "cm"),
                   legend.title = element_blank(),
-                  legend.text = element_text(size = 16))
+                  legend.text = element_text(size = 18))
 pb2 <- pb + theme(plot.margin = unit(c(1.5,1.5,1.5,1.5), "cm"),
                   legend.title = element_blank(),
-                  legend.text = element_text(size = 16))
+                  legend.text = element_text(size = 18))
 pm2 <- pm + theme(plot.margin = unit(c(1.5,1.5,1.5,1.5), "cm"),
                   legend.title = element_blank(),
-                        legend.text = element_text(size = 16))
+                        legend.text = element_text(size = 18))
 
 ggarrange(pa2, pr2, pb2, pm2, ncol=2,nrow=2,
           labels= "auto",#hjust=-5,vjust=2,
@@ -467,4 +467,4 @@ ggarrange(pa2, pr2, pb2, pm2, ncol=2,nrow=2,
 
 ### Save figure
 ggsave(filename = 'Figures/Figure_S1.png', 
-       width = 340, height = 340, units = 'mm', dpi=300)
+       width = 350, height = 350, units = 'mm', dpi=300)
