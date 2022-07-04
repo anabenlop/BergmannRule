@@ -30,7 +30,7 @@ names(bird.mods)
 
 # create table of values for plot
 model <- data.frame(beta = unlist(lapply(bird.mods,"[","beta")),
-                    env.var = c("MT","MaxT","NPP","NPPsd"),
+                    env.var = c("MeanT","MaxT","NPP","NPPsd"),
                     ci.lb = unlist(lapply(bird.mods,"[","ci.lb")),
                     ci.ub = unlist(lapply(bird.mods,"[","ci.ub")),
                     n = unlist(sapply(bird.mods,"[","k")))
@@ -44,7 +44,7 @@ model$hyp <- c("Heat conservation","Heat dissipation","Resource availability",
 # model <- subset(model, env.var!="MP" & env.var!="MinT" & env.var!="PET")
 
 # reorder env.vars
-model$env.var <- factor(model$env.var, levels = c("NPPsd","NPP","MaxT","MT"))  
+model$env.var <- factor(model$env.var, levels = c("NPPsd","NPP","MaxT","MeanT"))  
 
 xmin <- -.2 #round(min(model$ci.lb-.01),digits=2)
 xmax <- .2 #round(max(model$ci.ub+.01),digits=2)
@@ -89,7 +89,7 @@ names(mam.mods)
 
 # create table of values for plot
 model <- data.frame(beta = unlist(lapply(mam.mods,"[","beta")),
-                    env.var = c("MT","MaxT","NPP","NPPsd"),
+                    env.var = c("MeanT","MaxT","NPP","NPPsd"),
                     ci.lb = unlist(lapply(mam.mods,"[","ci.lb")),
                     ci.ub = unlist(lapply(mam.mods,"[","ci.ub")),
                     n = unlist(sapply(mam.mods,"[","k")))
@@ -103,7 +103,7 @@ model$hyp <- c("Heat conservation","Heat dissipation","Resource availability",
 # model <- subset(model,env.var!="MP" & env.var!="MinT" & env.var!="PET")
 
 # reorder env.vars
-model$env.var <- factor(model$env.var, levels = c("NPPsd","NPP","MaxT","MT"))  
+model$env.var <- factor(model$env.var, levels = c("NPPsd","NPP","MaxT","MeanT"))  
 
 xmin = -.2 #round(min(model$ci.lb-.01),digits=2)
 xmax = .2 #round(max(model$ci.ub+.01),digits=2)
@@ -209,7 +209,7 @@ names(amph.mods)
 
 # create table of values for plot
 model <- data.frame(beta = unlist(lapply(amph.mods,"[","beta")),
-                    env.var = c("MP","NPP","NPPsd"),
+                    env.var = c("MeanP","NPP","NPPsd"),
                     ci.lb = unlist(lapply(amph.mods,"[","ci.lb")),
                     ci.ub = unlist(lapply(amph.mods,"[","ci.ub")),
                     n = unlist(sapply(amph.mods,"[","k")))
