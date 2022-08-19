@@ -46,7 +46,7 @@ names(mig.mods)
 
 # dataframe of models
 model <- data.frame(beta = unlist(lapply(mig.mods,"[","beta")),
-                    env.var = rep(c("MT","MaxT","NPP","NPPsd"),each=2),
+                    env.var = rep(c("MeanT","MaxT","NPP","NPPsd"),each=2),
                     ci.lb = unlist(lapply(mig.mods,"[","ci.lb")),
                     ci.ub = unlist(lapply(mig.mods,"[","ci.ub")),
                     n = unlist(sapply(mig.mods,"[","k")),
@@ -57,7 +57,7 @@ model$ci.lb <- transf.ztor(model$ci.lb)
 model$ci.ub <- transf.ztor(model$ci.ub)
 
 # model <- subset(model,env.var!="MP" & env.var!="MinT" & env.var!="PET")
-model$env.var <- factor(model$env.var,levels=c("MT","MaxT","NPP","NPPsd"))
+model$env.var <- factor(model$env.var,levels=c("MeanT","MaxT","NPP","NPPsd"))
 
 # make plot
 p <- ggplot(model,aes(x=beta,y=migration),show.legend=T) +
