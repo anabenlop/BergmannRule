@@ -72,8 +72,8 @@ toc()
 amph.ma <- list(amph.prec, amph.npp, amph.npp.sd)
 names(amph.ma) <- c('prec','npp','npp.sd')
 
-saveRDS(amph.ma,
-        'Results/BergmannsRule_results_MA_amphibians_phylo_nonphylo_ML.rds')
+# saveRDS(amph.ma,
+#         'Results/BergmannsRule_results_MA_amphibians_phylo_nonphylo_ML.rds')
 
 # env variation models
 # npp model with env variation
