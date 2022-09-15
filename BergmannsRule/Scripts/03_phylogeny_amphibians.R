@@ -7,6 +7,7 @@
 
 ##############################################################
 # Description of script and instructions
+##############################################################
 
 # This script is used to build the phylogeny for amphibians and estimate the 
 # phylogenetic relatedness among the species:
