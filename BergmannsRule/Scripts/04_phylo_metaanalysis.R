@@ -33,7 +33,7 @@ rm(list=ls())
 amphibians_ph <- read.csv("Data/amphdata_ph.csv", stringsAsFactors = F)
 
 # loading phylogenetic matrixes 
-load("Data/amph_phylo_cor.Rdata") #amph_phylo_cor
+load("Data/Phylogeny/amph_phylo_cor.Rdata") #amph_phylo_cor
 
 # vector of environmental variables
 env.vars <- c('prec','npp','npp.sd')
@@ -71,7 +71,7 @@ saveRDS(amph.ma,
 reptiles_ph <- read.csv("Data/reptdata_ph.csv", stringsAsFactors = F)
 
 # loading phylogenetic matrixes 
-load("Data/rept_phylo_cor.Rdata") #rept_phylo_cor
+load("Data/Phylogeny/rept_phylo_cor.Rdata") #rept_phylo_cor
 
 # vector of environmental variables
 env.vars <- c('npp','npp.sd')
