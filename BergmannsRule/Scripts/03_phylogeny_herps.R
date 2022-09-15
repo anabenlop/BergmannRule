@@ -36,7 +36,7 @@ rm(list=ls())
 herpdata<-read.csv("Data/herps.csv", header = TRUE, stringsAsFactors = FALSE) # 
 
 # generating list of species
-species <- sort(unique(as.character(herpdata$speciesname))) #81 species
+species <- sort(unique(as.character(herpdata$speciesname))) 
 
 ##############################################################
 # Formatting species data
@@ -74,7 +74,7 @@ for(i in 1:length(ott_id_tocheck)){
  }
 
 # check synonyms and change name accordingly
-fix_taxa <- taxa.c[taxa.c$is_synonym==TRUE,] # 10 species returned
+fix_taxa <- taxa.c[taxa.c$is_synonym==TRUE,] 
 
 fix_taxa <-fix_taxa[,c("search_string", "unique_name")]
 fix_taxa$species <- str_to_sentence(fix_taxa$search_string) #convert to upper case to join with original dataset
@@ -83,7 +83,7 @@ herpdata <- left_join(herpdata,fix_taxa, by =c("speciesname" = "species"))
 herpdata$speciesname <-ifelse(!is.na(herpdata$unique_name), herpdata$unique_name, herpdata$speciesname)
 herpdata <- herpdata[,-c(25:26)] # remove join columns
 
-species <- sort(unique(as.character(herpdata$speciesname))) #81 species
+species <- sort(unique(as.character(herpdata$speciesname))) # 117 species
 
 # rerun 2
 taxa.c2 <- tnrs_match_names(names = species)
@@ -132,7 +132,6 @@ intersect(as.character(tree_random$tip.label), as.character(species))
 species[!species %in% as.character(tree_random$tip.label)] #listed in our database but not in the tree
 tree_random$tip.label[!as.character(tree_random$tip.label) %in% species] # listed in the tree but not in our database
 
-
 tiff("Results/herp_phylogenetic_tree_pruned.tiff",
      height=20, width=10,
      units='cm', compression="lzw", res=800)
@@ -143,7 +142,6 @@ dev.off()
 
 # we can now save the tree
 save(tree_random, file = "Data/herp_tree_random.Rdata")
-
 
 ##############################################################
 # Computing branch lengths
@@ -170,7 +168,6 @@ phylo_branch <- compute.brlen(herp.tree_random.fixed, method = "Grafen", power =
 # check if tree is ultrametric
 is.ultrametric(phylo_branch) # TRUE
 
-
 ##############################################################
 # Phylogenetic matrix
 ##############################################################
@@ -182,9 +179,9 @@ herp_phylo_cor <- vcv(phylo_branch, cor = T)
 herpdata_ph <- herpdata[which(herpdata$speciesname %in% rownames(herp_phylo_cor)),] # we do not lose any species
 
 ##create Species ID to distinguish later between variation explained by non-phylogenetic and phylogenetic effects
-SpID<-data.frame(speciesname = unique(herpdata_ph$speciesname), SPID = paste0("SP",1:length(unique(herpdata_ph$speciesname))))
-SpID$speciesname<-as.character(SpID$speciesname)
-herpdata_ph<-inner_join(herpdata_ph,SpID, by = "speciesname")
+SpID <- data.frame(speciesname = unique(herpdata_ph$speciesname), SPID = paste0("SP",1:length(unique(herpdata_ph$speciesname))))
+SpID$speciesname <- as.character(SpID$speciesname)
+herpdata_ph <- inner_join(herpdata_ph,SpID, by = "speciesname")
 
 # finally, save matrix for future analyses
 save(herp_phylo_cor, file = "Data/herp_phylo_cor.Rdata")

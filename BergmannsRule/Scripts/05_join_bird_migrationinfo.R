@@ -1,25 +1,18 @@
 ##############################################################
 # Authors: 
-# Ana Benitez-Lopez (@anabenlop)
+# Erin Henry, Ana Benitez-Lopez (@anabenlop)
+# Email: erinhenry55@gmail.com, abenitez81@gmail.com, ana.benitez@ugr.es
 # Scholar Profile: https://scholar.google.com/citations?user=HC_j51sAAAAJ&hl=es
-# Department of Integrative Ecology, Estación Biológica de Doñana (EBD-CSIC, ESP) 
-# Email: abenitez81@gmail.com
-
-# Script first created on the 30th of December 2021
-# Modified on the 17th of January 2022
+# https://www.anabenitezlopez.com/
 
 ##############################################################
-# Description of script and instructions                  ####
+# Description of script and instructions
 ##############################################################
 
 # This script loads the bird correlations dataset, migratory information from Eyres et al. 2017 
 # (https://onlinelibrary.wiley.com/doi/pdf/10.1111/jav.01308; http://dataportal-senckenberg.de/database/metacat/bikf.10058.1/bikf)
 # and joins both datasets to run metaregressions for resident vs migratory birds (script 06_phylo_metaRegressions)
-# for the paper:
 
-
-# Henry, E., Santini, L., Huijbregts, M. A. J., Benítez-López, A. Uncovering the environmental drivers 
-# of intraspecific body size variation in terrestrial vertebrates. 
 
 # clean environment
 rm(list = ls())
