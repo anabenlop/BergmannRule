@@ -32,7 +32,7 @@ rm(list=ls())
 ##############################################################
 
 # load database and elton traits data to remove marine species
-reptdata<-read.csv("Data/reptiles.csv", header = TRUE, stringsAsFactors = FALSE) # 
+reptdata <- read.csv("Data/reptiles.csv", header = TRUE, stringsAsFactors = FALSE) # 
 
 # generating list of species
 species <- sort(unique(as.character(reptdata$speciesname))) #81 species
@@ -91,7 +91,6 @@ taxa.c2 <- tnrs_match_names(names = species)
 
 taxa.c2[taxa.c2$approximate_match==TRUE,] # no species returned
 taxa.c2[taxa.c2$is_synonym==TRUE,] # no species returned
-
 
 ##############################################################
 # Retrieving phylogenetic relationships
@@ -171,7 +170,6 @@ phylo_branch <- compute.brlen(rept.tree_random.fixed, method = "Grafen", power =
 # check if tree is ultrametric
 is.ultrametric(phylo_branch) # TRUE
 
-
 ##############################################################
 # Phylogenetic matrix
 ##############################################################
@@ -183,9 +181,9 @@ rept_phylo_cor <- vcv(phylo_branch, cor = T)
 reptdata_ph <- reptdata[which(reptdata$speciesname %in% rownames(rept_phylo_cor)),] # we do not lose any species
 
 ##create Species ID to distinguish later between variation explained by non-phylogenetic and phylogenetic effects
-SpID<-data.frame(speciesname = unique(reptdata_ph$speciesname), SPID = paste0("SP",1:length(unique(reptdata_ph$speciesname))))
-SpID$speciesname<-as.character(SpID$speciesname)
-reptdata_ph<-inner_join(reptdata_ph,SpID, by = "speciesname")
+SpID <- data.frame(speciesname = unique(reptdata_ph$speciesname), SPID = paste0("SP",1:length(unique(reptdata_ph$speciesname))))
+SpID$speciesname <- as.character(SpID$speciesname)
+reptdata_ph <- inner_join(reptdata_ph,SpID, by = "speciesname")
 
 # finally, save matrix for future analyses
 save(rept_phylo_cor, file = "Data/rept_phylo_cor.Rdata")
