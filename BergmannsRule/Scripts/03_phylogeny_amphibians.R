@@ -24,7 +24,7 @@ library(rotl)
 library(diagram)
 library(stringr)
 
-# Clear memory
+# Clear environment
 rm(list=ls())
 
 ##############################################################
