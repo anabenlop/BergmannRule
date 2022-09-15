@@ -184,7 +184,7 @@ SpID$speciesname <- as.character(SpID$speciesname)
 herpdata_ph <- inner_join(herpdata_ph,SpID, by = "speciesname")
 
 # finally, save matrix for future analyses
-save(herp_phylo_cor, file = "Data/herp_phylo_cor.Rdata")
+save(herp_phylo_cor, file = "Data/Phylogeny/herp_phylo_cor.Rdata")
 
 # exporting fixed dataset for analyses
 write.csv(herpdata_ph, 
