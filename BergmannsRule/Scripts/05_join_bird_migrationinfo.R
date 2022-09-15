@@ -11,7 +11,8 @@
 
 # This script loads the bird correlations dataset, migratory information from Eyres et al. 2017 
 # (https://onlinelibrary.wiley.com/doi/pdf/10.1111/jav.01308; http://dataportal-senckenberg.de/database/metacat/bikf.10058.1/bikf)
-# and joins both datasets to run metaregressions for resident vs migratory birds (script 06_phylo_metaRegressions)
+# and joins both datasets to run metaregressions for resident vs migratory birds (script 06_phylo_metaRegressions).
+# Species synonyms to match both datasets are retrieved using the package taxize
 
 
 # clean environment
@@ -26,7 +27,7 @@ library(taxize)
 birds_ph <- read.csv("Data/birddata_ph.csv", stringsAsFactors = F)
 
 # migration data from Eyres et al. 2017
-mig_status<-read.csv("Data/SpeciesList3_1_migbehav_v2_0.csv", stringsAsFactors = FALSE) 
+mig_status <- read.csv("Data/SpeciesList3_1_migbehav_v2_0.csv", stringsAsFactors = FALSE) 
 mig_status$speciesname <- paste0(mig_status$IOC3_1_Genus," ", mig_status$IOC3_1_Species)
 
 # match species from birds dataset with species in migration dataset 
