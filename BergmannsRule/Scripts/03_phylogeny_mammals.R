@@ -24,7 +24,7 @@ library(rotl)
 library(diagram)
 library(stringr)
 
-# Clear memory
+# Clear environment
  rm(list=ls())
 
 ##############################################################
@@ -32,7 +32,7 @@ library(stringr)
 ##############################################################
 
 # load database and elton traits data to remove marine species
-mamdata<-read.csv("Data/mammals.csv", header = TRUE, stringsAsFactors = FALSE) # 596
+mamdata <- read.csv("Data/mammals.csv", header = TRUE, stringsAsFactors = FALSE) # 596
 
 # remove unknown species(genus level)
 mamdata <- mamdata[mamdata$speciesname != "Carollia carollia", ]
@@ -83,7 +83,6 @@ for(i in 1:length(ott_id_tocheck)){
 
 # check synonyms and change name accordingly
 fix_taxa <- taxa.c[taxa.c$is_synonym==TRUE,] # 9 species returned
-
 fix_taxa <-fix_taxa[,c("search_string", "unique_name")]
 fix_taxa$species <- str_to_sentence(fix_taxa$search_string) #convert to upper case to join with original dataset
 
@@ -147,7 +146,7 @@ tree_random$tip.label[!as.character(tree_random$tip.label) %in% species] # liste
 
 # try to see which species is that
 
-test<-tnrs_match_names(names = c("Artibeus jamaicensis",
+test <- tnrs_match_names(names = c("Artibeus jamaicensis",
                                  "Artibeus planirostris",
                                  "Geomys bursarius",
                                  "Miniopterus schreibersii", 
@@ -185,8 +184,8 @@ setdiff(mamdata$speciesname, as.character(tree_random$tip.label)) # "Myotis luci
 setdiff(as.character(tree_random$tip.label),mamdata$speciesname)
 
 # exclude species in the tree that are not in dataset
-  drops <- tree_random$tip.label[!tree_random$tip.label %in% mamdata$speciesname]
-  mam.tree_random.fixed <- drop.tip(tree_random, drops)
+drops <- tree_random$tip.label[!tree_random$tip.label %in% mamdata$speciesname]
+mam.tree_random.fixed <- drop.tip(tree_random, drops)
 
 # save the new tree
 write.tree(mam.tree_random.fixed, file = "Data/mam.tree_random.fixed.tre")
@@ -197,7 +196,6 @@ phylo_branch <- compute.brlen(mam.tree_random.fixed, method = "Grafen", power = 
 # check if tree is ultrametric
 is.ultrametric(phylo_branch) # TRUE
 
-
 ##############################################################
 # Phylogenetic matrix
 ##############################################################
@@ -206,16 +204,15 @@ is.ultrametric(phylo_branch) # TRUE
 mam_phylo_cor <- vcv(phylo_branch, cor = T)
 
 # remove rows not in correlation matrix
-mamdata_ph <- mamdata[which(mamdata$speciesname %in% rownames(mam_phylo_cor)),] # 554
+mamdata_ph <- mamdata[which(mamdata$speciesname %in% rownames(mam_phylo_cor)),] 
 
 ##create Species ID to distinguish later between variation explained by non-phylogenetic and phylogenetic effects
-SpID<-data.frame(speciesname = unique(mamdata_ph$speciesname), SPID = paste0("SP",1:length(unique(mamdata_ph$speciesname))))
-SpID$speciesname<-as.character(SpID$speciesname)
-mamdata_ph<-inner_join(mamdata_ph,SpID, by = "speciesname")
+SpID <- data.frame(speciesname = unique(mamdata_ph$speciesname), SPID = paste0("SP",1:length(unique(mamdata_ph$speciesname))))
+SpID$speciesname <- as.character(SpID$speciesname)
+mamdata_ph <- inner_join(mamdata_ph,SpID, by = "speciesname")
 
 # finally, save matrix for future analyses
 save(mam_phylo_cor, file = "Data/mam_phylo_cor.Rdata")
-
 
 # exporting fixed dataset for analyses
 write.csv(mamdata_ph, 
