@@ -64,7 +64,7 @@ taxa[taxa$approximate_match==TRUE,] # no species returned
 # No multiple matches
 
 # check synonyms and change name accordingly
-fix_taxa <- taxa.c[taxa.c$is_synonym==TRUE,] # 8 species returned
+fix_taxa <- taxa[taxa$is_synonym==TRUE,] # 8 species returned
 
 fix_taxa <-fix_taxa[,c("search_string", "unique_name")]
 fix_taxa$species <- str_to_sentence(fix_taxa$search_string) #convert to upper case to join with original dataset
@@ -172,13 +172,12 @@ amph_phylo_cor <- vcv(phylo_branch, cor = T)
 amphdata_ph <- amphdata[which(amphdata$speciesname %in% rownames(amph_phylo_cor)),] # we do not lose any species
 
 ##create Species ID to distinguish later between variation explained by non-phylogenetic and phylogenetic effects
-SpID<-data.frame(speciesname = unique(amphdata_ph$speciesname), SPID = paste0("SP",1:length(unique(amphdata_ph$speciesname))))
-SpID$speciesname<-as.character(SpID$speciesname)
-amphdata_ph<-inner_join(amphdata_ph,SpID, by = "speciesname")
+SpID <- data.frame(speciesname = unique(amphdata_ph$speciesname), SPID = paste0("SP",1:length(unique(amphdata_ph$speciesname))))
+SpID$speciesname <- as.character(SpID$speciesname)
+amphdata_ph <- inner_join(amphdata_ph,SpID, by = "speciesname")
 
 # finally, save matrix for future analyses
 save(amph_phylo_cor, file = "Data/amph_phylo_cor.Rdata")
-
 
 # exporting fixed dataset for analyses
 write.csv(amphdata_ph, 
