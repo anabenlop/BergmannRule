@@ -1,12 +1,15 @@
 ##############################################################
 # Authors: 
 # Erin Henry, Ana Benitez-Lopez (@anabenlop)
-# Email: erinhenry55@gmail.com, abenitez81@gmail.com
+# Email: erinhenry55@gmail.com, abenitez81@gmail.com, ana.benitez@ugr.es
+# Scholar Profile: https://scholar.google.com/citations?user=HC_j51sAAAAJ&hl=es
+# https://www.anabenitezlopez.com/
 
-## Correlation Analysis for Bergmann's Rule project ##
-## Created in October 2020 ##
-# Adapted on 24 December 2021
+##############################################################
+# Description of script and instructions
+##############################################################
 
+## Correlation Analysis for intraspecific body size variation project ##
 
 # This script calculates correlation coefficients for each species.
 # For each species, we tested the correlation of 
@@ -198,10 +201,10 @@ corr.results$z.cor.vi = z.cor$vi # sampling variance
 # 4. Save results --------------------------------------------------------------
 
 saveRDS(corr.results,
-        'Results/BergmannsRule_results_correlations_20211224.rds')
+        'Data/BergmannsRule_results_correlations_20211124.rds')
 
 write.csv(corr.results,
-          'Results/BergmannsRule_results_correlations_202111224.csv')
+          'Data/BergmannsRule_results_correlations_20211124.csv')
 
 
 # End of script -----

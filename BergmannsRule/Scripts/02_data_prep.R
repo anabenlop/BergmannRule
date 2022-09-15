@@ -1,22 +1,17 @@
 ##############################################################
 # Authors: 
-# Ana Benitez-Lopez (@anabenlop)
+# Erin Henry, Ana Benitez-Lopez (@anabenlop)
+# Email: erinhenry55@gmail.com, abenitez81@gmail.com, ana.benitez@ugr.es
 # Scholar Profile: https://scholar.google.com/citations?user=HC_j51sAAAAJ&hl=es
-# Department of Integrative Ecology, Estacion Biologica de Donana (EBD-CSIC, ESP) 
-# Email: abenitez81@gmail.com
-
-# Script first created on the 15th of December 2021
+# https://www.anabenitezlopez.com/
 
 ##############################################################
 # Description of script and instructions
 ##############################################################
 
 # This script is takes the correlations calculated in the script
-# 02_BergmannsRule_correlationAnalysis.R and prepares the data for the phylogenetic
-# meta-analysis for the paper:
-
-# Henry, E., Santini, L., Huijbregts, M. A. J., Benítez-López, A. Uncovering the environmental drivers 
-# of intraspecific body size variation in terrestrial vertebrates. 
+# 02_correlationAnalysis.R and prepares the data for the phylogenetic
+# meta-analysis 
 
 ##############################################################
 # Packages needed
@@ -30,7 +25,7 @@ rm(list=ls())
 
 # Load data ---------------------------------------------------------------------
 # read in correlation results
-results <- readRDS('Results/BergmannsRule_results_correlations_20211224.rds')
+data <- readRDS('Data/BergmannsRule_results_correlations_20211124.rds')
 
 # load environmental variation per species
 dat_env <- read.csv("Data/Bergmann_envvariation.csv", header = T, stringsAsFactors = F)
@@ -39,7 +34,7 @@ dat_env <- read.csv("Data/Bergmann_envvariation.csv", header = T, stringsAsFacto
 # 1. Amphibians ----------------------------------------------------------------
 
 # subset results for amphibians
-amphibians <- subset(results, class == 'amphibian')
+amphibians <- subset(data, class == 'amphibian')
 
 amphibians <- amphibians[amphibians$env.var == 'prec' |
                            amphibians$env.var == 'npp'|
@@ -53,7 +48,7 @@ write.csv(amphibians,"Data/amphibians.csv", row.names = F)
 # 2. Reptiles ------------------------------------------------------------------
 
 # subset results for reptiles
-reptiles <- subset(results, class == 'reptile')
+reptiles <- subset(data, class == 'reptile')
 
 reptiles <- reptiles[reptiles$env.var == 'npp' | reptiles$env.var == 'npp.sd',]
 
@@ -65,7 +60,7 @@ write.csv(reptiles,"Data/reptiles.csv", row.names = F)
 # 3. Mammals -------------------------------------------------------------------
 
 # subset results for mammals
-mammals <- subset(results, class == 'mammal')
+mammals <- subset(data, class == 'mammal')
 
 # read elton traits dataset and remove marine mammmals
 elton_mam <- read.csv("Data/EltonTraits_Mammals_taxid.csv", header = T, stringsAsFactors = F)
@@ -97,7 +92,7 @@ write.csv(mammals,"Data/mammals.csv", row.names = F) # 578
 # 4. Birds ---------------------------------------------------------------------
 
 # subset results for birds
-birds <- subset(results, class == 'bird')
+birds <- subset(data, class == 'bird')
 
 # read elton traits dataset and remove marine mammmals
 elton_bird <- read.csv("Data/BirdFuncDat.csv", header = T, stringsAsFactors = F)
@@ -118,7 +113,7 @@ write.csv(birds,"Data/birds.csv", row.names = F)
 #5. Herps ----------------------------------------------------------------------
   
 # subset results for herps
-herps <- subset(results, class == 'amphibian' | class == 'reptile')
+herps <- subset(data, class == 'amphibian' | class == 'reptile')
 herps <- herps[herps$env.var == 'tavg',] # we only test the heat balance hyp for thermoconformers vs thermoregulators
     
 # join env var data
