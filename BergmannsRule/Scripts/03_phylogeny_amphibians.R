@@ -177,7 +177,7 @@ SpID$speciesname <- as.character(SpID$speciesname)
 amphdata_ph <- inner_join(amphdata_ph,SpID, by = "speciesname")
 
 # finally, save matrix for future analyses
-save(amph_phylo_cor, file = "Data/amph_phylo_cor.Rdata")
+save(amph_phylo_cor, file = "Data/Phylogeny/amph_phylo_cor.Rdata")
 
 # exporting fixed dataset for analyses
 write.csv(amphdata_ph, 

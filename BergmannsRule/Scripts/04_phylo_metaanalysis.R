@@ -1,37 +1,27 @@
 ##############################################################
 # Authors: 
-# Ana Benitez-Lopez (@anabenlop)
+# Erin Henry, Ana Benitez-Lopez (@anabenlop)
+# Email: erinhenry55@gmail.com, abenitez81@gmail.com, ana.benitez@ugr.es
 # Scholar Profile: https://scholar.google.com/citations?user=HC_j51sAAAAJ&hl=es
-# Department of Integrative Ecology, Estación Biológica de Doñana (EBD-CSIC, ESP) 
-# Email: abenitez81@gmail.com
-
-# Script first created on the 12th of December 2021
+# https://www.anabenitezlopez.com/
 
 ##############################################################
-# Description of script and instructions                  ####
+# Description of script and instructions
 ##############################################################
 
-# This script runs the phylogenetic meta-analysis for mammals for the paper: 
-
-
-# Henry, E., Santini, L., Huijbregts, M. A. J., Benítez-López, A. Uncovering the environmental drivers 
-# of intraspecific body size variation in terrestrial vertebrates. 
-
+# This script runs the phylogenetic meta-analyses for each taxonomic group for testing several 
+# existing hypotheses explaining within-species body size variation in terrestrial vertebrates, 
+# including the heat balance, seasonality, resource availability and water conservation hypotheses 
+# for ectotherms, and the heat conservation, heat dissipation, starvation resistance, and 
+# resource availability hypotheses for endotherms.
 
 ##############################################################
 # Packages needed                                         ####
 ##############################################################
 library(metafor)
-# library(ggplot2)
-# library(ggpubr)
 library(tictoc)
-# library(png)
-# library(ggimage)
-# library(grid)
-# library(rsvg)
-# library(grImport2)
 
-#clean memory
+#clean environment
 rm(list=ls())
 
 ##############################################################
@@ -41,7 +31,6 @@ rm(list=ls())
 
 #Load data
 amphibians_ph <- read.csv("Data/amphdata_ph.csv", stringsAsFactors = F)
-# amphibians_ph$Species_ph <- gsub(" ", "_", trimws(amphibians_ph$speciesname))
 
 # loading phylogenetic matrixes 
 load("Data/amph_phylo_cor.Rdata") #amph_phylo_cor
