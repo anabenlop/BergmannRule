@@ -22,12 +22,12 @@
 # the environmental variable tested, Fishers z-scores and associated confidence
 # intervals and sampling variance.
 
-# Packages and working directory -----------------------------------------------
+##############################################################
+# Packages needed
+##############################################################
 library(plyr)
 library(metafor)
 library(wCorr)
-
-# setwd("D:/BergmannsRule_upload")
 
 # Clean environment
 rm(list = ls())
