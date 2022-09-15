@@ -10,6 +10,13 @@ The main dataset is stored in the file: BergmannsRule_data_forCorrelations_20211
 
 Following the sequence of scripts in the repository from 01_correlation_analysis.R to 14_FigS2.R, these data are cleaned, correlation coefficients and phylogenetic correlation matrixes are calculated, the data for birds and mammals are merged with migratory info, and all the phylogenetic meta-analyses are run. There are some scripts to produce the figures of the paper, or to calculate some summary stats. All scripts are commented.
 
+The final datasets to run the analyses are:
+- Amphibians: amphdata_ph.csv,  
+- Birds: birddata_ph.csv,  
+- Mammals: mamdata_ph.csv,  
+- Reptiles: reptdata_ph.csv, 
+- Herps: herpdata_ph.csv
+
 Some intermediate files are used in the workflow:
 
 **Migratory behaviour**
