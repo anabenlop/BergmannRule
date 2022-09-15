@@ -12,13 +12,13 @@ Following the sequence of scripts in the repository from 01_correlation_analysis
 
 Some intermediate files are used in the workflow:
 
-Migratory behaviour
+**Migratory behaviour**
 
 SpeciesList3_1_migbehav_v2_0.csv corresponds to the dataset on bird migratrory behaviour by Eyres et al. (2017), used to classify bird species as migratory or not. Nomadic species species were removed from the analysis using the script 05_join_bird_migrationinfo.R
 
 The datasets: Soriano-Redondo_mig_behaviour.csv .... are used to classify mammal species as migratory or not. 
 
-Diet
+**Diet**
 
 BirdFuncDat.csv and EltonTraits_Mammals_taxid.csv are based on the EltonTraits database (Wilman, H. et al. EltonTraits 1.0: Species-level foraging attributes of the world's birds and mammals: Ecological Archives E095-178. Ecology 95, 2027-2027 (2014)) and used to classify species as carnivores or not. 
 
