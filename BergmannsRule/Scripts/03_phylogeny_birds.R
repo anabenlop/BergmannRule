@@ -35,7 +35,7 @@ rm(list=ls())
 birddata<-read.csv("Data/birds.csv", header = TRUE, stringsAsFactors = FALSE) # 
 
 # generating list of species
-species <- sort(unique(as.character(birddata$speciesname))) #1561 species
+species <- sort(unique(as.character(birddata$speciesname))) 
 
 ##############################################################
 # Formatting species data
@@ -150,15 +150,15 @@ tree_random$tip.label[!as.character(tree_random$tip.label) %in% species] # liste
 
 # try to see which species is that
 
-test<-tnrs_match_names(names = c("Anas cyanoptera", "Loxia leucoptera", "Regulus regulus" ))
+test <- tnrs_match_names(names = c("Anas cyanoptera", "Loxia leucoptera", "Regulus regulus" ))
 
 tree_test <- tol_induced_subtree(ott_ids = c("4131616",  "602508", "82411"), label_format = "name")
 tree_test <- tol_induced_subtree(ott_ids = c("4131616",  "602508", "206533"), label_format = "name")
 
 # we fix them here
-tree_random$tip.label[tree_random$tip.label =="mrcaott3599545ott4131616"] <-"Regulus regulus"
-tree_random$tip.label[tree_random$tip.label =="mrcaott80776ott602508"] <-"Loxia leucoptera"
-tree_random$tip.label[tree_random$tip.label =="mrcaott82415ott206533"] <-"Anas cyanoptera"
+tree_random$tip.label[tree_random$tip.label == "mrcaott3599545ott4131616"] <-"Regulus regulus"
+tree_random$tip.label[tree_random$tip.label == "mrcaott80776ott602508"] <-"Loxia leucoptera"
+tree_random$tip.label[tree_random$tip.label == "mrcaott82415ott206533"] <-"Anas cyanoptera"
 
 tiff("Results/bird_phylogenetic_tree_pruned.tiff",
      height=20, width=10,
@@ -189,7 +189,7 @@ bird.tree_random.fixed <- drop.tip(tree_random, drops)
 
 # exclude species in the dataset that are not in the tree
 drop_sp <- birddata$speciesname[!birddata$speciesname %in% tree_random$tip.label]
-birddata <- birddata[birddata$speciesname != drop_sp,] # 1545 sp
+birddata <- birddata[birddata$speciesname != drop_sp,] 
 
 # save the new tree
 write.tree(bird.tree_random.fixed, file = "Data/bird.tree_random.fixed.tre")
@@ -199,7 +199,6 @@ phylo_branch <- compute.brlen(bird.tree_random.fixed, method = "Grafen", power =
 
 # check if tree is ultrametric
 is.ultrametric(phylo_branch) # TRUE
-
 
 ##############################################################
 # Phylogenetic matrix
@@ -212,13 +211,12 @@ bird_phylo_cor <- vcv(phylo_branch, cor = T)
 birddata_ph <- birddata[which(birddata$speciesname %in% rownames(bird_phylo_cor)),] 
 
 ##create Species ID to distinguish later between variation explained by non-phylogenetic and phylogenetic effects
-SpID<-data.frame(speciesname = unique(birddata_ph$speciesname), SPID = paste0("SP",1:length(unique(birddata_ph$speciesname))))
-SpID$speciesname<-as.character(SpID$speciesname)
-birddata_ph<-inner_join(birddata_ph,SpID, by = "speciesname")
+SpID <- data.frame(speciesname = unique(birddata_ph$speciesname), SPID = paste0("SP",1:length(unique(birddata_ph$speciesname))))
+SpID$speciesname <- as.character(SpID$speciesname)
+birddata_ph <- inner_join(birddata_ph,SpID, by = "speciesname")
 
 # finally, save matrix for future analyses
 save(bird_phylo_cor, file = "Data/bird_phylo_cor.Rdata")
-
 
 # exporting fixed dataset for analyses
 write.csv(birddata_ph, 
