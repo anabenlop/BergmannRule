@@ -57,7 +57,7 @@ mig_m2$Mig_status <- ifelse(is.na(mig_m2$Mig_bi), mig_m2$Mig_bi2, mig_m2$Mig_bi)
 length(unique(mig_m2[is.na(mig_m2$Mig_status),]$speciesname)) #393 species without mig status assigned
 
 # migration data from Bisson et al. (2009)
-mig_status3 <- read.csv("Data/Bisson_2009_Vespertilionidae_mig.csv", stringsAsFactors = FALSE) 
+mig_status3 <- read.csv("Data/MIG_BEHAVIOUR_mam.csv", stringsAsFactors = FALSE) 
 
 # match species from mammals dataset with species in migration dataset 2
 mig_m3 <- left_join(mig_m2, mig_status3[,c("speciesname","Mig")], by = "speciesname")
