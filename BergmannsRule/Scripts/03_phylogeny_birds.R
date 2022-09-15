@@ -216,7 +216,7 @@ SpID$speciesname <- as.character(SpID$speciesname)
 birddata_ph <- inner_join(birddata_ph,SpID, by = "speciesname")
 
 # finally, save matrix for future analyses
-save(bird_phylo_cor, file = "Data/bird_phylo_cor.Rdata")
+save(bird_phylo_cor, file = "Data/Phylogeny/bird_phylo_cor.Rdata")
 
 # exporting fixed dataset for analyses
 write.csv(birddata_ph, 
