@@ -179,3 +179,5 @@ saveRDS(bi.ma,
 
 # check results
 # bi.ma_ph_nonph <- readRDS("Results/BergmannsRule_results_MA_birds_phylo_nonphylo.rds")
+
+# End of script --- 
