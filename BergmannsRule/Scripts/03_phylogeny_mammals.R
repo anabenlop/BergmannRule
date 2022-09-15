@@ -212,7 +212,7 @@ SpID$speciesname <- as.character(SpID$speciesname)
 mamdata_ph <- inner_join(mamdata_ph,SpID, by = "speciesname")
 
 # finally, save matrix for future analyses
-save(mam_phylo_cor, file = "Data/mam_phylo_cor.Rdata")
+save(mam_phylo_cor, file = "Data/Phylogeny/mam_phylo_cor.Rdata")
 
 # exporting fixed dataset for analyses
 write.csv(mamdata_ph, 
