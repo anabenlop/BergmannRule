@@ -60,34 +60,40 @@ length(unique(mig_m2[is.na(mig_m2$Mig_status),]$speciesname)) #393 species witho
 mig_status3 <- read.csv("Data/Bisson_2009_Vespertilionidae_mig.csv", stringsAsFactors = FALSE) 
 
 # match species from mammals dataset with species in migration dataset 2
-mig_m3 <- left_join(mig_m2, mig_status3[,c("speciesname","Mig")], by = "speciesname")
-mig_m3$Mig_status <- ifelse(is.na(mig_m3$Mig_status), mig_m3$Mig, mig_m3$Mig_status) 
+mig_m3 <- left_join(mig_m2, mig_status3[,c("Species","Migration")], by = c("speciesname" = "Species"))
+mig_m3$Mig_status <- ifelse(is.na(mig_m3$Mig_status), mig_m3$Migration, mig_m3$Mig_status) 
 
-length(unique(mig_m3[is.na(mig_m3$Mig_status),]$speciesname)) #280 species without mig status assigned
+length(unique(mig_m3[is.na(mig_m3$Mig_status),]$speciesname)) #373 species without mig status assigned
 
 # use taxize to find synonyms of species with missing migratory status
 # Make batches so that the connection is not reset 
 
-# missing <- unique(mig_m3[is.na(mig_m3$Mig_status),]$speciesname)
+missing <- unique(mig_m3[is.na(mig_m3$Mig_status),]$speciesname)
 # 
-# missing1 <- missing[1:50]
-# missing2 <- missing[51:100]
-# missing3 <- missing[101:150]
-# missing4 <- missing[151:200]
-# missing5 <- missing[201:280]
+missing1 <- missing[1:50]
+missing2 <- missing[51:100]
+missing3 <- missing[101:150]
+missing4 <- missing[151:200]
+missing5 <- missing[201:250]
+missing6 <- missing[251:300]
+missing7 <- missing[301:373]
+
 # 
-# miss_l <- list(missing1, missing2, missing3, missing4, missing5)
-# syn <- list()
-# 
-# for (i in 1:length(miss_l)) {
-#   syn[[i]] <- synonyms(miss_l[[i]], db = "itis")
-#   }
-# 
-# syn_df1 <- synonyms_df(syn[[1]])
-# syn_df2 <- synonyms_df(syn[[2]])
-# syn_df3 <- synonyms_df(syn[[3]])
-# syn_df4 <- synonyms_df(syn[[4]])
-# syn_df5 <- synonyms_df(syn[[5]])
+miss_l <- list(missing1, missing2, missing3, missing4, missing5, missing6, missing7)
+syn <- list()
+ 
+for (i in 1:length(miss_l)) {
+  syn[[i]] <- synonyms(miss_l[[i]], db = "itis")
+  }
+
+syn_df1 <- synonyms_df(syn[[1]])
+syn_df2 <- synonyms_df(syn[[2]])
+syn_df3 <- synonyms_df(syn[[3]])
+syn_df4 <- synonyms_df(syn[[4]])
+syn_df5 <- synonyms_df(syn[[5]])
+syn_df6 <- synonyms_df(syn[[6]])
+syn_df7 <- synonyms_df(syn[[7]])
+
 # 
 # #create extra columns in syn_df4 and syn_df5 to bind alltogether
 # syn_df4$acc_name <- NA
@@ -95,13 +101,13 @@ length(unique(mig_m3[is.na(mig_m3$Mig_status),]$speciesname)) #280 species witho
 # syn_df5$acc_name <- NA
 # syn_df5$acc_author <- NA
 # 
-# syn_df <- rbind(syn_df1, syn_df2, syn_df2, syn_df3, syn_df4, syn_df5)
+syn_df <- rbind(syn_df1, syn_df2, syn_df2, syn_df3, syn_df4, syn_df5, syn_df6, syn_df7)
                                                                                             # 
 # # save species for which we found a syn in itis
-# write.csv(syn_df, "Data/syn_itis_mam.csv", row.names = F)
+write.csv(syn_df, "Data/syn_itis_mam2.csv", row.names = F)
 
 # load here synonyms dataset to avoid searching again
-syn_df <- read.csv("Data/syn_itis_mam.csv", stringsAsFactors = F)
+syn_df <- read.csv("Data/syn_itis_mam2.csv", stringsAsFactors = F)
 
 # join syn with migratory dataset 1 and keep those that match
 temp <- left_join(syn_df[,c(".id", "syn_name", "acc_name")], mig_mam[,c("animal","Mig_bi")], by = c("syn_name" = "animal"))
