@@ -27,7 +27,7 @@ Some intermediate files are used in the workflow:
 
 SpeciesList3_1_migbehav_v2_0.csv corresponds to the dataset on bird migratrory behaviour by Eyres et al. (2017), used to classify bird species as migratory or not. Species synonyms were matched with the package taxize. Nomadic species species were removed from the analysis. These analyses were run using the script 05_join_bird_migrationinfo.R
 
-The datasets: Soriano-Redondo_mig_behaviour.csv .... are used to classify mammal species as migratory or not. Species synonyms were matched with the package taxize. These analyses were run using the script 05_join_mammal_migrationinfo.R
+The datasets Soriano-Redondo_mig_behaviour.csv; Gnanadesikan_2018_mammals_mig.csv and Bisson_2009_Vespertilionidae_mig.csv are used to classify mammal species as migratory or not. Species synonyms were matched with the package taxize. These analyses were run using the script 05_join_mammal_migrationinfo.R
 
 **Diet**
 
