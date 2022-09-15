@@ -109,7 +109,7 @@ saveRDS(rept.ma,
 mammals_ph <- read.csv("Data/mamdata_ph.csv", stringsAsFactors = F) # 567 species
 
 # loading phylogenetic matrixes 
-load("Data/mam_phylo_cor.Rdata") #mam_phylo_cor
+load("Data/Phylogeny/mam_phylo_cor.Rdata") #mam_phylo_cor
 
 # vector of environmental variables
 env.vars <- c('tavg','tmax','npp','npp.sd')
@@ -148,7 +148,7 @@ saveRDS(ma.ma,
 birds_ph <- read.csv("Data/birddata_ph.csv", stringsAsFactors = F)
 
 # loading phylogenetic matrixes 
-load("Data/bird_phylo_cor.Rdata") #bird_phylo_cor
+load("Data/Phylogeny/bird_phylo_cor.Rdata") #bird_phylo_cor
 
 # vector of environmental variables
 env.vars <- c('tavg','tmax','npp','npp.sd')
@@ -158,7 +158,7 @@ phylocor<-list(speciesname  = bird_phylo_cor)
 RE = list( ~1|speciesname, ~1|SPID)
 
 # for loop running a meta-analysis for each environmental variable
-tic("Run phylo meta-analysis in a loop")
+tic("Run phylo meta-analysis in a loop") #this may take long time to run
 for(i in 1:length(env.vars)){
   print(i)
   assign(paste0('bird.',env.vars[i]),
