@@ -86,13 +86,13 @@ p <- p + facet_wrap(~env.var,nrow=4) +
 p
 
 ### Migration meta-regression panel mammals ---------
-mig.mods <- readRDS("Results/Bergmannsrule_results_MR_mam_mig.rds")
+mig.mods <- readRDS("Results/Bergmannsrule_results_MR_mam_mig2.rds")
 
 # Get sample sizes for figure legend
-mammals <- read.csv("Data/mammals_ph_mig.csv", stringsAsFactors = F)
+mammals <- read.csv("Data/mammals_ph_mig2.csv", stringsAsFactors = F)
 
-nrow(subset(mammals,Mig_status2=="Resident"))/4 # N resident species (divided by 4 env var) --> 420
-nrow(subset(mammals,Mig_status2=="Migratory"))/4 # N migratory species  (divided by 4 env var) --> 147
+nrow(subset(mammals,Mig_status2=="Resident"))/4 # N resident species (divided by 4 env var) --> 537
+nrow(subset(mammals,Mig_status2=="Migratory"))/4 # N migratory species  (divided by 4 env var) --> 30
 
 names(mig.mods)
 
@@ -138,8 +138,8 @@ p2 <- p2 + facet_wrap(~env.var,nrow=4) +
 p2
 
 ### Save figure
-ggsave(filename='Figures/Figure_3_b.png', 
-       width=120, height=80, units = 'mm', dpi=600)
+# ggsave(filename='Figures/Figure_3_b.png', 
+#        width=120, height=80, units = 'mm', dpi=600)
 
 
 ### Combine a and b (Into Fig 3.)
@@ -149,70 +149,70 @@ ggarrange(p, p2, ncol=2,nrow=1,
           legend = "bottom") # save as 1000 x 400
 
 ### Save figure
-ggsave(filename='Figures/Figure_3.png', 
+ggsave(filename='Figures/Figure_3_v3.png', 
        width=180, height=80, units = 'mm', dpi=600)
 
 
-### Heat balance meta-regression (Panel c) -----
-hb.mod <- readRDS("Results/BergmannsRule_results_MR_heatBalance.rds")
-
-#Load data
-ecto <- read.csv("Data/herpdata_ph.csv", stringsAsFactors = F)
-
-# new column: thermoregulator (reptiles and anura) or thermoconformer (caudata)
-ecto$therm <- ifelse(ecto$order=="Caudata",
-                     "Thermoconf", # if TRUE
-                     "Thermoreg") # if FALSE
-
-# check
-table(ecto$order, ecto$therm)
-
-# Get sample sizes for figure legend
-nrow(subset(ecto,therm =="Thermoreg")) # N thermoregulators --> 108
-nrow(subset(ecto,therm=="Thermoconf")) # N thermoconformers --> 9
-
-# dataframe of models
-model <- data.frame(beta = hb.mod$beta,
-                    env.var <- c("MT","MT"),
-                    ci.lb = hb.mod$ci.lb,
-                    ci.ub = hb.mod$ci.ub,
-                    therm = c("TC","TR"))
-model$beta <- transf.ztor(model$beta)
-model$ci.lb <- transf.ztor(model$ci.lb)
-model$ci.ub <- transf.ztor(model$ci.ub)
-
-# model <- subset(model,env.var!="MP" & env.var!="MinT" & env.var!="PET")
-# model$therm <- factor(model$therm,levels=c("TR","TC"))
-
-# make plot
-p23 <- ggplot(model,aes(x=beta,y=therm),show.legend=F) +
-  geom_vline(xintercept = 0, color = "gray80",size=.55) +
-  geom_point(mapping=aes(x=beta,y=therm,color=env.var),show.legend=F,
-             data=model,size=2) + 
-  geom_errorbarh(data=model,show.legend=F,size=.75, 
-                 mapping=aes(x=beta,y=therm,color=env.var,xmin=ci.lb,
-                             xmax=ci.ub,height=0)) +
-  theme_classic() +
-  labs(x="Spearman's r",y=NULL) +
-  scale_color_manual(name="Variable",
-                     values=c("#4477AA")) +
-  theme(axis.title=element_text(size=9),
-        plot.title = element_text(size=12),
-        axis.text=element_text(size=8),
-        legend.title=element_text(size=9),
-        legend.text=element_text(size=9),
-        plot.margin=unit(c(1,5,1,1),"lines"),
-        panel.border=element_rect(fill=NA),
-        legend.spacing.x = unit(.1,'cm'),
-  )
-p3
-
-### Combine (Into Fig 3.)
-ggarrange(p2,p,ncol=2,nrow=1,
-          labels="auto",#hjust=-5,vjust=2,
-          common.legend = T,
-          legend = "bottom") # save as 1000 x 400
-
-### Save figure
-ggsave(filename='Figures/Figure_3.png', 
-       width=180, height=80, units = 'mm', dpi=600)
+### Heat balance meta-regression (not run) -----
+# hb.mod <- readRDS("Results/BergmannsRule_results_MR_heatBalance.rds")
+# 
+# #Load data
+# ecto <- read.csv("Data/herpdata_ph.csv", stringsAsFactors = F)
+# 
+# # new column: thermoregulator (reptiles and anura) or thermoconformer (caudata)
+# ecto$therm <- ifelse(ecto$order=="Caudata",
+#                      "Thermoconf", # if TRUE
+#                      "Thermoreg") # if FALSE
+# 
+# # check
+# table(ecto$order, ecto$therm)
+# 
+# # Get sample sizes for figure legend
+# nrow(subset(ecto,therm =="Thermoreg")) # N thermoregulators --> 108
+# nrow(subset(ecto,therm=="Thermoconf")) # N thermoconformers --> 9
+# 
+# # dataframe of models
+# model <- data.frame(beta = hb.mod$beta,
+#                     env.var <- c("MT","MT"),
+#                     ci.lb = hb.mod$ci.lb,
+#                     ci.ub = hb.mod$ci.ub,
+#                     therm = c("TC","TR"))
+# model$beta <- transf.ztor(model$beta)
+# model$ci.lb <- transf.ztor(model$ci.lb)
+# model$ci.ub <- transf.ztor(model$ci.ub)
+# 
+# # model <- subset(model,env.var!="MP" & env.var!="MinT" & env.var!="PET")
+# # model$therm <- factor(model$therm,levels=c("TR","TC"))
+# 
+# # make plot
+# p23 <- ggplot(model,aes(x=beta,y=therm),show.legend=F) +
+#   geom_vline(xintercept = 0, color = "gray80",size=.55) +
+#   geom_point(mapping=aes(x=beta,y=therm,color=env.var),show.legend=F,
+#              data=model,size=2) + 
+#   geom_errorbarh(data=model,show.legend=F,size=.75, 
+#                  mapping=aes(x=beta,y=therm,color=env.var,xmin=ci.lb,
+#                              xmax=ci.ub,height=0)) +
+#   theme_classic() +
+#   labs(x="Spearman's r",y=NULL) +
+#   scale_color_manual(name="Variable",
+#                      values=c("#4477AA")) +
+#   theme(axis.title=element_text(size=9),
+#         plot.title = element_text(size=12),
+#         axis.text=element_text(size=8),
+#         legend.title=element_text(size=9),
+#         legend.text=element_text(size=9),
+#         plot.margin=unit(c(1,5,1,1),"lines"),
+#         panel.border=element_rect(fill=NA),
+#         legend.spacing.x = unit(.1,'cm'),
+#   )
+# p3
+# 
+# ### Combine (Into Fig 3.)
+# ggarrange(p2,p,ncol=2,nrow=1,
+#           labels="auto",#hjust=-5,vjust=2,
+#           common.legend = T,
+#           legend = "bottom") # save as 1000 x 400
+# 
+# ### Save figure
+# ggsave(filename='Figures/Figure_3.png', 
+#        width=180, height=80, units = 'mm', dpi=600)
