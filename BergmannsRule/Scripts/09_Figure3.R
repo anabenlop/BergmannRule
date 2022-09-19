@@ -86,13 +86,13 @@ p <- p + facet_wrap(~env.var,nrow=4) +
 p
 
 ### Migration meta-regression panel mammals ---------
-mig.mods <- readRDS("Results/Bergmannsrule_results_MR_mam_mig2.rds")
+mig.mods <- readRDS("Results/Bergmannsrule_results_MR_mam_mig.rds")
 
 # Get sample sizes for figure legend
-mammals <- read.csv("Data/mammals_ph_mig2.csv", stringsAsFactors = F)
+mammals <- read.csv("Data/mammals_ph_mig.csv", stringsAsFactors = F)
 
-nrow(subset(mammals,Mig_status2=="Resident"))/4 # N resident species (divided by 4 env var) --> 537
-nrow(subset(mammals,Mig_status2=="Migratory"))/4 # N migratory species  (divided by 4 env var) --> 30
+nrow(subset(mammals,Mig_status2=="Resident"))/4 # N resident species (divided by 4 env var) --> 531
+nrow(subset(mammals,Mig_status2=="Migratory"))/4 # N migratory species  (divided by 4 env var) --> 36
 
 names(mig.mods)
 
@@ -149,7 +149,7 @@ ggarrange(p, p2, ncol=2,nrow=1,
           legend = "bottom") # save as 1000 x 400
 
 ### Save figure
-ggsave(filename='Figures/Figure_3_v3.png', 
+ggsave(filename='Figures/Figure_3.png', 
        width=180, height=80, units = 'mm', dpi=600)
 
 
