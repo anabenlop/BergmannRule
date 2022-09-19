@@ -81,7 +81,7 @@ fix_taxa$species <- str_to_sentence(fix_taxa$search_string) #convert to upper ca
 
 herpdata <- left_join(herpdata,fix_taxa, by =c("speciesname" = "species"))
 herpdata$speciesname <-ifelse(!is.na(herpdata$unique_name), herpdata$unique_name, herpdata$speciesname)
-herpdata <- herpdata[,-c(25:26)] # remove join columns
+herpdata <- herpdata[,-c(24:25)] # remove join columns
 
 species <- sort(unique(as.character(herpdata$speciesname))) # 117 species
 
