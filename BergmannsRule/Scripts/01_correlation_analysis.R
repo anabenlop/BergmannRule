@@ -201,10 +201,10 @@ corr.results$z.cor.vi = z.cor$vi # sampling variance
 # 4. Save results --------------------------------------------------------------
 
 saveRDS(corr.results,
-        'Data/BergmannsRule_results_correlations_20211124.rds')
+        'Data/BergmannsRule_results_correlations_20211114.rds')
 
 write.csv(corr.results,
-          'Data/BergmannsRule_results_correlations_20211124.csv')
+          'Data/BergmannsRule_results_correlations_20211114.csv')
 
 
 # End of script -----
