@@ -29,7 +29,7 @@ data <- readRDS('Data/BergmannsRule_results_correlations_20211114.rds')
 
 # load environmental variation per species
 dat_env <- read.csv("Data/Bergmann_envvariation.csv", header = T, stringsAsFactors = F)
-
+dat_env <- dat_env[,-1]
 
 # 1. Amphibians ----------------------------------------------------------------
 
@@ -83,6 +83,9 @@ mammals <- mammals[mammals$env.var == 'tavg' |
                      mammals$env.var == 'npp'| 
                      mammals$env.var =='npp.sd',]
 
+# remove unnecessary columns
+mammals <-  mammals[, -10] 
+
 # join env var data
 mammals <- left_join(mammals, dat_env, by = c("speciesname" = "species"))
 
@@ -105,6 +108,9 @@ birds <- birds[birds$env.var == 'tavg' |
                  birds$env.var == 'npp'| 
                  birds$env.var =='npp.sd',]
 
+# remove unnecessary columns
+birds <-  birds[, -10] 
+
 # join env var data
 birds <- left_join(birds, dat_env, by = c("speciesname" = "species"))
 
@@ -120,6 +126,5 @@ herps <- herps[herps$env.var == 'tavg',] # we only test the heat balance hyp for
 herps <- left_join(herps, dat_env, by = c("speciesname" = "species"))
 
 write.csv(herps,"Data/herps.csv", row.names = F)
-
 
 # End of script ----

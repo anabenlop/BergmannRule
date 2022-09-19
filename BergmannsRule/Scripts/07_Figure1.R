@@ -28,6 +28,16 @@ rm(list=ls())
 
 # get data divided into cells
 dat <- readRDS("Data/BergmannsRule_data_forCorrelations_20211114.rds")
+
+# get data used in the analyses 
+amphdata <- read.csv("Data/amphdata_ph.csv")
+reptdata <- read.csv("Data/reptdata_ph.csv")
+birddata <- read.csv("Data/birddata_ph.csv")
+mamdata <- read.csv("Data/mamdata_ph.csv")
+
+# merge all data for Figure 1
+finaldata <- rbind(amphibians, reptiles, birds, mammals)
+
 data <- read.csv("Data/finaldata.csv", stringsAsFactors = F)
 
 # subset data to only include species in correlation results
