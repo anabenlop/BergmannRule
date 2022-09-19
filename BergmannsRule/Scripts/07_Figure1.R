@@ -36,9 +36,7 @@ birddata <- read.csv("Data/birddata_ph.csv")
 mamdata <- read.csv("Data/mamdata_ph.csv")
 
 # merge all data for Figure 1
-finaldata <- rbind(amphibians, reptiles, birds, mammals)
-
-data <- read.csv("Data/finaldata.csv", stringsAsFactors = F)
+finaldata <- rbind(amphdata, reptdata, birddata, mamdata)
 
 # subset data to only include species in correlation results
 dat <- subset(dat,speciesname %in% finaldata$speciesname)

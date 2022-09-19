@@ -1,12 +1,15 @@
 ##############################################################
 # Authors: 
 # Erin Henry, Ana Benitez-Lopez (@anabenlop)
-# Email: erinhenry55@gmail.com, abenitez81@gmail.com
+# Email: erinhenry55@gmail.com, abenitez81@gmail.com, ana.benitez@ugr.es
+# Scholar Profile: https://scholar.google.com/citations?user=HC_j51sAAAAJ&hl=es
+# https://www.anabenitezlopez.com/
 
+##############################################################
+# Description of script and instructions
+##############################################################
 
 # Script to create figure 2 in the Bergmann's rule paper
-# Made 18 October 2020
-# Adapted on 16 December 2021
 
 # clean environment
 rm(list = ls())
@@ -17,8 +20,7 @@ library(ggplot2)
 library(ggpubr)
 library(rphylopic)
 library(raster)  # intersect()
-# library(rworldmap)
-# library(rworldxtra)
+
 
 # Figure 2: Meta-analysis -----------------------------------------------------
 
