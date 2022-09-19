@@ -25,7 +25,7 @@ rm(list=ls())
 
 # Load data ---------------------------------------------------------------------
 # read in correlation results
-data <- readRDS('Data/BergmannsRule_results_correlations_20211124.rds')
+data <- readRDS('Data/BergmannsRule_results_correlations_20211114.rds')
 
 # load environmental variation per species
 dat_env <- read.csv("Data/Bergmann_envvariation.csv", header = T, stringsAsFactors = F)

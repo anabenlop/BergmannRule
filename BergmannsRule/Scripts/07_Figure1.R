@@ -1,12 +1,13 @@
 ##############################################################
 # Authors: 
 # Erin Henry, Ana Benitez-Lopez (@anabenlop)
-# Email: erinhenry55@gmail.com, abenitez81@gmail.com
+# Email: erinhenry55@gmail.com, abenitez81@gmail.com, ana.benitez@ugr.es
+# Scholar Profile: https://scholar.google.com/citations?user=HC_j51sAAAAJ&hl=es
+# https://www.anabenitezlopez.com/
 
-
-# Script to create figure 1 in the Bergmann's rule paper
-# Made 18 October 2020
-# Adapted on 16 December 2021
+##############################################################
+# Description of script and instructions
+##############################################################
 
 # Packages and working directory -----------------------------------------------
 library(metafor)
