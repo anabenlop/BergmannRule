@@ -82,7 +82,7 @@ fix_taxa$species <- str_to_sentence(fix_taxa$search_string) #convert to upper ca
 
 reptdata <- left_join(reptdata,fix_taxa, by =c("speciesname" = "species"))
 reptdata$speciesname <-ifelse(!is.na(reptdata$unique_name), reptdata$unique_name, reptdata$speciesname)
-reptdata <- reptdata[,-c(25:26)] # remove join columns
+reptdata <- reptdata[,-c(24:25)] # remove join columns
 
 species <- sort(unique(as.character(reptdata$speciesname))) #81 species
 
