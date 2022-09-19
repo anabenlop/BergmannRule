@@ -3,20 +3,15 @@
 # Erin Henry, Ana Benitez-Lopez (@anabenlop)
 # Email: erinhenry55@gmail.com, abenitez81@gmail.com, ana.benitez@ugr.es
 # Scholar Profile: https://scholar.google.com/citations?user=HC_j51sAAAAJ&hl=es
-# Department of Integrative Ecology, Estación Biológica de Doñana (EBD-CSIC, ESP) 
-# Department of Zoology, University of Granada (UGR, SP) 
+# https://www.anabenitezlopez.com/
 
 ##############################################################
-# Description of script and instructions                  ####
+# Description of script and instructions
 ##############################################################
 
 # This script is meant to 
 # 1) test the heat balance hypothesis in thermoconformers and thermoregulators. 
 # 2) test the adherence to different hypotheses of migratory and sedentary birds and mammals
-
-
-# Henry, E., Santini, L., Huijbregts, M. A. J., Benítez-López, A. Uncovering the environmental drivers 
-# of intraspecific body size variation in terrestrial vertebrates. 
 
 
 ##############################################################
