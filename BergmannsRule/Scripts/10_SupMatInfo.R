@@ -1,11 +1,15 @@
 ##############################################################
 # Authors: 
-# Erin Henry, Ana Benítez
-# Email: erinhenry55@gmail.com, abenitez81@gmail.com
+# Erin Henry, Ana Benitez-Lopez (@anabenlop)
+# Email: erinhenry55@gmail.com, abenitez81@gmail.com, ana.benitez@ugr.es
+# Scholar Profile: https://scholar.google.com/citations?user=HC_j51sAAAAJ&hl=es
+# https://www.anabenitezlopez.com/
 
-# Script to create Tables in Supp. Mat, Appendix, and explore data for  the Bergmann's rule paper
-# Made 18 October 2020
-# Adapted on 16 December 2021
+##############################################################
+# Description of script and instructions
+##############################################################
+
+# Script to create Tables in Supp. Mat, Appendix, and explore data
 
 # clean environment
 rm(list = ls())
