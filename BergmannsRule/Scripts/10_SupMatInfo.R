@@ -194,7 +194,7 @@ sum(subset(results, env.var == 'tavg' & class == 'bird')$freq)
 sum(subset(results, env.var == 'tavg' & class == 'mammal')$freq)
 
 # Full dataset only including species in analysis
-dat <- readRDS('Data/BergmannsRule_data_final_20211031.rds')
+dat <- readRDS("Data/BergmannsRule_data_forCorrelations_20211114.rds")
 dat <- subset(dat, speciesname %in% results$speciesname) # include species in results
 
 nrow(dat)
@@ -202,3 +202,5 @@ nrow(subset(dat, class == 'amphibian'))
 nrow(subset(dat, class == 'reptile'))
 nrow(subset(dat, class == 'bird'))
 nrow(subset(dat, class == 'mammal'))
+
+# End of script -----------------
