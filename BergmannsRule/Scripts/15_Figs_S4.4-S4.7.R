@@ -1,18 +1,17 @@
-################################################################################
+##############################################################
+# Authors: 
+# Erin Henry, Ana Benitez-Lopez (@anabenlop)
+# Email: erinhenry55@gmail.com, abenitez81@gmail.com, ana.benitez@ugr.es
+# Scholar Profile: https://scholar.google.com/citations?user=HC_j51sAAAAJ&hl=es
+# https://www.anabenitezlopez.com/
 
-# Author(s): Erin Henry (erin.henry@wur.nl)
+##############################################################
+# Description of script and instructions
+##############################################################
 
-# Created on 15 September 2022
+# This script creates supplementary figures: S4.4 - S4.7.
 
-# Description:
-
-# Creates supplementary figures: S4.4 - S4.7 for the paper:
-
-# Henry, E., Santini, L., Huijbregts, M. A. J., Benítez-López, A. Unveiling the 
-# environmental drivers of intraspecific body size variation in terrestrial 
-# vertebrates. 
-
-# Creates histograms of correlation coefficients, including one figure per 
+# This script creates histograms of correlation coefficients, including one figure per 
 # class, each with one histogram per environmental variable tested. 
 # The weighting of the correlation coefficients is represented by the inverse of 
 # the sampling variance (1/vi). These values were split into quartiles:
@@ -294,4 +293,4 @@ mplot <- grid.arrange(arrangeGrob(mtavg,mtmax,mnpp,mnpp.sd,ncol=2),
 # remove objects
 rm(m.img,ma,ma.list,mtavg,mtmax,mnpp,mnpp.sd)
 
-###
+# End of script -----------------------------

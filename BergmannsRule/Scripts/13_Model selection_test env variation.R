@@ -1,37 +1,24 @@
 ##############################################################
 # Authors: 
-# Ana Benitez-Lopez (@anabenlop)
+# Erin Henry, Ana Benitez-Lopez (@anabenlop)
+# Email: erinhenry55@gmail.com, abenitez81@gmail.com, ana.benitez@ugr.es
 # Scholar Profile: https://scholar.google.com/citations?user=HC_j51sAAAAJ&hl=es
-# Department of Integrative Ecology, Estación Biológica de Doñana (EBD-CSIC, ESP) 
-# Email: abenitez81@gmail.com
-
-# Script first created on the 12th of December 2021
+# https://www.anabenitezlopez.com/
 
 ##############################################################
-# Description of script and instructions                  ####
+# Description of script and instructions
 ##############################################################
 
-# This script fits the phylogenetic meta-analysis and metaregressions with environmental variability 
-# and performs model selection to test whetherspecies exposed to a wider ranfe of variation in environmental
-# conditions are more likely to adhere to the tested hypothesis for mammals for the paper: 
-
-
-# Henry, E., Santini, L., Huijbregts, M. A. J., Benítez-López, A. Uncovering the environmental drivers 
-# of intraspecific body size variation in terrestrial vertebrates. 
-
+# This script fits the phylogenetic meta-analysis and meta-regressions with environmental variability 
+# and performs model selection to test whether species exposed to a wider range of variation in environmental
+# conditions are more likely to adhere to the tested hypothesis for mammals 
 
 ##############################################################
 # Packages needed                                         ####
 ##############################################################
 library(metafor)
-# library(ggplot2)
-# library(ggpubr)
 library(tictoc)
-# library(png)
-# library(ggimage)
-# library(grid)
-# library(rsvg)
-# library(grImport2)
+
 
 #clean memory
 rm(list=ls())

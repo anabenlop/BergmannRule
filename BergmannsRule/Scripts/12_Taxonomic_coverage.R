@@ -1,19 +1,13 @@
 ##############################################################
 # Authors: 
-# Ana Benitez-Lopez (@anabenlop)
-# Email: ana.benitez@ugr.es
-
+# Erin Henry, Ana Benitez-Lopez (@anabenlop)
+# Email: erinhenry55@gmail.com, abenitez81@gmail.com, ana.benitez@ugr.es
 # Scholar Profile: https://scholar.google.com/citations?user=HC_j51sAAAAJ&hl=es
-# www.anabenitezlopez.com
-# Department of Environmental Science, Radboud University (the Netherlands)
-# Department of Integrative Ecology, Estación Biológica de Doñana (EBD-CSIC, Spain)
-# Department of Zoology, University of Granada (UGR, Spain)
-
-# First created on 31 May 2022
+# https://www.anabenitezlopez.com/
 
 ##############################################################
-# Description of script and instructions                  ####
-##############################################################
+# Description of script and instructions
+#############################################################
 
 # Script to check family coverage in the dataset 
 
@@ -468,3 +462,5 @@ ggarrange(pa2, pr2, pb2, pm2, ncol=2,nrow=2,
 ### Save figure
 ggsave(filename = 'Figures/Figure_S1.png', 
        width = 350, height = 350, units = 'mm', dpi=300)
+
+# End of script -----

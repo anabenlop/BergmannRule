@@ -1,25 +1,18 @@
 ##############################################################
 # Authors: 
 # Erin Henry, Ana Benitez-Lopez (@anabenlop)
-# Email: erinhenry55@gmail.com, ana.benitez@ugr.es
-
+# Email: erinhenry55@gmail.com, abenitez81@gmail.com, ana.benitez@ugr.es
 # Scholar Profile: https://scholar.google.com/citations?user=HC_j51sAAAAJ&hl=es
-# www.anabenitezlopez.com
-# Department of Environmental Science, Radboud University (the Netherlands)
-# Department of Integrative Ecology, Estación Biológica de Doñana (EBD-CSIC, Spain)
-# Department of Zoology, University of Granada (UGR, Spain)
-
-# First created in 17 May 2022
+# https://www.anabenitezlopez.com/
 
 ##############################################################
-# Description of script and instructions                  ####
+# Description of script and instructions
 ##############################################################
 
-# Script to test whether species exposed to a wider ranfe of variation in environmental conditions
+
+# Script to test whether species exposed to a wider range of variation in environmental conditions
 # are more likely to adhere to the tested hypothesis 
 
-# Henry, E., Santini, L., Huijbregts, M. A. J., Benítez-López, A. Uncovering the environmental drivers 
-# of intraspecific body size variation in terrestrial vertebrates. 
 
 ##############################################################
 
